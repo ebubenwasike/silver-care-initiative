@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SilverCare Senior Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --accent: #0b5ed7;
+      --radius: 14px;
+    }
+    body {
+      background: var(--bg);
+      font-family: "Arial", sans-serif;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: var(--accent);
+    }
+    .btn-large {
+      font-size: 1.1rem;
+      padding: 12px 24px;
+    }
+    .welcome-banner {
+      background: linear-gradient(135deg, #0b5ed7, #0dcaf0);
+      color: white;
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .image-placeholder {
+      border-radius: var(--radius);
+      height: 180px;
+      background: linear-gradient(45deg, #e3f2fd, #bbdefb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">SilverCare Portal</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Welcome Banner -->
+<section class="container welcome-banner">
+  <h1>Welcome, Resident Jane Doe!</h1>
+  <p>Track your health, appointments, and stay connected with community events.</p>
+</section>
+
+<!-- Main Dashboard -->
+<main class="container">
+  <div class="row">
+    <!-- Left Column -->
+    <div class="col-lg-8">
+    
+      <!-- Basic Info -->
+      <div class="section-card">
+        <h2>Primary Information</h2>
+        <p><strong>Last Name:</strong>Doe</p>
+        <p><strong>First Name:</strong>Jane</p>
+        <p><strong>Date of Birth(DD/MM/YYYY):</strong>10/02/2004</p>
+        <p><strong>Height:</strong> 168cm</p>
+        <p><strong>Weight</strong> 65kg</p>
+        </div>
+        
+        
+         <!-- Vitals -->
+         <div class="section-card">
+        <h2>Vitals</h2>
+        <p><strong>Blood Pressure:</strong> 120/80 mmHg</p>
+        <p><strong>Heart Rate:</strong> 72 bpm</p>
+        <p><strong>Body Temperature:</strong> 37 degrees Celcius</p>
+        <p><strong>Blood Glucose:</strong></p>
+        <p><strong>Blood Oxygen:</strong></p>
+        <p><strong>Respiratory Rate:</strong></p>
+        <button class="btn btn-primary btn-large" onclick="alert('Health report sent to doctor!')">Send Report</button>
+      </div>
+
+      <!-- Appointments -->
+      <div class="section-card">
+        <h2>📅 Appointments</h2>
+        <p>Next Appointment: October 10, 2025 – Dr. Smith</p>
+        <button class="btn btn-primary btn-large" onclick="alert('Booking new appointment...')">Book New Appointment</button>
+      </div>
+
+      <!-- Reminders -->
+      <div class="section-card">
+        <h2>⏰ Reminders</h2>
+        <ul class="list-unstyled">
+          <li>💊 Take morning medication</li>
+          <li>🚶 Go for a short walk at 4PM</li>
+          <li>📞 Call family this evening</li>
+        </ul>
+      </div>
+
+      
+
+    <!-- Right Column -->
+    <div class="col-lg-4">
+      <!-- Emergency Contacts -->
+      <div class="section-card bg-light border border-warning">
+        <h2>🚨 Emergency Contacts</h2>
+        <p><strong>Emergency:</strong> 911</p>
+        <p><strong>SilverCare Helpline:</strong> <a href="tel:+16041234567">(604) 123-4567</a></p>
+        <p><strong>Poison Control:</strong> 1-800-567-8910</p>
+        <button class="btn btn-warning w-100 btn-large" onclick="readAloud('Emergency numbers: 9 1 1. SilverCare helpline: 6 0 4, 1 2 3, 4 5 6 7. Poison control: 1 8 0 0, 5 6 7, 8 9 1 0')">
+          🔊 Read Numbers Aloud
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+  <div class="container">
+    <p class="mb-1"><strong>SilverCare Initiative</strong></p>
+    <p class="mb-1">📍 123 Care Street, North Vancouver, BC V1A 2B3</p>
+    <p class="mb-1">📞 Helpline: <a href="tel:+16041234567" class="text-white">(604) 123-4567</a></p>
+    <p class="mb-0">✉ Email: <a href="mailto:care@silvercare.org" class="text-white">care@silvercare.org</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function readAloud(text) {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.8;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert('Read aloud not supported in your browser.');
+    }
+  }
+</script>
+
+</body>
+</html>
