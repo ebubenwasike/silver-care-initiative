@@ -6,6 +6,17 @@
   <title>SilverCare Portal — Home</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="../css_files/index_style.css" rel="stylesheet">
+  <style>
+    /* Additional styles for the new login section */
+    .login-section {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      border-left: 5px solid #0d6efd;
+    }
+  </style>
 </head>
 
 <body>
@@ -61,6 +72,19 @@
           <button class="btn btn-outline-light btn-lg mt-3 read-btn" onclick="readAloud('Welcome to SilverCare Initiative. Enhancing quality of life for seniors through comprehensive care and community building')">
             🔊 Read Aloud
           </button>
+        </section>
+
+        <!-- NEW: Login Section -->
+        <section class="login-section">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h3>🔐 Access Your SilverCare Account</h3>
+              <p class="mb-0">Log in to manage your health information, appointments, and connect with your care team.</p>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+              <a href="login.html" class="btn btn-primary btn-lg px-4 py-2">Log In Now</a>
+            </div>
+          </div>
         </section>
 
         <!-- Local Hospitals Directory -->
