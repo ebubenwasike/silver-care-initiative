@@ -1,39 +1,168 @@
+/* Custom styles for SilverCare */
 :root {
-  --bg: #f7fafc;
+  --bg: #D4D7D9;
   --card-bg: #ffffff;
   --accent: #0b5ed7;
   --radius: 14px;
 }
 
 body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #D4D7D9;
   background: var(--bg);
-  font-family: "Arial", sans-serif;
   min-height: 100vh;
 }
 
-/* Navigation */
-.navbar-brand {
-  font-size: 1.4rem;
-  font-weight: bold;
+/* Welcome Banner with Background Image - THICKER BORDER */
+.welcome-banner-with-image {
+  background: linear-gradient(rgba(13, 110, 253, 0.7), rgba(25, 135, 84, 0.7)), 
+              url('../Images/seniors_pic2.jpg') center/cover no-repeat;
+  color: white;
+  padding: 4rem 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  border: 5px solid #0a58ca; /* Changed from 3px to 5px */
+  box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.nav-link {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin: 0 8px;
-  transition: background 0.2s, color 0.2s;
+.welcome-overlay {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.welcome-banner-with-image h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.welcome-banner-with-image .lead {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Section Cards - THICKER BORDER */
+.section-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-left: 5px solid #0d6efd;
+  border: 4px solid #0d6efd; /* Changed from 2px to 4px */
+}
+
+/* Hospital/Event/Video Cards - THICKER BORDER */
+.hospital-card, .event-card, .video-card {
+  border: 1px solid #e9ecef;
   border-radius: 8px;
-  padding: 6px 14px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s;
+  border: 4px solid #0a58ca; /* Changed from 2px to 4px */
 }
 
-/* Navigation Hovering Effect */
-.nav-link:hover,
-.nav-link:focus{
+.hospital-card:hover, .event-card:hover, .video-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  border-color: var(--accent);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+/* Image Placeholder - THICKER BORDER */
+.image-placeholder {
+  background-color: #e9ecef;
+  border-radius: 8px;
+  border: 4px solid #0a58ca; /* Changed from 2px to 4px */
+}
+
+.exercise-image {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Fixed Login Panel - THICKER BORDER */
+.login-fixed {
+  position: fixed;
+  right: 20px;
+  top: 120px;
+  width: 280px;
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  z-index: 1000;
+  border: 5px solid #0d6efd; /* Changed from 3px to 5px */
+}
+
+.read-btn {
+  border-color: white;
+  color: white;
+}
+
+.read-btn:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+/* Login Section - THICKER BORDER */
+.login-section {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 25px;
+  margin: 30px 0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-left: 5px solid #0d6efd;
+  border: 4px solid #0d6efd; /* Changed from 2px to 4px */
+}
+
+/* Improved navbar styles */
+.navbar {
+  min-height: 80px;
+}
+
+.navbar-nav {
+  margin-left: auto !important;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.25rem;
+  margin: 0 0.3rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+  border: 3px solid transparent; /* Added thicker border for nav items too */
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
   background: #0a58ca;
   color: #ffffff !important;
   text-decoration: underline;
-  font-size: 1.6rem;
+  border-color: #0a58ca;
 } 
+
+.navbar-nav .nav-link.active {
+  background-color: #0d6efd;
+  color: white !important;
+  border-color: #0a58ca;
+}
+
+/* Navigation Hovering Effect */
+.navbar-nav .nav-link:hover {
+  background: #0a58ca;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
 
 /* Cards */
 .section-card {
@@ -42,10 +171,11 @@ body {
   padding: 1.5rem;
   margin: 1rem 0;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 4px solid #0d6efd; /* Changed from 2px to 4px */
 }
 
 .hospital-card, .event-card, .video-card {
-  border: 2px solid #e9ecef;
+  border: 4px solid #0a58ca; /* Changed from 2px to 4px */
   border-radius: 10px;
   padding: 1rem;
   margin: 0.5rem 0;
@@ -84,7 +214,7 @@ body {
   justify-content: center;
   color: #1565c0;
   font-weight: bold;
-  border: 4px solid white;
+  border: 5px solid #0a58ca; /* Changed from 4px to 5px */
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
@@ -112,373 +242,63 @@ body {
 
 /* Login Fixed Panel */
 .login-fixed {
-  position: fixed;           
-  top: 70px;                  
-  right: 0;                
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  width: 320px;
   background: #ffffff;
-  z-index: 1050;
-  width: 340px;
-  border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
+  border-radius: 1.5rem;
   box-shadow: 0 8px 30px rgba(13,38,76,0.15);
   padding: 1.5rem 1.2rem;
-  border: 3px solid #e9ecef;
+  border: 5px solid #0d6efd; /* Changed from 3px to 5px */
   font-size: 1.15rem;
   transition: box-shadow 0.2s;
+  z-index: 1000;
 }
 
-.login-fixed h5 {
+.login-fixed h4 {
   color: var(--accent);
   margin-bottom: 0.75rem;
 }
 
-/* Login Page Styles */
-.login-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.login-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
-  max-width: 450px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.login-card {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 2.5rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  border: 1px solid #e9ecef;
-  width: 100%;
-}
-
-/* Welcome Section */
-.silvercare-hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: var(--radius);
-  min-height: 340px;
-  /* padding: 0;
-  margin: 2rem 0; */  
-  /* background: none;  ignore welcome-banner gradient */
-}
-
-.silvercare-hero__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  /* background: var(--hero, url('../Images/seniors.jpg')) center center/cover no-repeat; */
-  background-image:
-    linear-gradient(180deg, rgba(10,60,120,0.55), rgba(10,60,120,0.55)),
-    var(--hero, url('../Images/seniors_pic2.jpg'));
-  background-size: cover;
-  transform: scale(1.01);
-  background-repeat: no-repeat;
-  background-position: center center;
-  opacity: 0.75;
-  border-radius: inherit;
-  transition: background-position 0.3s;
-}
-
-.silvercare-hero::after{
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(7, 85, 201, 0.45) 0%, rgba(9, 1, 123, 0.35) 100%);
-  z-index: 1;
-  border-radius: inherit;
-}
-
-.silvercare-hero__content {
-  position: relative;
-  z-index: 2;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-
-.silvercare-hero__title {
-  font-size: clamp(2rem, 2.8vw + 1rem, 3rem);
-  line-height: 1.2;
-  font-weight: 700;
-  margin-bottom: .75rem;
-  text-shadow: 0 4px 18px rgba(0,0,0,.25);
-}
-
-.silvercare-hero__subtitle {
-  font-size: clamp(1.1rem, 1.2vw + .9rem, 1.35rem);
-  opacity: .95;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 2px 10px rgba(0,0,0,.25);
-}
-
-/* CTA styling on light buttons for readability on overlay */
-.silvercare-cta {
-  color: #0b5ed7;
-  background: rgba(255,255,255,.95);
-  border: none;
-  padding: 0.9rem 1.25rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.18);
-}
-.silvercare-cta:hover,
-.silvercare-cta:focus {
-  background: #fff;
-  transform: translateY(-1px);
-}
-
-/* Mobile height adjustments */
-@media (max-width: 991.98px) {
-  .silvercare-hero { min-height: 320px; }
-}
-
-@media (max-width: 575.98px) {
-  .silvercare-hero { min-height: 280px; }
-}
-
-/* Responsive adjustements for larger screens */
-@media(min-width: 1200px) {
-  .silvercare-hero { min-height: 420px; }
-  .silvercare-hero__bg{
-    background-position: center top;
+/* Responsive adjustments */
+@media (max-width: 1199.98px) {
+  .col-lg-10.col-xl-9 {
+    width: 100%;
   }
 }
 
-/* About SilverCare */
-.about-silvercare {
-  background: linear-gradient(120deg, #f7fafc 80%, #e3f2fd 100%);
-  border: 2px solid #e3f2fd;
-  border-radius: 1.5rem;
-  box-shadow: 0 2px 12px rgba(11,94,215,0.07);
-  padding: 2.5rem 2rem;
-}
-
-.about-title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #1565c0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.about-icon {
-  font-size: 2.2rem;
-  vertical-align: middle;
-}
-
-/* .about-img {
-  border: 4px solid #fff;
-  background: #e3f2fd;
-  box-shadow: 0 2px 12px rgba(11,94,215,0.10);
-} */
-
-.about-list {
-  padding-left: 1.2rem;
-  margin-bottom: 1rem;
-}
-
-.about-list li {
-  margin-bottom: 0.5rem;
-  font-size: 1.08rem;
-  line-height: 1.5;
+@media (max-width: 991.98px) {
+  .login-fixed {
+    display: none;
+  }
+  
+  .navbar-nav {
+    margin-top: 1rem;
+  }
 }
 
 @media (max-width: 767.98px) {
-  .about-silvercare {
-    padding: 1.2rem 0.7rem;
+  .welcome-banner-with-image {
+    padding: 2rem 1rem;
+    min-height: 250px;
   }
-  .about-title {
-    font-size: 1.3rem;
+  
+  .welcome-banner-with-image h1 {
+    font-size: 2rem;
   }
-  /* .about-img {
-    max-width: 160px;
-  } */
-}
-
-.form-control {
-  padding: 12px 15px;
-  font-size: 1.1rem;
-  border-radius: 10px;
-  border: 2px solid #e9ecef;
-  margin-bottom: 1.5rem;
-  transition: all 0.3s ease;
-}
-
-.form-control:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 0.25rem rgba(11, 94, 215, 0.25);
-}
-
-.form-label {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-/* Login Section */
-.btn-login {
-  background: var(--accent);
-  color: white;
-  padding: 12px;
-  font-size: 1.2rem;
-  border-radius: 10px;
-  width: 100%;
-  border: none;
-  margin-top: 1rem;
-  transition: all 0.3s;
-  font-weight: 500;
-}
-
-.btn-login:hover {
-  background: #0a58ca;
-  transform: translateY(-2px);
-}
-
-.login-options {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-  font-size: 0.95rem;
-}
-
-.login-options a {
-  color: var(--accent);
-  transition: color 0.3s;
-}
-
-.login-options a:hover {
-  color: #0a58ca;
-  text-decoration: underline !important;
-}
-
-.divider {
-  text-align: center;
-  margin: 1.5rem 0;
-  position: relative;
-}
-
-.divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: #e9ecef;
-}
-
-
-.divider-text {
-  background: white;
-  padding: 0 1rem;
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-.alternative-login .btn {
-  padding: 10px;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-  border: 2px solid #e9ecef;
-  transition: all 0.3s;
-}
-
-.alternative-login .btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.emergency-section .card {
-  border-radius: 10px;
-  border-width: 2px;
-}
-
-.emergency-section .card-title {
-  color: #856404;
-  font-weight: 600;
-}
-
-.emergency-section .btn {
-  border-radius: 8px;
-  font-weight: 500;
-}
-
-/* Form Check Customization */
-.form-check-input {
-  width: 1.2em;
-  height: 1.2em;
-  margin-top: 0.15em;
-}
-
-.form-check-input:checked {
-  background-color: var(--accent);
-  border-color: var(--accent);
-}
-
-.form-check-label {
-  font-size: 1rem;
-  margin-left: 0.5rem;
-}
-
-/* Alert Messages */
-.alert-message {
-  position: fixed;
-  top: 100px;
-  right: 20px;
-  z-index: 1060;
-  min-width: 300px;
-  animation: slideIn 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-/* Animations */
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
+  
+  .welcome-banner-with-image .lead {
+    font-size: 1.1rem;
   }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 991.98px) {
-  .login-fixed {
-    position: static;
-    width: 100%;
-    margin-top: 1rem;
-    border-radius: 1.5rem;
-    box-shadow: 0 4px 16px rgba(13,38,76,0.15);
-  }
-}
-
-@media (max-width: 576px) {
-  .login-container {
+  
+  .section-card {
     padding: 1rem;
   }
   
-  .login-card {
-    padding: 2rem 1.5rem;
-  }
-  
-  .welcome-header h1 {
-    font-size: 1.75rem;
-  }
-  
-  .form-control {
+  .navbar-nav .nav-link {
     font-size: 1rem;
+    padding: 0.5rem 1rem;
   }
 }
 
@@ -493,35 +313,30 @@ body {
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
-  .login-card {
-    border: 2px solid #000;
+  .login-fixed {
+    border: 4px solid #000; /* Thicker for high contrast too */
   }
   
-  .btn-login {
-    border: 2px solid #000;
+  .btn-primary {
+    border: 3px solid #000; /* Thicker for high contrast too */
   }
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .btn-login,
-  .alternative-login .btn,
-  .form-control,
+  .btn-primary,
+  .nav-link,
   .hospital-card,
   .event-card,
   .video-card {
     transition: none;
   }
   
-  .btn-login:hover,
-  .alternative-login .btn:hover,
+  .btn-primary:hover,
+  .nav-link:hover,
   .hospital-card:hover,
   .event-card:hover,
   .video-card:hover {
     transform: none;
-  }
-  
-  .alert-message {
-    animation: none;
   }
 }
