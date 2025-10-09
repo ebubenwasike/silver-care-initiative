@@ -27,6 +27,65 @@
   border: 2px solid #e3f2fd;
 }
 
+
+/* Improved navbar styles */
+.navbar {
+  min-height: 80px;
+}
+
+.navbar-nav {
+  margin-left: auto !important;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.25rem;
+  margin: 0 0.3rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+  border: 3px solid transparent; /* Added thicker border for nav items too */
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  background: #0a58ca;
+  color: #ffffff !important;
+  text-decoration: underline;
+  border-color: #0a58ca;
+  transform: translate(-2px);
+} 
+
+.navbar-nav .nav-link.active {
+  background-color: #0d6efd;
+  color: white !important;
+  border-color: #0a58ca;
+}
+
+/* Navigation Hovering Effect */
+.navbar-nav .nav-link:hover {
+  background: #0a58ca;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 991.98px) {
+  .login-fixed {
+    display: none;
+  }
+  
+  .navbar-nav {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 767.98px) {  
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
 .welcome-header h1 {
   font-size: 2.2rem;
   font-weight: bold;
@@ -123,7 +182,7 @@
 }
 
 /* Alternative login buttons */
-.alternative-login .btn {
+/* .alternative-login .btn {
   border-radius: 1rem;
   font-size: 1.1rem;
   font-weight: 500;
@@ -148,7 +207,7 @@
 .alternative-login .btn-outline-primary:hover {
   background: #e3f2fd;
   color: #0b5ed7;
-}
+} */
 
 /* Emergency section */
 .emergency-section .card {
