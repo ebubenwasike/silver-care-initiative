@@ -149,14 +149,14 @@
         showMessage("👵 Welcome, SilverCare Resident! Redirecting to your dashboard...", "success");
         setTimeout(() => {
           window.location.href = "SeniorPage.html";
-        }, 3000);
+        }, 1500);
       } 
       else if (email === dummyNurse.email && password === dummyNurse.password) {
         localStorage.setItem("userRole", "nurse");
         showMessage("👩 Welcome, Nurse! Redirecting to your dashboard...", "success");
         setTimeout(() => {
           window.location.href = "StaffPage.html";
-        }, 3000);
+        }, 1500);
       } 
       else {
         showMessage("❌ Invalid email or password. Please try again.", "danger");
@@ -177,16 +177,6 @@
       alert("🎤 Voice Login feature will be available soon!");
     }
 
-    function simpleLogin() {
-      localStorage.setItem("userRole", "resident");
-      alert("👤 Simple Login: Automatically signing in as a demo user...");
-      window.location.href = "SeniorPage.html";
-    }
-
-    function emergencyAccess() {
-      alert("🚨 Emergency access granted!");
-      window.location.href = "emergency.html";
-    }
   </script>
 </body>
 </html>
