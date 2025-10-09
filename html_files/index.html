@@ -12,69 +12,129 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="HomePage.html">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
         <img src="../Images/SilverCare_Logo.jpg" alt="SilverCare Logo" style="height: 75px; margin-right: 10px;">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="HomePage.html">Home</a></li>
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
           <li class="nav-item"><a class="nav-link" href="hospitals.html">Local Hospitals</a></li>
           <li class="nav-item"><a class="nav-link" href="community.html">Community Hub</a></li>
           <li class="nav-item"><a class="nav-link" href="exercise.html">Exercise Videos</a></li>
         </ul>
-      </div>
+
+        <!-- Login Button -->
+          <aside class="login-fixed" aria-label="Login quick access">
+          <h4 class="mb-2">🔐Access Your SilverCare Account</h4>
+          <p class="mb-3 text-muted fs-10">Log in to manage your health information, appointments, and connect with your care team.</p>
+          <a href="login.html" class="btn btn-primary w-100 btn-large py-3 fs-4" style="font-size: 2rem; border-radius: 1.2rem;"> Log In</a>
+          <hr class="my-4">
+          <div class="section-card bg-light border-warning mt-3 p-3 rounded-4">
+            <h6 class="fs-5 fw-bold">Emergency Contacts</h6>
+              <div class="mt-2 fs-5">
+                <p><strong>Emergency:</strong> 911</p>
+                <p><strong>SilverCare Helpline:</strong> <a href="tel:+16041234567">(604) 123-4567</a></p>
+                <p><strong>Poison Control:</strong> 1-800-567-8910</p>
+                <button class="btn btn-warning w-100 mt-2" onclick="readAloud('Emergency numbers: 9 1 1. SilverCare helpline: 6 0 4, 1 2 3, 4 5 6 7. Poison control: 1 8 0 0, 5 6 7, 8 9 1 0')">
+                🔊 Read Numbers Aloud
+                </button>
+              </div>
+            </div>
+          </aside>
+
+      </div>   
     </div>
   </nav>
-
-  <!-- Login Button -->
-  <aside class="login-fixed" arial-lavel="Login quick access">
-    <h5 class="mb-2">🔐Secure Login</h5>
-    <p class="mb-3 text-muted fs-5">Click to access to your SilverCare account.</p>
-    <a href="login.html" class="btn btn-primary w-100 btn-large py-3 fs-4" style="font-size: 2rem; border-radius: 1.5rem;"> Log In</a>
-    <hr class="my-4">
-    <div class="section-card bg-light border-warning mt-3 p-3 rounded-4">
-      <h6 clss="fs-5 fw-bold">Emergency Contacts</h6>
-       <div class="mt-2 fs-5">
-        <p><strong>Emergency:</strong> 911</p>
-        <p><strong>SilverCare Helpline:</strong> <a href="tel:+16041234567">(604) 123-4567</a></p>
-        <p><strong>Poison Control:</strong> 1-800-567-8910</p>
-        <button class="btn btn-warning w-100 mt-2" onclick="readAloud('Emergency numbers: 9 1 1. SilverCare helpline: 6 0 4, 1 2 3, 4 5 6 7. Poison control: 1 8 0 0, 5 6 7, 8 9 1 0')">
-          🔊 Read Numbers Aloud
+ 
+  <!-- Main Content -->
+   <!-- Welcome Banner -->
+  <section class="silvercare-hero rounded-4 mb-4" role="region" aria-label="Welcome to SilverCare Initiative" style="--hero:url('../Images/seniors_pic2.jpg')">
+    <div class="silvercare-hero__bg" aria-hidden="true"></div>
+    <div class="silvercare-hero__content text-center container">
+      <h1 class="silvercare-hero__title">Welcome to SilverCare Initiative</h1>
+      <p class="silvercare-hero__subtitle">
+        Enhancing quality of life for seniors through comprehensive care and community building
+      </p>
+      <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+        <a href="hospitals.html" class="'btn btn-light btn-lg silvercare-cta">Find Care & Resources</a>
+        <button class="btn btn-outline-light btn-lg read-btn" onclick="readAloud('Welcome to SilverCare Initiative. Enhancing quality of life for seniors through comprehensive care and community building')">
+          🔊 Read Aloud
         </button>
       </div>
     </div>
-  </aside>
- 
-  <!-- Main Content -->
-  <main class="container my-4">
-    <div class="row">
-      <!-- Content Column -->
-      <div class="col-lg-8">
-        <!-- Welcome Banner -->
-        <section class="welcome-banner text-center">
-          <h1 style="font-size: 2.2rem;">Welcome to SilverCare Initiative</h1>
-          <p class="lead" style="font-size: 1.2rem;">Enhancing quality of life for seniors through comprehensive care and community building</p>
-          <button class="btn btn-outline-light btn-lg mt-3 read-btn" onclick="readAloud('Welcome to SilverCare Initiative. Enhancing quality of life for seniors through comprehensive care and community building')">
-            🔊 Read Aloud
-          </button>
-        </section>
+  </section>
 
-        <!-- NEW: Login Section -->
-        <section class="login-section">
-          <div class="row align-items-center">
-            <div class="col-md-8">
-              <h3>🔐 Access Your SilverCare Account</h3>
-              <p class="mb-0">Log in to manage your health information, appointments, and connect with your care team.</p>
+  <!-- Info about SilverCare Initiative -->
+  <section class="section-card about-silvercare mt-5" id="about">
+  <div class="row align-items-center g-4">
+    <!-- <div class="col-md-5 text-center">
+      <img src="../Images/SilverCare_Logo.jpg" alt="SilverCare Initiative" class="about-img img-fluid rounded-4 shadow-sm mb-3" style="max-width: 260px;">
+    </div> -->
+    <div class="col-md-7">
+      <h2 class="about-title mb-3">
+        <span class="about-icon">🩵</span> <strong>About SilverCare Initiative</strong> 
+      </h2>
+      <p>
+        <strong>SilverCare Initiative</strong> is a <span class="text-primary">community-driven, non-profit organization based in North Vancouver</span> dedicated to improving the health, comfort, and independence of seniors. We provide <strong>residential care, nursing services, and daily living assistance</strong> for adults aged 60 and above, ensuring that every resident feels safe, respected, and connected.
+      </p>
+      <p>
+        Our facilities are designed to be:
+      </p>
+      <ul class="about-list mb-3">
+        <li>Accessible, friendly, and supportive facilities</li>
+        <li>Professional healthcare & vibrant social environment</li>
+        <li>Group activities, wellness programs, and cultural celebrations</li>
+        <li>Personalized care plans that cater to the seniors' unique needs</li>
+      </ul>
+
+      <p>
+        At SilverCare, our mission is to <strong>enhance the quality of life for seniors through compassionate care,
+        holistic health support, and meaningful community engagement.</strong> We believe that aging should be a time
+        of dignity, connection, and fulfillment, and our dedicated staff and volunteers work each day to make that
+        vision a reality.
+       </p>
+    </div>
+  </div>
+</section>
+
+        <!-- Features Overview with Images-->
+        <!-- <section class="section-card">
+          <h2>🌟 Why Choose SilverCare Portal?</h2>
+          <div class="row mt-4">
+            <div class="col-md-6 mb-4">
+              <div class="image-placeholder health-image">
+                <span>🩺 Health Tracking</span>
+              </div>
+              <h4 class="mt-2">Easy Health Monitoring</h4>
+              <p>Track blood pressure, medication, and appointments with simple, large displays.</p>
             </div>
-            <div class="col-md-4 text-center text-md-end">
-              <a href="login.html" class="btn btn-primary btn-lg px-4 py-2">Log In Now</a>
+            <div class="col-md-6 mb-4">
+              <div class="image-placeholder community-image">
+                <span>👥 Community Events</span>
+              </div>
+              <h4 class="mt-2">Stay Connected</h4>
+              <p>Never miss bingo night, book club, or social activities with easy event tracking.</p>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="image-placeholder exercise-image">
+                <span>💪 Senior Exercises</span>
+              </div>
+              <h4 class="mt-2">Stay Active</h4>
+              <p>Gentle exercise videos designed specifically for senior fitness and mobility.</p>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="image-placeholder" style="height: 200px; background: linear-gradient(45deg, #e3f2fd, #90caf9);">
+                <span>🏥 Local Resources</span>
+              </div>
+              <h4 class="mt-2">Quick Access to Help</h4>
+              <p>One-click contact for hospitals, clinics, and emergency services.</p>
             </div>
           </div>
-        </section>
+        </section> -->
 
         <!-- Local Hospitals Directory -->
         <section class="section-card">
@@ -163,7 +223,7 @@
           <a href="community.html" class="btn btn-primary mt-2">View All Community Events</a>
         </section>
       </div>
-    </div>
+   
   </main>
 
   <!-- Footer -->
@@ -178,5 +238,21 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../javascript_files/ReadAloud.js"></script>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function readAloud(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.8; // Slower for seniors
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Read aloud is not supported in your browser. Please call our helpline for assistance.');
+      }
+    }
+
+  </script> -->
 </body>
 </html>
