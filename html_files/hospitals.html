@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -430,3 +431,437 @@
   <script src="../javascript_files/ReadAloud.js"></script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SilverCare Portal — Local Hospitals</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css_files/index_style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="../Images/SilverCare_Logo.jpg" alt="SilverCare Logo" style="height: 75px; margin-right: 10px;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="hospitals.html">Local Hospitals</a></li>
+          <li class="nav-item"><a class="nav-link" href="community.html">Community Hub</a></li>
+          <li class="nav-item"><a class="nav-link" href="exercise.html">Exercise Videos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Login Fixed Panel -->
+  <aside class="login-fixed" aria-label="Login quick access">
+    <p class="mb-3 text-muted">Log in to manage your health information, appointments, and connect with your care team.</p>
+    <a href="login.html" class="btn btn-primary w-100 btn-large py-3 fs-4" style="border-radius: 1.2rem;">Log In</a>
+    <hr class="my-4">
+    <div class="section-card bg-light border-warning mt-3 p-3 rounded-4">
+      <h6 class="fs-5 fw-bold text-danger">Emergency Contacts:</h6>
+      <div class="mt-2">
+        <p><strong>Emergency:</strong> 911</p>
+        <p><strong>Nurse:</strong> <a href="tel:+16041234567">(604) 123-4567</a></p>
+        <p><strong>Management:</strong> 1-800-765-4321</p>
+        <button class="btn btn-warning w-100 mt-2" onclick="readAloud('Emergency numbers: 9 1 1. SilverCare helpline: 6 0 4, 1 2 3, 4 5 6 7. Management: 1 8 0 0, 7 6 5, 4 3 2 1')">
+          🔊 Read Aloud
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="container my-4">
+    <div class="row">
+      <!-- Content Column -->
+      <div class="col-lg-10 col-xl-9">
+        <!-- Page Header -->
+        <section class="welcome-banner-with-image text-center mb-4">
+          <div class="welcome-overlay">
+            <h1>🏥 Lower Mainland Hospitals</h1>
+            <p class="lead">Comprehensive directory of hospitals and medical facilities across the Lower Mainland</p>
+            <button class="btn btn-outline-light btn-lg mt-3 read-btn" onclick="readAloud('Lower Mainland Hospitals Directory. Comprehensive directory of hospitals and medical facilities across the Lower Mainland')">
+              🔊 Read Aloud
+            </button>
+          </div>
+        </section>
+
+        <!-- Quick Navigation -->
+        <section class="section-card mb-4">
+          <h2>📍 Quick Navigation</h2>
+          <div class="row text-center">
+            <div class="col-md-3 mb-2">
+              <a href="#vancouver" class="btn btn-outline-primary w-100">Vancouver</a>
+            </div>
+            <div class="col-md-3 mb-2">
+              <a href="#burnaby" class="btn btn-outline-primary w-100">Burnaby</a>
+            </div>
+            <div class="col-md-3 mb-2">
+              <a href="#richmond" class="btn btn-outline-primary w-100">Richmond</a>
+            </div>
+            <div class="col-md-3 mb-2">
+              <a href="#surrey" class="btn btn-outline-primary w-100">Surrey</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Vancouver Hospitals -->
+        <section id="vancouver" class="section-card">
+          <h2>🌆 Vancouver Hospitals</h2>
+          
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">🏥</div>
+                  <div class="ms-3">
+                    <h4>Vancouver General Hospital</h4>
+                    <p>📞 <strong>(604) 875-4111</strong></p>
+                    <p>📍 899 West 12th Avenue, Vancouver, BC V5Z 1M9</p>
+                    <p><strong>Services:</strong> Emergency, Trauma Center, Specialized Surgery</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Vancouver+General+Hospital" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/vancouver_general.jpg" alt="Vancouver General Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">❤</div>
+                  <div class="ms-3">
+                    <h4>St. Paul's Hospital</h4>
+                    <p>📞 <strong>(604) 682-2344</strong></p>
+                    <p>📍 1081 Burrard Street, Vancouver, BC V6Z 1Y6</p>
+                    <p><strong>Services:</strong> Emergency, Cardiac Care, HIV/AIDS Treatment</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=St+Paul's+Hospital+Vancouver" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/st_pauls_hospital.jpg" alt="St. Paul's Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">👶</div>
+                  <div class="ms-3">
+                    <h4>BC Children's Hospital</h4>
+                    <p>📞 <strong>(604) 875-2345</strong></p>
+                    <p>📍 4480 Oak Street, Vancouver, BC V6H 3V4</p>
+                    <p><strong>Services:</strong> Pediatric Care, Emergency, Specialized Children's Services</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=BC+Children's+Hospital" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/childrens_hospital.jpg" alt="BC Children's Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- North Shore Hospitals -->
+        <section id="north-shore" class="section-card">
+          <h2>🏔️ North Shore Hospitals</h2>
+          
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">🏥</div>
+                  <div class="ms-3">
+                    <h4>Lions Gate Hospital</h4>
+                    <p>📞 <strong>(604) 988-3131</strong></p>
+                    <p>📍 231 East 15th Street, North Vancouver, BC V7L 2L7</p>
+                    <p><strong>Services:</strong> Emergency, Maternity, General Surgery</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Lions+Gate+Hospital" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/lions_gate_hospital.jpg" alt="Lions Gate Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">🏥</div>
+                  <div class="ms-3">
+                    <h4>North Shore Health Clinic</h4>
+                    <p>📞 <strong>(604) 984-7474</strong></p>
+                    <p>📍 123 Lonsdale Avenue, North Vancouver, BC V7M 2E3</p>
+                    <p><strong>Services:</strong> Urgent Care, Primary Care, Specialist Referrals</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=North+Shore+Health+Clinic" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/north_shore_clinic.jpg" alt="North Shore Health Clinic" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Burnaby Hospitals -->
+        <section id="burnaby" class="section-card">
+          <h2>🏙️ Burnaby Hospitals</h2>
+          
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">🏥</div>
+                  <div class="ms-3">
+                    <h4>Burnaby Hospital</h4>
+                    <p>📞 <strong>(604) 434-4211</strong></p>
+                    <p>📍 3935 Kincaid Street, Burnaby, BC V5G 2X6</p>
+                    <p><strong>Services:</strong> Emergency, Surgical Services, Maternity Care</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Burnaby+Hospital" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/burnaby_hospital.jpg" alt="Burnaby Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">🏥</div>
+                  <div class="ms-3">
+                    <h4>Royal Columbian Hospital</h4>
+                    <p>📞 <strong>(604) 520-4253</strong></p>
+                    <p>📍 330 East Columbia Street, New Westminster, BC V3L 3W7</p>
+                    <p><strong>Services:</strong> Trauma Center, Cardiac Care, Neurosurgery</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Royal+Columbian+Hospital" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/royal_columbian.jpg" alt="Royal Columbian Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Richmond Hospitals -->
+        <section id="richmond" class="section-card">
+          <h2>✈️ Richmond Hospitals</h2>
+          
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">🏥</div>
+                  <div class="ms-3">
+                    <h4>Richmond Hospital</h4>
+                    <p>📞 <strong>(604) 278-9711</strong></p>
+                    <p>📍 7000 Westminster Highway, Richmond, BC V6X 1A2</p>
+                    <p><strong>Services:</strong> Emergency, Surgical Services, Cardiac Care</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Richmond+Hospital" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/richmond_hospital.jpg" alt="Richmond Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Surrey Hospitals -->
+        <section id="surrey" class="section-card">
+          <h2>🌳 Surrey Hospitals</h2>
+          
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">🏥</div>
+                  <div class="ms-3">
+                    <h4>Surrey Memorial Hospital</h4>
+                    <p>📞 <strong>(604) 581-2211</strong></p>
+                    <p>📍 13750 96th Avenue, Surrey, BC V3V 1Z2</p>
+                    <p><strong>Services:</strong> Emergency, Pediatric Emergency, Critical Care</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Surrey+Memorial+Hospital" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/surrey_memorial.jpg" alt="Surrey Memorial Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">🏥</div>
+                  <div class="ms-3">
+                    <h4>Peace Arch Hospital</h4>
+                    <p>📞 <strong>(604) 531-5511</strong></p>
+                    <p>📍 15521 Russell Avenue, White Rock, BC V4B 2R4</p>
+                    <p><strong>Services:</strong> Emergency, Surgical Services, Maternity Care</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Peace+Arch+Hospital" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/peace_arch_hospital.jpg" alt="Peace Arch Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+
+          <div class="hospital-card">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-start">
+                  <div class="feature-icon">🏥</div>
+                  <div class="ms-3">
+                    <h4>Langley Memorial Hospital</h4>
+                    <p>📞 <strong>(604) 539-1116</strong></p>
+                    <p>📍 22051 Fraser Highway, Langley, BC V3A 4H4</p>
+                    <p><strong>Services:</strong> Emergency, Surgical Services, Diagnostic Imaging</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Langley+Memorial+Hospital" 
+                       target="_blank" class="btn btn-outline-primary btn-sm">
+                      View Map & Directions
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 text-center">
+                <img src="../Images/langley_memorial.jpg" alt="Langley Memorial Hospital" class="hospital-image img-fluid rounded">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Emergency Information -->
+<section class="emergency-section">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <h2 class="emergency-title">🚨 Emergency Information</h2>
+            </div>
+        </div>
+        <div class="row emergency-content">
+            <div class="col-md-6 emergency-column">
+                <div class="emergency-card">
+                    <h3>When to Go to Emergency</h3>
+                    <ul>
+                        <li>Chest pain or difficulty breathing</li>
+                        <li>Severe bleeding or head injury</li>
+                        <li>Sudden weakness or numbness</li>
+                        <li>Severe burns or broken bones</li>
+                        <li>Overdose or poisoning</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 emergency-column">
+                <div class="emergency-card">
+                    <h3>Urgent Care Centers</h3>
+                    <p class="emergency-subtitle">For non-life-threatening conditions like:</p>
+                    <ul>
+                        <li>Sprains and strains</li>
+                        <li>Minor cuts requiring stitches</li>
+                        <li>Ear infections</li>
+                        <li>Urinary tract infections</li>
+                        <li>Minor fractures</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="emergency-alert">
+                    <strong>Remember:</strong> In case of life-threatening emergencies, call 911 immediately or go to the nearest emergency department.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Back to Top -->
+        <div class="text-center mt-4">
+          <a href="#" class="btn btn-primary btn-lg">↑ Back to Top</a>
+          <a href="index.html" class="btn btn-outline-primary btn-lg ms-2">← Back to Home</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+      <p class="mb-1"><strong>SilverCare Initiative</strong></p>
+      <p class="mb-1">📍 123 Care Street, North Vancouver, BC V1A 2B3</p>
+      <p class="mb-1">📞 Helpline: <a href="tel:+16041234567" class="text-white">(604) 123-4567</a></p>
+      <p class="mb-0">✉ Email: <a href="mailto:care@silvercare.org" class="text-white">care@silvercare.org</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../javascript_files/ReadAloud.js"></script>
+</body>
+</html>
+>>>>>>> 79692b4 (Initial commit)
