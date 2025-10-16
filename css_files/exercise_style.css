@@ -45,6 +45,21 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.read-btn {
+  border-color: white;
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 24px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.read-btn:hover {
+  background-color: rgba(255,255,255,0.2);
+  border-color: white;
+  transform: translateY(-2px);
+}
+
 /* Section Cards */
 .section-card {
   background: white;
@@ -55,7 +70,23 @@ body {
   border: 4px solid #0d6efd;
 }
 
-/* Video Cards */
+.section-card h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  border-bottom: 3px solid #0d6efd;
+  padding-bottom: 0.5rem;
+}
+
+/* Video Cards - Matching Index Page Style */
+.video-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  height: 100%;
+}
+
 .video-card {
   background: white;
   border-radius: 12px;
@@ -104,7 +135,7 @@ body {
   transform: scale(1.05);
 }
 
-.play-overlay {
+.play-button-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -114,16 +145,32 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 3rem;
   opacity: 0.8;
   transition: all 0.3s ease;
 }
 
-.video-card:hover .play-overlay {
+.video-card:hover .play-button-overlay {
   opacity: 1;
   background: rgba(0,0,0,0.4);
-  font-size: 3.5rem;
+}
+
+.play-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: #0a58ca;
+  transition: all 0.3s ease;
+}
+
+.video-card:hover .play-icon {
+  transform: scale(1.1);
+  background: rgba(255,255,255,1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .video-content {
@@ -140,22 +187,25 @@ body {
 .video-content p {
   font-size: 1.2rem;
   color: #666;
-  margin-bottom: 0;
+  margin-bottom: 1.5rem;
   line-height: 1.5;
 }
 
-/* Video Card Links */
-.video-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  height: 100%;
+.video-content .btn {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  background-color: rgba(13, 110, 253, 0.1);
+  border: 2px solid #0d6efd;
+  color: #0d6efd;
 }
 
-.video-card-link:hover {
-  text-decoration: none;
-  color: inherit;
+.video-card:hover .video-content .btn {
+  background-color: #0d6efd;
+  color: white;
 }
 
 /* Fixed Login Panel */
@@ -177,16 +227,6 @@ body {
   font-size: 1.4rem;
 }
 
-.read-btn {
-  border-color: white;
-  color: white;
-  font-size: 1.2rem;
-}
-
-.read-btn:hover {
-  background-color: rgba(255,255,255,0.2);
-}
-
 /* Buttons */
 .btn {
   font-size: 1.2rem;
@@ -198,9 +238,36 @@ body {
   padding: 12px 24px;
 }
 
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0a58ca;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0a58ca;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(13, 110, 253, 0.3);
+}
+
+.btn-outline-primary {
+  border: 3px solid #0d6efd;
+  color: #0d6efd;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(13, 110, 253, 0.3);
+}
+
 /* Navigation */
 .navbar {
   min-height: 80px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .navbar-nav .nav-link {
@@ -219,6 +286,7 @@ body {
   color: #ffffff !important;
   text-decoration: underline;
   border-color: #0a58ca;
+  transform: translateY(-2px);
 }
 
 .navbar-nav .nav-link.active {
@@ -230,6 +298,32 @@ body {
 /* Footer */
 footer {
   font-size: 1.1rem;
+  background: #2c3e50 !important;
+}
+
+footer a {
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #0dcaf0 !important;
+}
+
+/* Back to Top Section */
+.back-to-top-section {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.back-to-top-section .btn {
+  font-size: 1.3rem;
+  padding: 15px 30px;
+  margin: 0.5rem;
+  border: 3px solid;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 /* Responsive Design */
@@ -240,6 +334,10 @@ footer {
   
   .video-thumbnail img {
     height: 180px;
+  }
+  
+  .col-lg-10.col-xl-9 {
+    width: 100%;
   }
 }
 
@@ -265,12 +363,49 @@ footer {
     padding: 1rem;
   }
   
+  .section-card h2 {
+    font-size: 1.8rem;
+  }
+  
   .video-content h5 {
     font-size: 1.4rem;
   }
   
   .video-thumbnail img {
     height: 160px;
+  }
+  
+  .play-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .video-card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .video-content {
+    padding: 1rem;
+  }
+  
+  .back-to-top-section .btn {
+    font-size: 1.1rem;
+    padding: 12px 20px;
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .back-to-top-section .btn.ms-2 {
+    margin-left: 0 !important;
   }
 }
 
@@ -282,7 +417,13 @@ footer {
 .video-card-link:focus {
   outline: 3px solid #0a58ca;
   outline-offset: 2px;
-  border-radius: 8px;
+  border-radius: 12px;
+}
+
+.form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(11, 94, 215, 0.5);
+  border-color: #0a58ca;
 }
 
 /* High contrast mode support */
@@ -293,5 +434,56 @@ footer {
   
   .btn-primary {
     border: 3px solid #000;
+  }
+  
+  .video-card {
+    border: 4px solid #000;
+  }
+  
+  .section-card {
+    border: 4px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .nav-link,
+  .video-card,
+  .video-thumbnail img,
+  .play-button-overlay,
+  .play-icon,
+  .read-btn {
+    transition: none;
+  }
+  
+  .btn-primary:hover,
+  .nav-link:hover,
+  .video-card:hover,
+  .read-btn:hover {
+    transform: none;
+  }
+  
+  .video-card:hover .video-thumbnail img,
+  .video-card:hover .play-icon {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .login-fixed,
+  .read-btn,
+  .btn {
+    display: none !important;
+  }
+  
+  .video-card {
+    break-inside: avoid;
+    border: 2px solid #000;
+  }
+  
+  .video-thumbnail {
+    display: none;
   }
 }
