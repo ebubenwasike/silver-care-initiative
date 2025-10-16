@@ -117,7 +117,6 @@
         <p><strong>Respiratory Rate:</strong></p>
       </div>
 
-
       <!-- Appointments -->
       <div class="section-card">
         <h2>📅 Appointments</h2>
@@ -173,13 +172,15 @@
       <!-- Manage Emergency Contacts -->
       <div class="section-card">
         <h2>📋 Manage Emergency Contacts</h2>
-        <form id="contactForm" class="mb-3">
+        <form id="contactForm" class="mb-3 needs-validation" novalidate>
           <div class="row g-2">
             <div class="col-md-5">
               <input type="text" id="contactName" class="form-control" placeholder="Contact Name" required>
+              <div class="invalid-feedback">Please enter a contact name.</div>
             </div>
             <div class="col-md-5">
-              <input type="tel" id="contactPhone" class="form-control" placeholder="Phone Number" required>
+              <input type="tel" id="contactPhone" class="form-control" placeholder="Phone Number" pattern="[0-9]{10}" required>
+              <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
             </div>
             <div class="col-md-2 d-grid">
               <button type="submit" class="btn btn-success">Add</button>
@@ -236,20 +237,45 @@
     }
   }
 
+  // Bootstrap form validation
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+
   // Emergency Contacts Add/Delete
   document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
+
     const name = document.getElementById('contactName').value.trim();
     const phone = document.getElementById('contactPhone').value.trim();
-    if (name && phone) {
-      const li = document.createElement('li');
-      li.className = 'list-group-item d-flex justify-content-between align-items-center';
-      li.innerHTML = `<span><strong>${name}</strong> - ${phone}</span>
-                      <button class="btn btn-sm btn-danger">Delete</button>`;
-      li.querySelector('button').addEventListener('click', function() { li.remove(); });
-      document.getElementById('contactList').appendChild(li);
-      e.target.reset();
+
+    // JS validation for phone
+    if (!/^\d{10}$/.test(phone)) {
+      alert("Please enter a valid 10-digit phone number.");
+      return;
     }
+
+    // Add contact to list
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+    li.innerHTML = `<span><strong>${name}</strong> - ${phone}</span>
+                    <button class="btn btn-sm btn-danger">Delete</button>`;
+    li.querySelector('button').addEventListener('click', function() { li.remove(); });
+    document.getElementById('contactList').appendChild(li);
+
+    // Reset form
+    e.target.reset();
+    e.target.classList.remove('was-validated');
   });
 
   // Appointment System
@@ -276,13 +302,11 @@
 
     alert(`Appointment confirmed with ${selectedNurse} on ${new Date(date).toLocaleDateString()} at ${time}`);
 
-    // Reset view
     document.getElementById('appointmentSection').style.display = 'none';
     document.getElementById('calendarSection').style.display = 'none';
   }
 
   let selectedNurse = null;
 </script>
-
 </body>
 </html>
