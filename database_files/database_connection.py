@@ -1,27 +1,26 @@
 import mysql.connector
 from mysql.connector import Error
 from database.models import db
+import pymysql  # Needed for SQLAlchemy MySQL driver
 
 def get_mysql_connection():
     """Create direct MySQL connection for manual queries"""
     try:
         connection = mysql.connector.connect(
-            host='project275',
+            host='localhost',
             user='project275',
-            password='project275',  # Fixed typo
-            database='mydatabase'   # Fixed typo
+            password='project275',
+            database='mydatabase'
         )
         return connection
     except Error as e:
         print(f"❌ MySQL Connection Error: {e}")
         return None
 
-
 def init_database(app):
     """Initialize SQLAlchemy with Flask app"""
     db.init_app(app)
     print("✅ Database connected to Flask app")
-
 
 def create_tables(app):
     """Create all tables in MySQL database"""
@@ -31,7 +30,6 @@ def create_tables(app):
             print("✅ All database tables created successfully")
         except Exception as e:
             print(f"❌ Error creating tables: {e}")
-
 
 def test_mysql_connection():
     """Test direct MySQL connection"""
@@ -43,7 +41,6 @@ def test_mysql_connection():
     else:
         print("❌ Direct MySQL connection failed")
         return False
-
 
 def execute_raw_sql(query, params=None):
     """Execute raw SQL queries for complex operations"""
