@@ -34,8 +34,8 @@
             <input type="date" name="dob">
         </label>
 
-        <label>SSN:
-            <input type="text" name="ssn">
+        <label>Personal Health Number(PHN):
+            <input type="text" name="phn">
         </label>
 
         <label>Emergency Contact:
