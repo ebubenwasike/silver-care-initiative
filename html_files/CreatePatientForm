@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Patient</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        form { max-width: 400px; }
+        label { display: block; margin-top: 10px; }
+        input { width: 100%; padding: 6px; margin-top: 4px; }
+        input[type="submit"] { margin-top: 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Create Patient Account</h2>
+    <form method="POST">
+        <label>First Name:
+            <input type="text" name="first_name" required>
+        </label>
+
+        <label>Last Name:
+            <input type="text" name="last_name" required>
+        </label>
+
+        <label>Email:
+            <input type="email" name="email" required>
+        </label>
+
+        <label>Phone Number:
+            <input type="text" name="phone">
+        </label>
+
+        <label>Date of Birth:
+            <input type="date" name="dob">
+        </label>
+
+        <label>SSN:
+            <input type="text" name="ssn">
+        </label>
+
+        <label>Emergency Contact:
+            <input type="text" name="emergency_contact">
+        </label>
+
+        <input type="submit" value="Create Patient">
+    </form>
+</body>
+</html>
