@@ -1,0 +1,332 @@
+/* Custom styles for SilverCare About Page - ENHANCED FOR SENIORS */
+:root {
+  --bg: #D4D7D9;
+  --card-bg: #ffffff;
+  --accent: #0b5ed7;
+  --radius: 14px;
+}
+
+/* Main content area with proper spacing for fixed login */
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+/* About Banner with Background Image - THICKER BORDER */
+.about-banner-with-image {
+  background:linear-gradient(rgba(8, 41, 90, 0.7), rgba(13, 80, 49, 0.7)), 
+            url('../Images/seniors_pic2.jpg') center/cover no-repeat;
+  color: white;
+  padding: 4rem 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  border: 5px solid #0a58ca;
+  box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-overlay {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 2;
+}
+
+.about-banner-with-image h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.about-banner-with-image .lead {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+
+/* Ensure content doesn't overlap with fixed login */
+.col-lg-10.col-xl-9 {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Value Cards - Single Column */
+.value-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 4px solid #0a58ca;
+  transition: transform 0.2s;
+  font-size: 1.1rem;
+}
+
+.value-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  border-color: var(--accent);
+}
+
+.value-card h4 {
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+  color: #0a58ca;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.5rem;
+}
+
+/* Service Cards - Single Column */
+.service-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 4px solid #0a58ca;
+  transition: transform 0.2s;
+  font-size: 1.1rem;
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  border-color: var(--accent);
+}
+
+.service-card h4 {
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+  color: #0a58ca;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.5rem;
+}
+
+/* Team Cards - Single Column */
+.team-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 4px solid #0a58ca;
+  transition: transform 0.2s;
+}
+
+.team-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  border-color: var(--accent);
+}
+
+.team-card h4 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #0a58ca;
+}
+
+.team-position {
+  font-style: italic;
+  color: #6c757d;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 0.5rem;
+}
+
+.team-card p {
+  font-size: 1.1rem;
+}
+
+/* Accreditation Cards */
+.accreditation-card {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 3px solid #dee2e6;
+}
+
+.accreditation-card h4 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #495057;
+}
+
+/* Awards List */
+.awards-list {
+  list-style-type: none;
+  padding-left: 0;
+  font-size: 1.2rem;
+}
+
+.awards-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.awards-list li:before {
+  content: "✓";
+  color: #28a745;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  font-size: 1.3rem;
+}
+
+/* Contact Section */
+.contact-section {
+  margin-bottom: 2rem;
+}
+
+.contact-info, .office-hours {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 3px solid #dee2e6;
+}
+
+.contact-info h4, .office-hours h4 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #495057;
+  border-bottom: 2px solid #0a58ca;
+  padding-bottom: 0.5rem;
+}
+
+/* Section Headings */
+.section-card h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: #0a58ca;
+  border-bottom: 3px solid #0a58ca;
+  padding-bottom: 0.5rem;
+}
+
+.section-card .lead {
+  font-size: 1.4rem;
+  color: #495057;
+  margin-bottom: 1.5rem;
+}
+
+/* Ensure content doesn't hide behind fixed login panel */
+@media (min-width: 1200px) {
+  .col-xl-9 {
+    width: 75%;
+    max-width: 75%;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-10 {
+    width: 83.333333%;
+    max-width: 83.333333%;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .login-fixed {
+    display: none;
+  }
+  
+  .col-lg-10.col-xl-9 {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  body {
+    font-size: 16px;
+  }
+  
+  .about-banner-with-image {
+    padding: 2rem 1rem;
+    min-height: 250px;
+  }
+  
+  .about-banner-with-image h1 {
+    font-size: 2.2rem;
+  }
+  
+  .about-banner-with-image .lead {
+    font-size: 1.3rem;
+  }
+  
+  .section-card {
+    padding: 1rem;
+  }
+  
+  .section-card h2 {
+    font-size: 1.8rem;
+  }
+  
+  .value-card, .service-card, .team-card {
+    padding: 1rem;
+  }
+  
+  .value-card h4, .service-card h4, .team-card h4 {
+    font-size: 1.5rem;
+  }
+  
+  .awards-list {
+    font-size: 1rem;
+  }
+  
+  .contact-info, .office-hours {
+    padding: 1rem;
+  }
+}
+
+/* Fix for content going behind fixed login at 100% zoom */
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.container {
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Ensure proper spacing for all screen sizes */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
