@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SilverCare Staff Dashboard</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='css/staff_style.css') }}" rel="stylesheet" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('index') }}">SilverCare Portal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <!-- Flask logout form -->
+            <form method="POST" action="{{ url_for('logout') }}">
+             <!-- In the navbar -->
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to log out?')">Log Out</a>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Welcome Banner -->
+  <section class="container welcome-banner">
+    <h1>Welcome Back,</h1>
+    <h2>{{ session.get('email', 'Staff Member') }}</h2>
+  </section>
+
+  <!-- Main Dashboard -->
+  <main class="container">
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-lg-8">
+
+        <!-- Create Patient Button -->
+        <div class="mb-3 d-flex justify-content-end">
+          <a href="{{ url_for('create_patient') }}" class="btn btn-primary-dashboard btn-dashboard">
+            ➕ Create Patient
+          </a>
+        </div>
+
+        <!-- Patient Overview -->
+        <div class="section-card">
+          <h2>Assigned Residents</h2>
+          <table class="table table-striped align-middle">
+            <thead>
+              <tr>
+                <th>Resident</th>
+                <th>Room</th>
+                <th>Last Check</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Patient Overview -->
+<div class="section-card">
+  <h2>My Patients ({{ patients|length }})</h2>
+  {% if patients %}
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>Patient Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>PHN</th>
+        <th>Emergency Contact</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for patient in patients %}
+      <tr>
+        <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+        <td>{{ patient.email }}</td>
+        <td>{{ patient.phone }}</td>
+        <td>{{ patient.phn }}</td>
+        <td>{{ patient.emergency_contact }}</td>
+        <td>{{ patient.created_at.strftime('%Y-%m-%d') if patient.created_at else 'N/A' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="alert alert-info">
+    No patients assigned yet. <a href="{{ url_for('create_patient') }}">Create your first patient</a>
+  </div>
+  {% endif %}
+</div>
+
+        <!-- Vitals Monitoring -->
+        <div class="section-card">
+          <h2>Vitals Overview</h2>
+          <p><strong>Jane Doe:</strong> BP: 118/78 | HR: 72 | Temp: 36.9°C</p>
+          <p><strong>Robert White:</strong> BP: 140/90 | HR: 85 | Temp: 37.5°C</p>
+          <p><strong>Mary Lee:</strong> BP: 125/82 | HR: 76 | Temp: 37.0°C</p>
+          <button class="btn btn-primary-dashboard mt-2" onclick="alert('Refreshing vitals data...')">
+            🔄 Refresh Vitals
+          </button>
+        </div>
+
+        <!-- Appointments -->
+        <div class="section-card">
+          <h2>Appointments</h2>
+          <ul>
+            <li>Jane Doe — Checkup with Dr. Smith, Oct 10</li>
+            <li>Robert White — Cardiology Review, Oct 12</li>
+            <li>Mary Lee — Physical Therapy, Oct 14</li>
+          </ul>
+          <button class="btn btn-primary-dashboard" onclick="alert('Opening appointment manager...')">
+            ➕ Add Appointment
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="col-lg-4">
+
+        <!-- Alerts -->
+        <div class="section-card">
+          <h2>Alerts & Tasks</h2>
+          <ul class="list-unstyled mb-0">
+            <li>💊 Refill medication for Robert White</li>
+            <li>🩺 Review Jane Doe’s blood test results</li>
+            <li>📋 Update health notes for Mary Lee</li>
+          </ul>
+          <button class="btn btn-warning w-100 btn-dashboard mt-3" onclick="alert('Marking tasks complete...')">
+            ✅ Mark Tasks Done
+          </button>
+        </div>
+
+        <!-- Emergency Panel -->
+        <div class="section-card emergency-panel mt-4">
+          <h2>Emergency Panel</h2>
+          <p>Quickly alert emergency responders or access critical contacts.</p>
+          <button class="btn btn-danger w-100 btn-dashboard mb-2" onclick="alert('Emergency alert sent to all staff!')">
+            🚨 Send Alert
+          </button>
+          <button class="btn btn-outline-danger w-100 btn-dashboard" onclick="readAloud('Emergency alert sent to all staff!')">
+            🔊 Announce Alert
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <p class="mb-1"><strong>SilverCare Initiative</strong></p>
+      <p class="mb-1">📍 123 Care Street, North Vancouver, BC V1A 2B3</p>
+      <p class="mb-1">📞 Helpline: <a href="tel:+16041234567">(604) 123-4567</a></p>
+      <p class="mb-0">✉ Email: <a href="mailto:care@silvercare.org">care@silvercare.org</a></p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="{{ url_for('static', filename='js/staff_script.js') }}"></script>
+
+  <script>
+    function readAloud(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.8;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Read aloud not supported in your browser.');
+      }
+    }
+  </script>
+</body>
+</html>
