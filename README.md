@@ -1,4 +1,4 @@
-# Silver Care Initiative 
+# SilverCare Initiative 
 
 SilverCare Initiative is a web application designed to make healthcare more accessible for older adults.  
 Through this platform, elders can easily sign in, book appointments with nurses, and securely access their health information.
@@ -14,7 +14,12 @@ Through this platform, elders can easily sign in, book appointments with nurses,
 
 - **Frontend:** HTML, CSS, JavaScript (so far)
 - **Backend:** Python Flask / Node.js (so far)
-- **Database:** SQLite
-- **Hosting:** GitHub Pages
+- **Database:** SQL
+- **Hosting:** likely AWS
 
-to be continued...
+Members of this project:
+Ebube Nwasike
+Mona Bakhshoodeh
+Su May Myo Paing
+Shubnoor Singh
+Priya

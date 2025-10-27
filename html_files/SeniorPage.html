@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SilverCare Senior Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --accent: #0b5ed7;
+      --radius: 14px;
+    }
+    body {
+      background: var(--bg);
+      font-family: "Arial", sans-serif;
+      font-size: 1.1rem;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 2.5rem;
+    }
+    h2 {
+      color: var(--accent);
+      font-size: 1.8rem;
+    }
+    .btn-large {
+      font-size: 1.2rem;
+      padding: 14px 28px;
+    }
+    .welcome-banner {
+      background: linear-gradient(135deg, #0b5ed7, #0dcaf0);
+      color: white;
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .nurse-card {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .nurse-card:hover {
+      transform: scale(1.05);
+      background-color: #f0f8ff;
+    }
+    .calendar-input {
+      font-size: 1.3rem;
+      padding: 0.6rem;
+      width: 100%;
+    }
+    select.form-select {
+      font-size: 1.2rem;
+      padding: 0.6rem;
+    }
+    
+    /* Senior-friendly form styles */
+    .senior-form {
+      font-size: 1.2rem;
+    }
+    .senior-form .form-label {
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .senior-form .form-control {
+      font-size: 1.2rem;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .senior-form .form-text {
+      font-size: 1rem;
+      color: #6c757d;
+    }
+    .required-field::after {
+      content: " *";
+      color: red;
+    }
+    .contact-card {
+      background-color: #f8f9fa;
+      border-left: 4px solid var(--accent);
+      margin-bottom: 1rem;
+      padding: 1rem;
+    }
+    .contact-card .btn {
+      font-size: 1rem;
+    }
+    .help-text {
+      background-color: #e7f3ff;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .form-section:last-child {
+      border-bottom: none;
+    }
+    
+    /* Password modal styles */
+    .password-requirements {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+    .password-strength {
+      height: 5px;
+      margin-top: 5px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    .password-weak {
+      background-color: #dc3545;
+      width: 33%;
+    }
+    .password-medium {
+      background-color: #ffc107;
+      width: 66%;
+    }
+    .password-strong {
+      background-color: #198754;
+      width: 100%;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .password-input-group {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">SilverCare Portal</a>
+    <div class="ms-auto d-flex align-items-center">
+      <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+        <i class="fas fa-key me-1"></i> Change Password
+      </button>
+      <button class="btn btn-outline-danger" onclick="confirmLogout()">
+        <i class="fas fa-sign-out-alt me-1"></i> Log Out
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Welcome Banner -->
+<section class="container welcome-banner">
+  <h1>Welcome, Resident Jane Doe!</h1>
+  <p>Track your health, appointments, and stay connected with community events.</p>
+</section>
+
+<!-- Main Dashboard -->
+<main class="container">
+  <div class="row">
+    <!-- Left Column -->
+    <div class="col-lg-8">
+
+      <!-- Reminders -->
+      <div class="section-card">
+        <h2>⏰ Reminders</h2>
+        <ul class="list-unstyled">
+          <li>💊 Take morning medication</li>
+          <li>🚶 Go for a short walk at 4PM</li>
+          <li>📞 Call family this evening</li>
+        </ul>
+      </div>
+
+      <!-- Primary Info -->
+      <div class="section-card">
+        <h2>Primary Information</h2>
+        <p><strong>Last Name:</strong> Doe</p>
+        <p><strong>First Name:</strong> Jane</p>
+        <p><strong>Date of Birth (DD/MM/YYYY):</strong> 10/02/2004</p>
+        <p><strong>Height:</strong> 168cm</p>
+        <p><strong>Weight:</strong> 65kg</p>
+      </div>
+
+      <!-- Vitals -->
+      <div class="section-card">
+        <h2>Vitals</h2>
+        <p><strong>Blood Pressure:</strong> 120/80 mmHg</p>
+        <p><strong>Heart Rate:</strong> 72 bpm</p>
+        <p><strong>Body Temperature:</strong> 37°C</p>
+        <p><strong>Blood Glucose:</strong></p>
+        <p><strong>Blood Oxygen:</strong></p>
+        <p><strong>Respiratory Rate:</strong></p>
+      </div>
+
+      <!-- Appointments -->
+      <div class="section-card">
+        <h2>📅 Appointments</h2>
+        <p id="nextAppointment">Next Appointment: October 10, 2025 – Dr. Smith</p>
+        <button class="btn btn-primary btn-large" onclick="toggleAppointmentBooking()">
+          Book New Appointment
+        </button>
+
+        <!-- Hidden Appointment Section -->
+        <div id="appointmentSection" class="mt-4" style="display: none;">
+          <h4>Select a Nurse:</h4>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card nurse-card text-center p-2" onclick="selectNurse('Nurse Anna')">
+                <img src="https://via.placeholder.com/100" class="mx-auto rounded-circle" alt="Nurse Anna">
+                <p class="mt-2 mb-0"><strong>Nurse Anna</strong></p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card nurse-card text-center p-2" onclick="selectNurse('Nurse Ben')">
+                <img src="https://via.placeholder.com/100" class="mx-auto rounded-circle" alt="Nurse Ben">
+                <p class="mt-2 mb-0"><strong>Nurse Ben</strong></p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card nurse-card text-center p-2" onclick="selectNurse('Nurse Clara')">
+                <img src="https://via.placeholder.com/100" class="mx-auto rounded-circle" alt="Nurse Clara">
+                <p class="mt-2 mb-0"><strong>Nurse Clara</strong></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calendar and Time Selection -->
+          <div id="calendarSection" class="mt-4" style="display: none;">
+            <h4>Select Date:</h4>
+            <input type="date" id="appointmentDate" class="form-control calendar-input mb-3">
+
+            <h4>Select Time:</h4>
+            <select id="appointmentTime" class="form-select mb-3">
+              <option value="">-- Choose a Time --</option>
+              <option>9:00 AM</option>
+              <option>10:30 AM</option>
+              <option>1:00 PM</option>
+              <option>2:30 PM</option>
+              <option>4:00 PM</option>
+            </select>
+
+            <button class="btn btn-success btn-large" onclick="submitAppointment()">Confirm Appointment</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manage Emergency Contacts -->
+      <div class="section-card senior-form">
+        <h2>📋 Manage Emergency Contacts</h2>
+        
+        <div class="help-text">
+          <i class="fas fa-info-circle me-2"></i>
+          Add your emergency contacts below. All fields marked with * are required.
+        </div>
+        
+        <form id="contactForm" class="mb-4 needs-validation" novalidate>
+          <!-- Contact Information Section -->
+          <div class="form-section">
+            <h4 class="mb-3">Contact Information</h4>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <label for="contactName" class="form-label required-field">Full Name</label>
+                <input type="text" id="contactName" class="form-control" placeholder="Enter full name" required>
+                <div class="invalid-feedback">Please enter the contact's full name.</div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="relationship" class="form-label required-field">Relationship</label>
+                <select id="relationship" class="form-select" required>
+                  <option value="">Select relationship</option>
+                  <option>Spouse</option>
+                  <option>Child</option>
+                  <option>Grandchild</option>
+                  <option>Sibling</option>
+                  <option>Friend</option>
+                  <option>Neighbor</option>
+                  <option>Other</option>
+                </select>
+                <div class="invalid-feedback">Please select a relationship.</div>
+              </div>
+            </div>
+            
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <label for="contactPhone" class="form-label required-field">Phone Number</label>
+                <input type="tel" id="contactPhone" class="form-control" placeholder="10-digit number (e.g., 6041234567)" 
+                       pattern="[0-9]{10}" maxlength="10" required>
+                <div class="form-text">Enter a 10-digit phone number without spaces or dashes</div>
+                <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="contactEmail" class="form-label">Email Address</label>
+                <input type="email" id="contactEmail" class="form-control" placeholder="email@example.com">
+                <div class="invalid-feedback">Please enter a valid email address.</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Address Section -->
+          <div class="form-section">
+            <h4 class="mb-3">Contact Address</h4>
+            
+            <div class="mb-3">
+              <label for="postalCode" class="form-label required-field">Find Address by Postal Code</label>
+              <div class="input-group">
+                <input type="text" id="postalCode" class="form-c
