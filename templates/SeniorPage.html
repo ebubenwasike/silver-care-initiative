@@ -3,304 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SilverCare Senior Dashboard</title>
+  <title>SilverCare Portal — Patient Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f7fafc;
-      --card-bg: #ffffff;
-      --accent: #0b5ed7;
-      --radius: 14px;
-    }
-    body {
-      background: var(--bg);
-      font-family: "Arial", sans-serif;
-      font-size: 1.1rem;
-    }
-    .section-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    h1 {
-      font-size: 2.5rem;
-    }
-    h2 {
-      color: var(--accent);
-      font-size: 1.8rem;
-    }
-    .btn-large {
-      font-size: 1.2rem;
-      padding: 14px 28px;
-    }
-    .welcome-banner {
-      background: linear-gradient(135deg, #0b5ed7, #0dcaf0);
-      color: white;
-      border-radius: var(--radius);
-      padding: 3rem 2rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .nurse-card {
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    .nurse-card:hover {
-      transform: scale(1.05);
-      background-color: #f0f8ff;
-    }
-    .calendar-input {
-      font-size: 1.3rem;
-      padding: 0.6rem;
-      width: 100%;
-    }
-    select.form-select {
-      font-size: 1.2rem;
-      padding: 0.6rem;
-    }
-  </style>
+  <link href="{{ url_for('static', filename='css/login_style.css') }}" rel="stylesheet">
 </head>
-<body>
-
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-  <div class="container">
-    <a class="navbar-brand" href="#">SilverCare Portal</a>
-    <div class="ms-auto">
-      <a href="{{ url_for('logout') }}" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to log out?')">
-        Log Out
-    </a>
+<body class="login-body">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/SilverCare_Logo.jpg') }}" alt="SilverCare Logo" style="height: 75px; margin-right: 10px;">
+      </a>
+      <h5 class="ms-2">Welcome Back, Resident</h5>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- Welcome Banner -->
-<section class="container welcome-banner">
-  <h1>Welcome, {{ first_name }} {{ last_name }}!</h1>
-  <p>Track your health, appointments, and stay connected with community events.</p>
-</section>
+  <div class="login-container mt-5">
+    <div class="login-card mx-auto" style="max-width:400px;">
+      <h2 class="text-center mb-4">Access Your Account</h2>
 
-<!-- Main Dashboard -->
-<main class="container">
-  <div class="row">
-    <!-- Left Column -->
-    <div class="col-lg-8">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
 
-      <!-- Reminders -->
-      <div class="section-card">
-        <h2>⏰ Reminders</h2>
-        <ul class="list-unstyled">
-          <li>💊 Take morning medication</li>
-          <li>🚶 Go for a short walk at 4PM</li>
-          <li>📞 Call family this evening</li>
-        </ul>
-      </div>
-
-      <!-- Primary Info -->
-      <div class="section-card">
-        <h2>Primary Information</h2>
-        <p><strong>Last Name:</strong> {{ last_name }}</p>
-        <p><strong>First Name:</strong> {{ first_name }}</p>
-        <p><strong>Email:</strong> {{ email }}</p>
-        <!--add more dynamic info here like height weight etc-->
-      </div>
-
-      <!-- Vitals -->
-      <div class="section-card">
-        <h2>Vitals</h2>
-        <p><strong>Blood Pressure:</strong> 120/80 mmHg</p>
-        <p><strong>Heart Rate:</strong> 72 bpm</p>
-        <p><strong>Body Temperature:</strong> 37°C</p>
-        <p><strong>Blood Glucose:</strong></p>
-        <p><strong>Blood Oxygen:</strong></p>
-        <p><strong>Respiratory Rate:</strong></p>
-      </div>
-
-      <!-- Appointments -->
-      <div class="section-card">
-        <h2>📅 Appointments</h2>
-        <p id="nextAppointment">Next Appointment: October 10, 2025 – Dr. Smith</p>
-        <button class="btn btn-primary btn-large" onclick="toggleAppointmentBooking()">
-          Book New Appointment
-        </button>
-
-        <!-- Hidden Appointment Section -->
-        <div id="appointmentSection" class="mt-4" style="display: none;">
-          <h4>Select a Nurse:</h4>
-          <div class="row">
-            <div class="col-md-4">
-              <div class="card nurse-card text-center p-2" onclick="selectNurse('Nurse Anna')">
-                <img src="https://via.placeholder.com/100" class="mx-auto rounded-circle" alt="Nurse Anna">
-                <p class="mt-2 mb-0"><strong>Nurse Anna</strong></p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card nurse-card text-center p-2" onclick="selectNurse('Nurse Ben')">
-                <img src="https://via.placeholder.com/100" class="mx-auto rounded-circle" alt="Nurse Ben">
-                <p class="mt-2 mb-0"><strong>Nurse Ben</strong></p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card nurse-card text-center p-2" onclick="selectNurse('Nurse Clara')">
-                <img src="https://via.placeholder.com/100" class="mx-auto rounded-circle" alt="Nurse Clara">
-                <p class="mt-2 mb-0"><strong>Nurse Clara</strong></p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Calendar and Time Selection -->
-          <div id="calendarSection" class="mt-4" style="display: none;">
-            <h4>Select Date:</h4>
-            <input type="date" id="appointmentDate" class="form-control calendar-input mb-3">
-
-            <h4>Select Time:</h4>
-            <select id="appointmentTime" class="form-select mb-3">
-              <option value="">-- Choose a Time --</option>
-              <option>9:00 AM</option>
-              <option>10:30 AM</option>
-              <option>1:00 PM</option>
-              <option>2:30 PM</option>
-              <option>4:00 PM</option>
-            </select>
-
-            <button class="btn btn-success btn-large" onclick="submitAppointment()">Confirm Appointment</button>
-          </div>
+      <form method="POST" action="{{ url_for('SeniorLogin') }}">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" required>
         </div>
-      </div>
 
-      <!-- Manage Emergency Contacts -->
-      <div class="section-card">
-        <h2>📋 Manage Emergency Contacts</h2>
-        <form id="contactForm" class="mb-3 needs-validation" novalidate>
-          <div class="row g-2">
-            <div class="col-md-5">
-              <input type="text" id="contactName" class="form-control" placeholder="Contact Name" required>
-              <div class="invalid-feedback">Please enter a contact name.</div>
-            </div>
-            <div class="col-md-5">
-              <input type="tel" id="contactPhone" class="form-control" placeholder="Phone Number" pattern="[0-9]{10}" required>
-              <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
-            </div>
-            <div class="col-md-2 d-grid">
-              <button type="submit" class="btn btn-success">Add</button>
-            </div>
-          </div>
-        </form>
-        <ul id="contactList" class="list-group"></ul>
-      </div>
-    </div>
+        <div class="mb-3">
+          <label for="phn" class="form-label">Password or Personal Health Number</label>
+          <input type="text" class="form-control" id="phn" name="phn" required>
+        </div>
 
-    <!-- Right Column -->
-    <div class="col-lg-4">
-      <div class="section-card bg-light border border-warning">
-        <h2>🚨 Emergency Contacts</h2>
-        <p><strong>Emergency:</strong> 911</p>
-        <p><strong>SilverCare Helpline:</strong> <a href="tel:+16041234567">(604) 123-4567</a></p>
-        <p><strong>Poison Control:</strong> 1-800-567-8910</p>
-        <button class="btn btn-warning w-100 btn-large"
-          onclick="readAloud('Emergency numbers: 9 1 1. SilverCare helpline: 6 0 4, 1 2 3, 4 5 6 7. Poison control: 1 8 0 0, 5 6 7, 8 9 1 0')">
-          🔊 Read Numbers Aloud
-        </button>
+        <button type="submit" class="btn btn-primary w-100">Log In</button>
+      </form>
+
+      <div class="text-center mt-3">
+        <a href="{{ url_for('index') }}">⬅ Back to Home</a>
       </div>
     </div>
   </div>
-</main>
 
-<!-- Footer -->
-<footer class="bg-dark text-white text-center py-4 mt-5">
-  <div class="container">
-    <p class="mb-1"><strong>SilverCare Initiative</strong></p>
-    <p class="mb-1">📍 123 Care Street, North Vancouver, BC V1A 2B3</p>
-    <p class="mb-1">📞 Helpline: <a href="tel:+16041234567" class="text-white">(604) 123-4567</a></p>
-    <p class="mb-0">✉ Email: <a href="mailto:care@silvercare.org" class="text-white">care@silvercare.org</a></p>
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  // Read Aloud
-  function readAloud(text) {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.8;
-      window.speechSynthesis.speak(utterance);
-    } else {
-      alert('Read aloud not supported.');
-    }
-  }
-
-  // Bootstrap form validation
-  (() => {
-    'use strict';
-    const forms = document.querySelectorAll('.needs-validation');
-    Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  })();
-
-  // Emergency Contacts Add/Delete
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const name = document.getElementById('contactName').value.trim();
-    const phone = document.getElementById('contactPhone').value.trim();
-
-    // JS validation for phone
-    if (!/^\d{10}$/.test(phone)) {
-      alert("Please enter a valid 10-digit phone number.");
-      return;
-    }
-
-    // Add contact to list
-    const li = document.createElement('li');
-    li.className = 'list-group-item d-flex justify-content-between align-items-center';
-    li.innerHTML = `<span><strong>${name}</strong> - ${phone}</span>
-                    <button class="btn btn-sm btn-danger">Delete</button>`;
-    li.querySelector('button').addEventListener('click', function() { li.remove(); });
-    document.getElementById('contactList').appendChild(li);
-
-    // Reset form
-    e.target.reset();
-    e.target.classList.remove('was-validated');
-  });
-
-  // Appointment System
-  function toggleAppointmentBooking() {
-    const section = document.getElementById('appointmentSection');
-    section.style.display = section.style.display === 'none' ? 'block' : 'none';
-  }
-
-  function selectNurse(name) {
-    selectedNurse = name;
-    document.getElementById('calendarSection').style.display = 'block';
-  }
-
-  function submitAppointment() {
-    const date = document.getElementById('appointmentDate').value;
-    const time = document.getElementById('appointmentTime').value;
-    if (!selectedNurse || !date || !time) {
-      alert('Please select a nurse, date, and time.');
-      return;
-    }
-
-    document.getElementById('nextAppointment').textContent =
-      `Next Appointment: ${new Date(date).toLocaleDateString()} – ${selectedNurse} at ${time}`;
-
-    alert(`Appointment confirmed with ${selectedNurse} on ${new Date(date).toLocaleDateString()} at ${time}`);
-
-    document.getElementById('appointmentSection').style.display = 'none';
-    document.getElementById('calendarSection').style.display = 'none';
-  }
-
-  let selectedNurse = null;
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
