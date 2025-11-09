@@ -1,4 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, session, flash
+from flask import jsonify
+import datetime
 import mysql.connector
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -13,8 +15,8 @@ app.secret_key = 'secretkey'  # Required for sessions
 # ------------------------------
 db_config = {
     "host": "localhost",
-    "user": "root",              # your MySQL username
-    "password": "EbubeNwasike",  # your MySQL password
+    "user": "root",              # MySQL username
+    "password": "EbubeNwasike",  # MySQL password
     "database": "silver_care_db"
 }
 
@@ -120,7 +122,7 @@ def create_patient():
     return render_template('CreatePatientForm.html')
 
 
-# SENIORS LOGIN - UPDATED
+# SENIORS LOGIN 
 @app.route('/SeniorLogin', methods=['GET', 'POST'])
 def SeniorLogin():
     if request.method == 'POST':
@@ -176,7 +178,254 @@ def logout():
         return redirect(url_for('SeniorLogin'))  # Go to patient login
     else:
         return redirect(url_for('login'))        # Go to staff login
-    
+
+
+ #APPOINTMENT BOOKING <333!    
+@app.route('/book_appointment', methods=['POST'])
+def book_appointment():
+    try:
+        # Check if staff is logged in
+        if 'loggedin' in session:
+            patient_id = request.form['patient_id']
+            staff_id = session['id']
+            
+            # Verify the patient belongs to this staff
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT id FROM patients WHERE id=%s AND created_by=%s", (patient_id, staff_id))
+            patient = cursor.fetchone()
+            
+            if not patient:
+                return jsonify(success=False, error='Patient not found or not assigned to you')
+                
+        # Check if patient is logged in
+        elif 'patient_loggedin' in session:
+            patient_id = session['patient_id']
+            
+            # Get the staff who created this patient
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT created_by FROM patients WHERE id=%s", (patient_id,))
+            patient_data = cursor.fetchone()
+            
+            if not patient_data:
+                return jsonify(success=False, error='Patient not found')
+                
+            staff_id = patient_data[0]
+            
+        else:
+            return jsonify(success=False, error='Not logged in')
+        
+        # Common appointment data
+        appointment_date = request.form['appointment_date']
+        appointment_time = request.form['appointment_time']
+        appointment_type = request.form['appointment_type']
+        notes = request.form.get('notes', '')
+        
+        # Insert appointment
+        cursor.execute("""
+            INSERT INTO appointments (patient_id, staff_id, appointment_date, appointment_time, appointment_type, notes, status)
+            VALUES (%s, %s, %s, %s, %s, %s, 'scheduled')
+        """, (patient_id, staff_id, appointment_date, appointment_time, appointment_type, notes))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify(success=True)
+    except Exception as e:
+        return jsonify(success=False, error=str(e))
+
+#get patient appt
+@app.route('/get_patient_appointments')
+def get_patient_appointments():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        patient_id = session.get('patient_id')
+
+        cursor.execute("""
+            SELECT 
+                a.id, 
+                a.appointment_date, 
+                a.appointment_time, 
+                a.appointment_type, 
+                a.status, 
+                a.notes,
+                s.first_name AS staff_first_name, 
+                s.last_name AS staff_last_name
+            FROM appointments a
+            JOIN staff s ON a.staff_id = s.id
+            WHERE a.patient_id = %s
+            ORDER BY a.appointment_date DESC, a.appointment_time ASC
+        """, (patient_id,))
+
+        appointments = cursor.fetchall()
+
+        for appt in appointments:
+            if isinstance(appt['appointment_date'], (datetime.date, datetime.datetime)):
+                appt['appointment_date'] = appt['appointment_date'].strftime('%Y-%m-%d')
+            if isinstance(appt['appointment_time'], (datetime.time, datetime.timedelta)):
+                appt['appointment_time'] = str(appt['appointment_time'])
+
+        cursor.close()
+        conn.close()
+
+        return jsonify(success=True, appointments=appointments)
+    except Exception as e:
+        print("❌ Error fetching patient appointments:", e)
+        return jsonify(success=False, error=str(e))
+
+
+
+#get staff appointments
+@app.route('/get_staff_appointments')
+def get_staff_appointments():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        staff_id = session.get('id')  # or your actual staff session key
+
+        cursor.execute("""
+            SELECT 
+                a.id, 
+                a.appointment_date, 
+                a.appointment_time, 
+                a.appointment_type, 
+                a.status, 
+                a.notes,
+                p.first_name, 
+                p.last_name
+            FROM appointments a
+            JOIN patients p ON a.patient_id = p.id
+            WHERE a.staff_id = %s
+            ORDER BY a.appointment_date DESC, a.appointment_time ASC
+        """, (staff_id,))
+
+        appointments = cursor.fetchall()
+
+        # 🔹 Convert date/time to string so Flask can jsonify it
+        for appt in appointments:
+            if isinstance(appt['appointment_date'], (datetime.date, datetime.datetime)):
+                appt['appointment_date'] = appt['appointment_date'].strftime('%Y-%m-%d')
+            if isinstance(appt['appointment_time'], (datetime.time, datetime.timedelta)):
+                appt['appointment_time'] = str(appt['appointment_time'])
+
+        cursor.close()
+        conn.close()
+
+        return jsonify(success=True, appointments=appointments)
+    except Exception as e:
+        print("❌ Error fetching staff appointments:", e)
+        return jsonify(success=False, error=str(e))
+
+#DELETE APPOINTMENTS
+@app.route('/delete_appointment/<int:appointment_id>', methods=['DELETE'])
+def delete_appointment(appointment_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM appointments WHERE id = %s", (appointment_id,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify(success=True, message="Appointment deleted successfully")
+    except Exception as e:
+        print("❌ Error deleting appointment:", e)
+        return jsonify(success=False, error=str(e))
+
+
+#ADD/UPDATE VITALS <3!!
+@app.route('/update_vitals', methods=['POST'])
+def update_vitals():
+    try:
+        patient_id = request.form['patient_id']
+        staff_id = session.get('id')  # staff updating it
+
+        blood_pressure = request.form.get('blood_pressure')
+        bmi = request.form.get('bmi')
+        weight = request.form.get('weight')
+        height = request.form.get('height')
+        respiratory_rate = request.form.get('respiratory_rate')
+        temperature = request.form.get('temperature')
+        heart_rate = request.form.get('heart_rate')
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Check if vitals exist for this patient already
+        cursor.execute("SELECT id FROM vitals WHERE patient_id = %s", (patient_id,))
+        existing = cursor.fetchone()
+
+        if existing:
+            cursor.execute("""
+                UPDATE vitals
+                SET blood_pressure=%s, bmi=%s, weight=%s, height=%s,
+                    respiratory_rate=%s, temperature=%s, heart_rate=%s, staff_id=%s
+                WHERE patient_id=%s
+            """, (blood_pressure, bmi, weight, height, respiratory_rate, temperature, heart_rate, staff_id, patient_id))
+        else:
+            cursor.execute("""
+                INSERT INTO vitals (patient_id, staff_id, blood_pressure, bmi, weight, height, respiratory_rate, temperature, heart_rate)
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            """, (patient_id, staff_id, blood_pressure, bmi, weight, height, respiratory_rate, temperature, heart_rate))
+            
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify(success=True)
+    except Exception as e:
+        print("❌ Error updating vitals:", e)
+        return jsonify(success=False, error=str(e))
+
+#GET VITALS (STAFF AND SENIORS)
+@app.route('/get_vitals/<int:patient_id>')
+def get_vitals(patient_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT * FROM vitals WHERE patient_id = %s
+        """, (patient_id,))
+        vitals = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        return jsonify(success=True, vitals=vitals)
+    except Exception as e:
+        print("❌ Error fetching vitals:", e)
+        return jsonify(success=False, error=str(e))@app.route('/get_vitals/<int:patient_id>')
+def get_vitals(patient_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT blood_pressure, bmi, weight, height, respiratory_rate, temperature, heart_rate, 
+                   DATE_FORMAT(updated_at, '%%Y-%%m-%%d %%H:%%i') AS updated_at
+            FROM vitals
+            WHERE patient_id = %s
+            ORDER BY updated_at DESC
+            LIMIT 1
+        """, (patient_id,))
+
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        if result:
+            return jsonify(success=True, vitals=result)
+        else:
+            return jsonify(success=False, vitals=None)
+    except Exception as e:
+        return jsonify(success=False, error=str(e))
+
+
 
 # ABOUT PAGE
 @app.route('/about')
@@ -197,6 +446,21 @@ def community():
 @app.route('/exercise')
 def exercise():
     return render_template('exercise.html')
+
+@app.route('/debug_patients')
+def debug_patients():
+    if 'loggedin' not in session:
+        return "Not logged in"
+    
+    staff_id = session['id']
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM patients WHERE created_by = %s LIMIT 1", (staff_id,))
+    patient = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    
+    return f"Patient data: {patient}"
 
 
 # ------------------------------
