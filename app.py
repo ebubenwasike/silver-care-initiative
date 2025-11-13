@@ -1,8 +1,13 @@
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 from flask import jsonify
-import datetime
+import datetime #for live updates with time on vitals i think
 import mysql.connector
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash #for hashing
+import pyotp #these are for 2 factor auth w microsoft
+import qrcode
+import io
+from flask import send_file
+
 
 # ------------------------------
 # Initialize Flask app
@@ -39,8 +44,7 @@ def generate_password():
     hashed = generate_password_hash(password)
     return f"Hashed password for '{password}': <br><strong>{hashed}</strong>"
 
-# LOGIN PAGE
-# LOGIN PAGE - SIMPLE VERSION (NO HASHING)
+# LOGIN PAGE for staff
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -49,21 +53,110 @@ def login():
 
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM staff WHERE email=%s AND password=%s", (email, password))
+        cursor.execute("SELECT * FROM staff WHERE email=%s", (email,))
         account = cursor.fetchone()
         cursor.close()
         conn.close()
 
-        if account:
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['email'] = account['email']
-            return redirect(url_for('staff'))
-        else:
-            flash('Incorrect email/password!', 'danger')
+        # 1️⃣ check if account exists
+        if not account:
+            flash('Incorrect email or password!', 'danger')
             return redirect(url_for('login'))
 
+        # 2️⃣ verify password (hashed or plain)
+        stored_pw = account['password']
+        valid_pw = False
+        if stored_pw == password or check_password_hash(stored_pw, password):
+            valid_pw = True
+
+        if not valid_pw:
+            flash('Incorrect email or password!', 'danger')
+            return redirect(url_for('login'))
+
+        # 3️⃣ store session temporarily until 2FA verification
+        session['pending_staff_id'] = account['id']
+        session['pending_email'] = account['email']
+
+        # 4️⃣ handle 2FA setup or verification
+        if not account['totp_secret']:
+            # redirect to setup 2FA if secret missing
+            return redirect(url_for('setup_2fa', staff_id=account['id']))
+        else:
+            # prompt user for 2FA code
+            return render_template('verify_2fa.html', email=email)
+
+    # 5️⃣ initial GET request → show login page
     return render_template('login.html')
+
+
+# SETUP 2FA (FIRST TIME)
+@app.route('/setup_2fa/<int:staff_id>')
+def setup_2fa(staff_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM staff WHERE id=%s", (staff_id,))
+    staff = cursor.fetchone()
+
+    if not staff:
+        flash("Staff not found.", "danger")
+        return redirect(url_for('login'))
+
+    # Generate a new secret and save it
+    secret = pyotp.random_base32()
+    cursor.execute("UPDATE staff SET totp_secret=%s WHERE id=%s", (secret, staff_id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    # Create provisioning URI
+    totp = pyotp.TOTP(secret)
+    uri = totp.provisioning_uri(name=staff['email'], issuer_name="SilverCare")
+
+    # Generate QR code
+    img = qrcode.make(uri)
+    buf = io.BytesIO()
+    img.save(buf, 'PNG')
+    buf.seek(0)
+
+    return send_file(buf, mimetype='image/png')
+    
+
+
+# VERIFY 2FA CODE
+@app.route('/verify_2fa', methods=['POST'])
+def verify_2fa():
+    code = request.form['code']  # The 6-digit code entered by staff
+    staff_id = session.get('pending_staff_id')
+
+    if not staff_id:
+        flash("Session expired. Please log in again.", "danger")
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM staff WHERE id=%s", (staff_id,))
+    staff = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not staff:
+        flash("Staff not found.", "danger")
+        return redirect(url_for('login'))
+
+    totp = pyotp.TOTP(staff['totp_secret'])
+
+    # Verify the entered code
+    if totp.verify(code):
+        # 2FA success → fully log in
+        session.pop('pending_staff_id', None)
+        session.pop('pending_email', None)
+        session['loggedin'] = True
+        session['id'] = staff['id']
+        session['email'] = staff['email']
+        return redirect(url_for('staff'))
+    else:
+        flash('Invalid or expired 2FA code.', 'danger')
+        return render_template('verify_2fa.html', email=staff['email'])
 
 
 # STAFF DASHBOARD just updated
@@ -122,32 +215,37 @@ def create_patient():
     return render_template('CreatePatientForm.html')
 
 
-# SENIORS LOGIN 
+# SENIOR LOGIN
 @app.route('/SeniorLogin', methods=['GET', 'POST'])
 def SeniorLogin():
     if request.method == 'POST':
         email = request.form['email']
-        phn = request.form['phn']
+        phn_or_password = request.form['phn']
 
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM patients WHERE email=%s AND phn=%s", (email, phn))
+        cursor.execute("SELECT * FROM patients WHERE email=%s", (email,))
         account = cursor.fetchone()
         cursor.close()
         conn.close()
 
         if account:
-            session['patient_loggedin'] = True
-            session['patient_id'] = account['id']
-            session['patient_email'] = account['email']
-            session['patient_first_name'] = account['first_name']  # ADD THIS
-            session['patient_last_name'] = account['last_name']    # ADD THIS
-            flash('Login successful!', 'success')
-            return redirect(url_for('SeniorPage'))
-        else:
-            flash('Invalid email or PHN.', 'danger')
+            # Allow login by PHN or password
+            if account['phn'] == phn_or_password or (
+                account.get('password') and check_password_hash(account['password'], phn_or_password)
+            ):
+                session['patient_loggedin'] = True
+                session['patient_id'] = account['id']
+                session['patient_email'] = account['email']
+                session['patient_first_name'] = account['first_name']
+                session['patient_last_name'] = account['last_name']
+                flash('Login successful!', 'success')
+                return redirect(url_for('SeniorPage'))
+
+        flash('Invalid email or PHN/password.', 'danger')
 
     return render_template('SeniorLogin.html')
+
 
 #SENIORS DASHBOARD :)
 @app.route('/SeniorPage')
@@ -425,6 +523,196 @@ def get_vitals(patient_id):
     except Exception as e:
         return jsonify(success=False, error=str(e))
 
+# FORGOT PASSWORD
+@app.route('/forgot_password', methods=['POST'])
+def forgot_password():
+    data = request.get_json()
+    email = data.get('email')
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # Try staff first
+    cursor.execute("SELECT security_question FROM staff WHERE email=%s", (email,))
+    user = cursor.fetchone()
+
+    # If not found, try patients
+    if not user:
+        cursor.execute("SELECT security_question FROM patients WHERE email=%s", (email,))
+        user = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if user:
+        print(f"📩 Forgot password request for {email}")
+        return jsonify({'success': True, 'question': user['security_question']})
+    else:
+        print(f"❌ Email not found: {email}")
+        return jsonify({'success': False})
+
+
+# VERIFY SECURITY
+@app.route('/verify_security', methods=['POST'])
+def verify_security():
+    data = request.get_json()
+    email = data.get('email')
+    answer = data.get('answer')
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # Try staff first
+    cursor.execute("SELECT id FROM staff WHERE email=%s AND security_answer=%s", (email, answer))
+    user = cursor.fetchone()
+
+    # If not found, try patients
+    if not user:
+        cursor.execute("SELECT id FROM patients WHERE email=%s AND security_answer=%s", (email, answer))
+        user = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return jsonify({'success': bool(user)})
+
+# RESET PASSWORD
+@app.route('/reset_password', methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    email = data.get('email')
+    new_password = data.get('new_password')
+    hashed_pw = generate_password_hash(new_password)
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Update staff password
+    cursor.execute("UPDATE staff SET password=%s WHERE email=%s", (hashed_pw, email))
+    # Update patient password
+    cursor.execute("UPDATE patients SET password=%s WHERE email=%s", (hashed_pw, email))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    print(f"✅ Password successfully reset for {email}")
+    return jsonify({'success': True})
+
+
+#SET SECURITY QUESTION
+@app.route('/set_security', methods=['POST'])
+def set_security():
+    data = request.get_json()
+    question = data.get('question')
+    answer = data.get('answer')
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # For staff
+    if 'loggedin' in session:
+        cursor.execute("""
+            UPDATE staff 
+            SET security_question = %s, security_answer = %s 
+            WHERE id = %s
+        """, (question, answer, session['id']))
+
+    # For seniors
+    elif 'patient_loggedin' in session:
+        cursor.execute("""
+            UPDATE patients 
+            SET security_question = %s, security_answer = %s 
+            WHERE id = %s
+        """, (question, answer, session['patient_id']))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return jsonify({'success': True})
+
+
+#CHANGE PASSWORD BUTTON
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    if 'loggedin' not in session and 'patient_loggedin' not in session:
+        return jsonify({'success': False, 'message': 'Not logged in.'})
+
+    data = request.get_json()
+    security_answer = data.get('answer')
+    new_password = data.get('new_password')
+    hashed_pw = generate_password_hash(new_password)
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # Check whether it's staff or patient
+    if 'loggedin' in session:
+        cursor.execute("SELECT security_answer FROM staff WHERE id=%s", (session['id'],))
+        user = cursor.fetchone()
+        if user and user['security_answer'].lower() == security_answer.lower():
+            cursor.execute("UPDATE staff SET password=%s WHERE id=%s", (hashed_pw, session['id']))
+    elif 'patient_loggedin' in session:
+        cursor.execute("SELECT security_answer FROM patients WHERE id=%s", (session['patient_id'],))
+        user = cursor.fetchone()
+        if user and user['security_answer'].lower() == security_answer.lower():
+            cursor.execute("UPDATE patients SET password=%s WHERE id=%s", (hashed_pw, session['patient_id']))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return jsonify({'success': True})
+
+#GET SECURITY QUESTION for change password function
+@app.route('/get_security_question')
+def get_security_question():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    if 'loggedin' in session:
+        cursor.execute("SELECT security_question FROM staff WHERE id=%s", (session['id'],))
+    elif 'patient_loggedin' in session:
+        cursor.execute("SELECT security_question FROM patients WHERE id=%s", (session['patient_id'],))
+    else:
+        return jsonify({'success': False})
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return jsonify({'success': True, 'question': result['security_question'] if result else 'None'})
+
+
+#FORG PASSWORD PAGE
+@app.route('/forgot_password_page')
+def forgot_password_page():
+    return render_template('ForgotPassword.html')
+
+
+
+#HASH STUFF (TEMPORARY)
+
+@app.route('/rehash_staff_passwords')
+def rehash_staff_passwords():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT id, password FROM staff")
+    staff_accounts = cursor.fetchall()
+
+    updated = 0
+    for acc in staff_accounts:
+        pw = acc['password']
+        # Skip if already hashed
+        if not pw.startswith('pbkdf2:sha256'):
+            hashed_pw = generate_password_hash(pw)
+            cursor2 = conn.cursor()
+            cursor2.execute("UPDATE staff SET password=%s WHERE id=%s", (hashed_pw, acc['id']))
+            cursor2.close()
+            updated += 1
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return f"✅ Rehashed {updated} plain-text staff passwords!"
 
 
 # ABOUT PAGE
