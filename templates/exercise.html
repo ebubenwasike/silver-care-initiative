@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SilverCare Portal — Exercise Videos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c5aa0;
+      --primary-dark: #1e3d72;
+      --accent: #ff6b35;
+      --light-bg: #f8f9fa;
+      --text-dark: #2d3748;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+    
+    .professional-nav {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 5rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 30px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .content-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .video-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border: none;
+      height: 100%;
+    }
+    
+    .video-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+    
+    .video-thumbnail {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .video-thumbnail img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .video-card:hover .video-thumbnail img {
+      transform: scale(1.1);
+    }
+    
+    .play-button-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .video-card:hover .play-button-overlay {
+      opacity: 1;
+    }
+    
+    .play-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    .video-content {
+      padding: 1.5rem;
+    }
+    
+    .difficulty-badge {
+      background: linear-gradient(135deg, #00b894, #00a085);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 50px;
+      padding: 12px 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(44, 90, 160, 0.3);
+    }
+    
+    .nav-link {
+      font-weight: 500;
+      color: var(--text-dark) !important;
+      margin: 0 0.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light professional-nav sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/SilverCare_Logo.jpg') }}" alt="SilverCare Logo" style="height: 60px; margin-right: 15px; border-radius: 10px;">
+        <span class="fw-bold fs-4" style="color: var(--primary);">SilverCare</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('hospitals') }}">Hospitals</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('community') }}">Community</a></li>
+          <li class="nav-item"><a class="nav-link active" href="{{ url_for('exercise') }}">Exercise</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1 class="display-4 fw-bold mb-4">Exercise & Wellness Videos</h1>
+          <p class="lead mb-4" style="font-size: 1.25rem; opacity: 0.95;">
+            Stay active and healthy with easy, safe workouts designed specifically for seniors
+          </p>
+          <button class="btn btn-light btn-lg px-4 py-2 rounded-pill fw-semibold" onclick="readAloud('Exercise and Wellness Videos. Stay active and healthy with easy, safe workouts designed for seniors')">
+            🔊 Read Aloud
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Videos Section -->
+    <div class="content-card">
+      <h2 class="fw-bold mb-4 text-center" style="color: var(--primary);">🎬 Exercise Videos</h2>
+      <div class="row">
+        <!-- Video 1 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+          <a href="https://youtu.be/G8BsLlPE1m4" target="_blank" class="text-decoration-none">
+            <div class="video-card h-100">
+              <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/G8BsLlPE1m4/maxresdefault.jpg" 
+                     alt="Gentle Chair Yoga for Seniors">
+                <div class="play-button-overlay">
+                  <div class="play-icon">▶</div>
+                </div>
+              </div>
+              <div class="video-content">
+                <h5 class="fw-bold mb-2">Gentle Chair Yoga</h5>
+                <span class="difficulty-badge mb-2 d-inline-block">Beginner Friendly</span>
+                <p class="text-muted mb-3">15 minutes • Seated Exercises • Improve Flexibility</p>
+                <div class="btn btn-primary-custom text-white w-100">Watch Now</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+          <a href="https://youtu.be/t2SCv3fhxYs" target="_blank" class="text-decoration-none">
+            <div class="video-card h-100">
+              <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/t2SCv3fhxYs/maxresdefault.jpg" 
+                     alt="Balance Exercises for Seniors">
+                <div class="play-button-overlay">
+                  <div class="play-icon">▶</div>
+                </div>
+              </div>
+              <div class="video-content">
+                <h5 class="fw-bold mb-2">Balance & Strength</h5>
+                <span class="difficulty-badge mb-2 d-inline-block">All Levels</span>
+                <p class="text-muted mb-3">10 minutes • Improve Stability • Fall Prevention</p>
+                <div class="btn btn-primary-custom text-white w-100">Watch Now</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+          <a href="https://youtu.be/Z3NlHjrY1bE" target="_blank" class="text-decoration-none">
+            <div class="video-card h-100">
+              <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/Z3NlHjrY1bE/maxresdefault.jpg" 
+                     alt="Seated Stretch Routine for Seniors">
+                <div class="play-button-overlay">
+                  <div class="play-icon">▶</div>
+                </div>
+              </div>
+              <div class="video-content">
+                <h5 class="fw-bold mb-2">Seated Stretch Routine</h5>
+                <span class="difficulty-badge mb-2 d-inline-block">No Equipment</span>
+                <p class="text-muted mb-3">12 minutes • Improve Posture • Relaxation</p>
+                <div class="btn btn-primary-custom text-white w-100">Watch Now</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Video 4 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+          <a href="https://youtu.be/YJz7IwmSKQM" target="_blank" class="text-decoration-none">
+            <div class="video-card h-100">
+              <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/YJz7IwmSKQM/maxresdefault.jpg" 
+                     alt="Morning Mobility Exercises">
+                <div class="play-button-overlay">
+                  <div class="play-icon">▶</div>
+                </div>
+              </div>
+              <div class="video-content">
+                <h5 class="fw-bold mb-2">Morning Mobility Routine</h5>
+                <span class="difficulty-badge mb-2 d-inline-block">Standing/Seated</span>
+                <p class="text-muted mb-3">10 minutes • Start Your Day Right • Energy Boost</p>
+                <div class="btn btn-primary-custom text-white w-100">Watch Now</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Video 5 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+          <a href="https://youtu.be/fq3HkQnN5lM" target="_blank" class="text-decoration-none">
+            <div class="video-card h-100">
+              <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/fq3HkQnN5lM/maxresdefault.jpg" 
+                     alt="Strength Training for Seniors">
+                <div class="play-button-overlay">
+                  <div class="play-icon">▶</div>
+                </div>
+              </div>
+              <div class="video-content">
+                <h5 class="fw-bold mb-2">Strength for Seniors</h5>
+                <span class="difficulty-badge mb-2 d-inline-block">Light Weights</span>
+                <p class="text-muted mb-3">20 minutes • Build Endurance • Safe Training</p>
+                <div class="btn btn-primary-custom text-white w-100">Watch Now</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Video 6 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+          <a href="https://youtu.be/example6" target="_blank" class="text-decoration-none">
+            <div class="video-card h-100">
+              <div class="video-thumbnail">
+                <img src="{{ url_for('static', filename='images/exercise_placeholder.jpg') }}" 
+                     alt="Relaxation and Breathing Exercises">
+                <div class="play-button-overlay">
+                  <div class="play-icon">▶</div>
+                </div>
+              </div>
+              <div class="video-content">
+                <h5 class="fw-bold mb-2">Relaxation & Breathing</h5>
+                <span class="difficulty-badge mb-2 d-inline-block">Seated</span>
+                <p class="text-muted mb-3">8 minutes • Reduce Stress • Mindfulness</p>
+                <div class="btn btn-primary-custom text-white w-100">Watch Now</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="text-center mt-4">
+      <h3 class="fw-bold mb-3" style="color: var(--primary);">Stay Active, Stay Healthy!</h3>
+      <p class="text-muted mb-4">Regular exercise is key to maintaining mobility, strength, and overall wellbeing.</p>
+      <a href="{{ url_for('index') }}" class="btn btn-primary-custom text-white me-3">Back to Home</a>
+      <a href="{{ url_for('community') }}" class="btn btn-outline-primary rounded-pill px-4">View Community Events</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <h5 class="fw-bold mb-3">SilverCare Initiative</h5>
+          <p class="text-light">Compassionate care for seniors, empowering independence and community connection.</p>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h6 class="fw-semibold mb-3">Quick Links</h6>
+          <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('index') }}" class="text-light text-decoration-none">Home</a>
+            <a href="{{ url_for('about') }}" class="text-light text-decoration-none">About</a>
+            <a href="{{ url_for('exercise') }}" class="text-light text-decoration-none">Exercise</a>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h6 class="fw-semibold mb-3">Contact Info</h6>
+          <p class="mb-1">

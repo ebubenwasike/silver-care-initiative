@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SilverCare Portal — About</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c5aa0;
+      --primary-dark: #1e3d72;
+      --accent: #ff6b35;
+      --light-bg: #f8f9fa;
+      --text-dark: #2d3748;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+    
+    .professional-nav {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 5rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 30px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .content-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .content-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      margin-right: 1.5rem;
+      flex-shrink: 0;
+    }
+    
+    .about-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .mission-stats {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 50px;
+      padding: 12px 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(44, 90, 160, 0.3);
+    }
+    
+    .nav-link {
+      font-weight: 500;
+      color: var(--text-dark) !important;
+      margin: 0 0.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light professional-nav sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/SilverCare_Logo.jpg') }}" alt="SilverCare Logo" style="height: 60px; margin-right: 15px; border-radius: 10px;">
+        <span class="fw-bold fs-4" style="color: var(--primary);">SilverCare</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="{{ url_for('about') }}">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('hospitals') }}">Hospitals</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('community') }}">Community</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('exercise') }}">Exercise</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1 class="display-4 fw-bold mb-4">About SilverCare Initiative</h1>
+          <p class="lead mb-4" style="font-size: 1.25rem; opacity: 0.95;">
+            Dedicated to enhancing the lives of seniors through compassionate care, innovative solutions, and community support.
+          </p>
+          <button class="btn btn-light btn-lg px-4 py-2 rounded-pill fw-semibold" onclick="readAloud('About SilverCare Initiative. Dedicated to enhancing the lives of seniors through compassionate care and community support.')">
+            🔊 Read Aloud
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Our Mission -->
+    <div class="content-card">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <div class="d-flex align-items-start mb-4">
+            <div class="feature-icon">🎯</div>
+            <div>
+              <h2 class="fw-bold mb-3" style="color: var(--primary);">Our Mission & Vision</h2>
+              <p class="fs-5 text-muted mb-4">
+                SilverCare Initiative is a <strong>community-driven, non-profit organization</strong> based in North Vancouver, 
+                dedicated to improving the health, comfort, and independence of seniors aged 60 and above.
+              </p>
+              <p class="fs-5 text-muted">
+                We believe that aging should be a time of dignity, connection, and fulfillment. Our mission is to provide 
+                <strong>exceptional residential care, nursing services, and daily living assistance</strong> while fostering 
+                a vibrant, supportive community environment.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 text-center">
+          <img src="{{ url_for('static', filename='images/About_seniors.jpg') }}" 
+               alt="Happy seniors at SilverCare facility" 
+               class="about-image">
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="mission-stats mb-4">
+      <div class="row">
+        <div class="col-md-3 mb-4">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Seniors Served</div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Dedicated Staff</div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <div class="stat-number">15+</div>
+          <div class="stat-label">Years of Service</div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Care Available</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What We Offer -->
+    <div class="content-card">
+      <h2 class="fw-bold mb-4 text-center" style="color: var(--primary);">What We Offer</h2>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="d-flex align-items-start">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #ff6b35, #e85a2b);">🏠</div>
+            <div>
+              <h4 class="fw-semibold">Comfortable Living</h4>
+              <p class="text-muted">Accessible, friendly facilities designed for safety and comfort with personalized care plans.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="d-flex align-items-start">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #00b894, #00a085);">👥</div>
+            <div>
+              <h4 class="fw-semibold">Community Engagement</h4>
+              <p class="text-muted">Vibrant social environment with group activities, wellness programs, and cultural celebrations.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="d-flex align-items-start">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #0984e3, #0767b3);">🩺</div>
+            <div>
+              <h4 class="fw-semibold">Professional Healthcare</h4>
+              <p class="text-muted">Comprehensive nursing services and daily living assistance from qualified professionals.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="d-flex align-items-start">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #a29bfe, #8179d9);">❤️</div>
+            <div>
+              <h4 class="fw-semibold">Compassionate Support</h4>
+              <p class="text-muted">Holistic approach focusing on mental, emotional, and physical wellbeing of every resident.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="text-center mt-5">
+      <h3 class="fw-bold mb-3" style="color: var(--primary);">Join Our Caring Community</h3>
+      <p class="text-muted mb-4">Experience the SilverCare difference – where every resident feels valued, respected, and connected.</p>
+      <a href="{{ url_for('index') }}" class="btn btn-primary-custom text-white me-3">Learn More</a>
+      <a href="{{ url_for('community') }}" class="btn btn-outline-primary rounded-pill px-4">View Events</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <h5 class="fw-bold mb-3">SilverCare Initiative</h5>
+          <p class="text-light">Compassionate care for seniors, empowering independence and community connection.</p>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h6 class="fw-semibold mb-3">Quick Links</h6>
+          <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('index') }}" class="text-light text-decoration-none">Home</a>
+            <a href="{{ url_for('about') }}" class="text-light text-decoration-none">About</a>
+            <a href="{{ url_for('community') }}" class="text-light text-decoration-none">Community</a>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h6 class="fw-semibold mb-3">Contact Info</h6>
+          <p class="mb-1">📍 123 Care Street, North Vancouver, BC</p>
+          <p class="mb-1">📞 <a href="tel:+16041234567" class="text-light">(604) 123-4567</a></p>
+          <p class="mb-0">✉ <a href="mailto:care@silvercare.org" class="text-light">care@silvercare.org</a></p>
+        </div>
+      </div>
+      <hr class="my-4" style="border-color: #555;">
+      <p class="mb-0">&copy; 2024 SilverCare Initiative. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function readAloud(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.8;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Text-to-speech not supported in your browser.');
+      }
+    }
+  </script>
+</body>
+</html>

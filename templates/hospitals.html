@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SilverCare Portal — Local Hospitals</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c5aa0;
+      --primary-dark: #1e3d72;
+      --accent: #ff6b35;
+      --light-bg: #f8f9fa;
+      --text-dark: #2d3748;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+    
+    .professional-nav {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 5rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 30px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .content-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .hospital-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid var(--primary);
+      transition: all 0.3s ease;
+    }
+    
+    .hospital-card:hover {
+      transform: translateX(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .hospital-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: white;
+      margin-right: 1.5rem;
+      flex-shrink: 0;
+    }
+    
+    .hospital-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 50px;
+      padding: 12px 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(44, 90, 160, 0.3);
+    }
+    
+    .nav-link {
+      font-weight: 500;
+      color: var(--text-dark) !important;
+      margin: 0 0.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white !important;
+    }
+    
+    .quick-nav-btn {
+      background: white;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      border-radius: 25px;
+      padding: 0.8rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .quick-nav-btn:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .emergency-section {
+      background: linear-gradient(135deg, #ff6b35, #e85a2b);
+      color: white;
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      margin: 3rem 0;
+    }
+    
+    .emergency-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light professional-nav sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/SilverCare_Logo.jpg') }}" alt="SilverCare Logo" style="height: 60px; margin-right: 15px; border-radius: 10px;">
+        <span class="fw-bold fs-4" style="color: var(--primary);">SilverCare</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="{{ url_for('hospitals') }}">Hospitals</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('community') }}">Community</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('exercise') }}">Exercise</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1 class="display-4 fw-bold mb-4">Lower Mainland Hospitals</h1>
+          <p class="lead mb-4" style="font-size: 1.25rem; opacity: 0.95;">
+            Comprehensive directory of hospitals and medical facilities across the Lower Mainland
+          </p>
+          <button class="btn btn-light btn-lg px-4 py-2 rounded-pill fw-semibold" onclick="readAloud('Lower Mainland Hospitals Directory. Comprehensive directory of hospitals and medical facilities across the Lower Mainland')">
+            🔊 Read Aloud
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Quick Navigation -->
+    <div class="content-card text-center">
+      <h2 class="fw-bold mb-4" style="color: var(--primary);">📍 Quick Navigation</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-3 col-6 mb-3">
+          <a href="#vancouver" class="quick-nav-btn text-decoration-none w-100 d-block">Vancouver</a>
+        </div>
+        <div class="col-md-3 col-6 mb-3">
+          <a href="#north-shore" class="quick-nav-btn text-decoration-none w-100 d-block">North Shore</a>
+        </div>
+        <div class="col-md-3 col-6 mb-3">
+          <a href="#burnaby" class="quick-nav-btn text-decoration-none w-100 d-block">Burnaby</a>
+        </div>
+        <div class="col-md-3 col-6 mb-3">
+          <a href="#surrey" class="quick-nav-btn text-decoration-none w-100 d-block">Surrey</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vancouver Hospitals -->
+    <section id="vancouver" class="content-card">
+      <h2 class="fw-bold mb-4" style="color: var(--primary);">🌆 Vancouver Hospitals</h2>
+      
+      <div class="hospital-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="hospital-icon">🏥</div>
+              <div>
+                <h4 class="fw-bold mb-2">Vancouver General Hospital</h4>
+                <p class="text-muted mb-2">📞 <strong>(604) 875-4111</strong></p>
+                <p class="text-muted mb-2">📍 899 West 12th Avenue, Vancouver, BC V5Z 1M9</p>
+                <p class="mb-3"><strong>Services:</strong> Emergency, Trauma Center, Specialized Surgery</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Vancouver+General+Hospital" 
+                   target="_blank" class="btn btn-primary-custom btn-sm text-white">
+                  View Map & Directions
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="{{ url_for('static', filename='images/vancouver_general.jpg') }}" alt="Vancouver General Hospital" class="hospital-image">
+          </div>
+        </div>
+      </div>
+
+      <div class="hospital-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="hospital-icon" style="background: linear-gradient(135deg, #e84393, #d63031);">❤️</div>
+              <div>
+                <h4 class="fw-bold mb-2">St. Paul's Hospital</h4>
+                <p class="text-muted mb-2">📞 <strong>(604) 682-2344</strong></p>
+                <p class="text-muted mb-2">📍 1081 Burrard Street, Vancouver, BC V6Z 1Y6</p>
+                <p class="mb-3"><strong>Services:</strong> Emergency, Cardiac Care, HIV/AIDS Treatment</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=St+Paul's+Hospital+Vancouver" 
+                   target="_blank" class="btn btn-primary-custom btn-sm text-white">
+                  View Map & Directions
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="{{ url_for('static', filename='images/st_pauls_hospital.jpg') }}" alt="St. Paul's Hospital" class="hospital-image">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- North Shore Hospitals -->
+    <section id="north-shore" class="content-card">
+      <h2 class="fw-bold mb-4" style="color: var(--primary);">🏔️ North Shore Hospitals</h2>
+      
+      <div class="hospital-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="hospital-icon" style="background: linear-gradient(135deg, #00b894, #00a085);">🏥</div>
+              <div>
+                <h4 class="fw-bold mb-2">Lions Gate Hospital</h4>
+                <p class="text-muted mb-2">📞 <strong>(604) 988-3131</strong></p>
+                <p class="text-muted mb-2">📍 231 East 15th Street, North Vancouver, BC V7L 2L7</p>
+                <p class="mb-3"><strong>Services:</strong> Emergency, Maternity, General Surgery</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Lions+Gate+Hospital" 
+                   target="_blank" class="btn btn-primary-custom btn-sm text-white">
+                  View Map & Directions
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="{{ url_for('static', filename='images/lions_gate_hospital.jpg') }}" alt="Lions Gate Hospital" class="hospital-image">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Burnaby Hospitals -->
+    <section id="burnaby" class="content-card">
+      <h2 class="fw-bold mb-4" style="color: var(--primary);">🏙️ Burnaby Hospitals</h2>
+      
+      <div class="hospital-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="hospital-icon" style="background: linear-gradient(135deg, #fd79a8, #e84393);">🏥</div>
+              <div>
+                <h4 class="fw-bold mb-2">Burnaby Hospital</h4>
+                <p class="text-muted mb-2">📞 <strong>(604) 434-4211</strong></p>
+                <p class="text-muted mb-2">📍 3935 Kincaid Street, Burnaby, BC V5G 2X6</p>
+                <p class="mb-3"><strong>Services:</strong> Emergency, Surgical Services, Maternity Care</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Burnaby+Hospital" 
+                   target="_blank" class="btn btn-primary-custom btn-sm text-white">
+                  View Map & Directions
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="{{ url_for('static', filename='images/burnaby_hospital.jpg') }}" alt="Burnaby Hospital" class="hospital-image">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Surrey Hospitals -->
+    <section id="surrey" class="content-card">
+      <h2 class="fw-bold mb-4" style="color: var(--primary);">🌳 Surrey Hospitals</h2>
+      
+      <div class="hospital-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="hospital-icon" style="background: linear-gradient(135deg, #a29bfe, #8179d9);">🏥</div>
+              <div>
+                <h4 class="fw-bold mb-2">Surrey Memorial Hospital</h4>
+                <p class="text-muted mb-2">📞 <strong>(604) 581-2211</strong></p>
+                <p class="text-muted mb-2">📍 13750 96th Avenue, Surrey, BC V3V 1Z2</p>
+                <p class="mb-3"><strong>Services:</strong> Emergency, Pediatric Emergency, Critical Care</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Surrey+Memorial+Hospital" 
+                   target="_blank" class="btn btn-primary-custom btn-sm text-white">
+                  View Map & Directions
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="{{ url_for('static', filename='images/surrey_memorial.jpg') }}" alt="Surrey Memorial Hospital" class="hospital-image">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emergency Information -->
+    <section class="emergency-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <h2 class="fw-bold mb-4 text-center">🚨 Emergency Information</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <div class="emergency-card">
+              <h4 class="fw-bold mb-3">When to Go to Emergency</h4>
+              <ul class="mb-0">
+                <li>Chest pain or difficulty breathing</li>
+                <li>Severe bleeding or head injury</li>
+                <li>Sudden weakness or numbness</li>
+                <li>Severe burns or broken bones</li>
+                <li>Overdose or poisoning</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6 mb-4">
+            <div class="emergency-card">
+              <h4 class="fw-bold mb-3">Urgent Care Centers</h4>
+              <p class="mb-3">For non-life-threatening conditions like:</p>
+              <ul class="mb-0">
+                <li>Sprains and strains</li>
+                <li>Minor cuts requiring stitches</li>
+                <li>Ear infections</li>
+                <li>Urinary tract infections</li>
+                <li>Minor fractures</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-center mt-3">
+            <div class="alert alert-warning mb-0" style="background: rgba(255, 255, 255, 0.2); border: none; color: white;">
+              <strong>Remember:</strong> In case of life-threatening emergencies, call 911 immediately or go to the nearest emergency department.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <div class="text-center mt-4">
+      <h3 class="fw-bold mb-3" style="color: var(--primary);">Your Health Matters</h3>
+      <p class="text-muted mb-4">Knowing your local healthcare facilities ensures you get the right care when you need it.</p>
+      <a href="{{ url_for('index') }}" class="btn btn-primary-custom text-white me-3">Back to Home</a>
+      <a href="#top" class="btn btn-outline-primary rounded-pill px-4">Back to Top</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <h5 class="fw-bold mb-3">SilverCare Initiative</h5>
+          <p class="text-light">Compassionate care for seniors, empowering independence and community connection.</p>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h6 class="fw-semibold mb-3">Quick Links</h6>
+          <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('index') }}" class="text-light text-decoration-none">Home</a>
+            <a href="{{ url_for('about') }}" class="text-light text-decoration-none">About</a>
+            <a href="{{ url_for('hospitals') }}" class="text-light text-decoration-none">Hospitals</a>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h6 class="fw-semibold mb-3">Contact Info</h6>
+          <p class="mb-1">📍 123 Care Street, North Vancouver, BC</p>
+          <p class="mb-1">📞 <a href="tel:+16041234567" class="text-light">(604) 123-4567</a></p>
+          <p class="mb-0">✉ <a href="mailto:care@silvercare.org" class="text-light">care@silvercare.org</a></p>
+        </div>
+      </div>
+      <hr class="my-4" style="border-color: #555;">
+      <p class="mb-0">&copy; 2024 SilverCare Initiative. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function readAloud(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.8;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Text-to-speech not supported in your browser.');
+      }
+    }
+  </script>
+</body>
+</html>
