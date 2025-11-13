@@ -23,6 +23,7 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <a href="{{ url_for('logout') }}" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to log out?')">Log Out</a>
+            <a href="#" class="btn btn-outline-primary ms-2" onclick="openChangePasswordModal()">Change Password</a>
           </li>
         </ul>
       </div>
@@ -242,6 +243,47 @@
           </button>
         </div>
 
+        <!--SET SECURITY QUESTION-->
+        <div class="card mt-4 p-3 shadow-sm">
+          <h5 class="text-primary mb-3">Security Question</h5>
+          <form id="securityForm">
+            <div class="mb-3">
+              <label class="form-label">Choose a security question</label>
+              <select class="form-select" id="securityQuestion" required>
+                <option value="">-- Select a question --</option>
+                <option value="What is your favorite color?">What is your favorite color?</option>
+                <option value="What city were you born in?">What city were you born in?</option>
+                <option value="What is your first pet’s name?">What is your first pet’s name?</option>
+                <option value="What is your favorite food?">What is your favorite food?</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Your Answer</label>
+              <input type="text" id="securityAnswer" class="form-control" placeholder="Type your answer" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Save Security Info</button>
+          </form>
+        </div>
+        
+        <script>
+          document.getElementById('securityForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const question = document.getElementById('securityQuestion').value;
+            const answer = document.getElementById('securityAnswer').value;
+        
+            fetch('/set_security', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ question, answer })
+            })
+            .then(res => res.json())
+            .then(data => {
+              if (data.success) alert('✅ Security info saved successfully!');
+              else alert('❌ Failed to save security info.');
+            });
+          });
+        </script>
+        
         <!-- Emergency Panel -->
         <div class="section-card emergency-panel mt-4">
           <h2>Emergency Panel</h2>
@@ -465,6 +507,8 @@ function openVitalsModal(patientId, patientName) {
   modal.show();
 }
 
+
+
 // ✅ Submits vitals correctly to Flask
 function submitVitals() {
   const form = document.getElementById('vitalsForm');
@@ -493,6 +537,70 @@ function submitVitals() {
   .catch(err => console.error('💥 Network error updating vitals:', err));
 }
 
+function openChangePasswordModal() {
+  fetch('/get_security_question')
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('securityQuestionText').innerText = "Security Question: " + data.question;
+        const modal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+        modal.show();
+      } else {
+        alert("Could not load your security question. Please try again.");
+      }
+    });
+}
+
+function submitChangePassword() {
+  const answer = document.getElementById('securityAnswer').value;
+  const newPw = document.getElementById('newPassword').value;
+  const confirmPw = document.getElementById('confirmPassword').value;
+
+  if (newPw !== confirmPw) {
+    alert('Passwords do not match.');
+    return;
+  }
+
+  fetch('/change_password', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ answer: answer, new_password: newPw })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert('✅ Password changed successfully!');
+      bootstrap.Modal.getInstance(document.getElementById('changePasswordModal')).hide();
+    } else {
+      alert('❌ Incorrect answer or error changing password.');
+    }
+  })
+  .catch(err => {
+    console.error('💥 Network error:', err);
+    alert('Something went wrong, please try again.');
+  });
+}
+
   </script>
+
+  <!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content p-3">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p id="securityQuestionText" class="fw-bold text-primary"></p>
+        <input type="text" id="securityAnswer" class="form-control mb-3" placeholder="Your answer" required>
+        <input type="password" id="newPassword" class="form-control mb-3" placeholder="New password" required>
+        <input type="password" id="confirmPassword" class="form-control mb-3" placeholder="Confirm new password" required>
+        <button class="btn btn-primary w-100" onclick="submitChangePassword()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
