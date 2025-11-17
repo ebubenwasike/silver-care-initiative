@@ -19,10 +19,11 @@ app.secret_key = 'secretkey'  # Required for sessions
 # Database connection
 # ------------------------------
 db_config = {
-    "host": "localhost",
+    "host": "127.0.0.1",
     "user": "root",              # MySQL username
-    "password": "EbubeNwasike",  # MySQL password
-    "database": "silver_care_db"
+    "password": "jewelSQL123",  # MySQL password
+    "database": "mydatabase", #change db name from silver_care_db to mydatabase
+    "port": 3306,
 }
 
 def get_db_connection():
@@ -487,24 +488,9 @@ def get_vitals(patient_id):
     try:
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("""
-            SELECT * FROM vitals WHERE patient_id = %s
-        """, (patient_id,))
-        vitals = cursor.fetchone()
-        cursor.close()
-        conn.close()
-
-        return jsonify(success=True, vitals=vitals)
-    except Exception as e:
-        print("❌ Error fetching vitals:", e)
-        return jsonify(success=False, error=str(e))@app.route('/get_vitals/<int:patient_id>')
-def get_vitals(patient_id):
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
 
         cursor.execute("""
-            SELECT blood_pressure, bmi, weight, height, respiratory_rate, temperature, heart_rate, 
+            SELECT blood_pressure, bmi, weight, height, respiratory_rate, temperature, heart_rate,
                    DATE_FORMAT(updated_at, '%%Y-%%m-%%d %%H:%%i') AS updated_at
             FROM vitals
             WHERE patient_id = %s
@@ -521,6 +507,7 @@ def get_vitals(patient_id):
         else:
             return jsonify(success=False, vitals=None)
     except Exception as e:
+        print("❌ Error fetching vitals:", e)
         return jsonify(success=False, error=str(e))
 
 # FORGOT PASSWORD

@@ -1,4 +1,4 @@
-from database.models import db, User, Appointment, HealthRecord
+from database_files.models import db, User, Appointment, HealthRecord
 from datetime import datetime
 
 def create_sample_data(app):

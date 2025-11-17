@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-from database.models import db
+from database_files.models import db
 import pymysql  # Needed for SQLAlchemy MySQL driver
 
 def get_mysql_connection():
