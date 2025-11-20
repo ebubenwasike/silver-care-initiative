@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SilverCare Staff Dashboard</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <!-- Optional: your own css if you want -->
+  <!-- <link href="{{ url_for('static', filename='css/staff_page.css') }}" rel="stylesheet" /> -->
+
+  <style>
+    body {
+      background-color: #f8fafc;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background-color: #ffffff;
+      border-right: 1px solid #e5e7eb;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 64px); /* 64px ~ navbar height */
+      overflow-y: auto;
+      transition: transform 0.2s ease;
+    }
+
+    .sidebar.collapsed {
+      transform: translateX(-100%);
+    }
+
+    @media (max-width: 991.98px) {
+      .sidebar {
+        position: fixed;
+        z-index: 1040;
+        top: 56px; /* mobile navbar height */
+        left: 0;
+        height: calc(100vh - 56px);
+      }
+    }
+
+    .sidebar-nav .nav-link {
+      border-radius: 999px;
+      padding: 0.6rem 0.9rem;
+      margin-bottom: 0.25rem;
+      color: #4b5563;
+      font-size: 0.95rem;
+    }
+
+    .sidebar-nav .nav-link.active {
+      background-color: #2563eb;
+      color: #ffffff;
+    }
+
+    .sidebar-nav .nav-link:hover {
+      background-color: #e5e7eb;
+    }
+
+    .sidebar-icon {
+      width: 1.4rem;
+      display: inline-flex;
+      justify-content: center;
+      margin-right: 0.5rem;
+    }
+
+    .sidebar-footer {
+      font-size: 0.8rem;
+      color: #6b7280;
+      padding-top: 0.75rem;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .welcome-banner h1 {
+      font-size: 1.65rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      border: 1px solid #d1d5db;
+      background-color: #f9fafb;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .status-green {
+      background-color: #16a34a;
+    }
+
+    .section-card {
+      background-color: #ffffff;
+      border-radius: 0.75rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+      border: 1px solid #e5e7eb;
+    }
+
+    .sticky-tools {
+      position: sticky;
+      top: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 1080;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm" style="min-height:64px;">
+    <div class="container-fluid px-3">
+      <div class="d-flex align-items-center gap-2">
+        <!-- small logo -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='images/SilverCare_Logo.jpg') }}"
+            alt="SilverCare logo" style="height:50px; width:auto;">
+        </a>
+
+        <!-- sidebar toggle (mobile) -->
+        <button id="sidebarToggle"
+                class="btn btn-outline-secondary d-lg-none ms-1"
+                type="button"
+                aria-label="Toggle sidebar">
+          ☰
+        </button>
+      </div>
+
+      <!-- search (desktop only) -->
+      <form class="d-none d-lg-flex mx-3 flex-grow-1" role="search"
+            onsubmit="event.preventDefault();">
+        <div class="input-group">
+          <span class="input-group-text">🔎</span>
+          <input class="form-control" id="globalSearch"
+                 placeholder="Search residents, rooms, ID… (Press /)"
+                 aria-label="Global search">
+        </div>
+      </form>
+
+      <div class="ms-auto d-flex align-items-center gap-2">
+        <a class="btn btn-outline-danger"
+           href="{{ url_for('logout') }}"
+           onclick="return confirm('Are you sure you want to log out?')">
+          Logout
+        </a>
+        <button class="btn btn-outline-primary"
+                type="button"
+                onclick="openChangePasswordModal()">
+          Change Password
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-shell d-flex">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+      <div class="px-3 mb-3">
+        <div class="fw-semibold">Staff Portal</div>
+        <div class="small text-muted">Navigation</div>
+      </div>
+      <nav class="sidebar-nav px-2" role="navigation">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active"
+               data-bs-toggle="pill"
+               href="#overview"
+               role="tab">
+              <span class="sidebar-icon">⦾</span>
+              Overview
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"
+               data-bs-toggle="pill"
+               href="#residents"
+               role="tab">
+              <span class="sidebar-icon">⦾</span>
+              Residents
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"
+               data-bs-toggle="pill"
+               href="#appointments"
+               role="tab">
+              <span class="sidebar-icon">⦾</span>
+              Appointments
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"
+               data-bs-toggle="pill"
+               href="#security"
+               role="tab">
+              <span class="sidebar-icon">⦾</span>
+              Security
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer px-3 mt-3">
+        Signed in as<br>
+        <strong>{{ session.get('email', 'Staff Member') }}</strong>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow-1 p-3 p-md-4">
+      <!-- welcome -->
+      <section class="container-fluid welcome-banner mb-3">
+        <div class="row">
+          <div class="col-lg-9">
+            <h1>Welcome Back, {{ session.get('first_name', '') }} {{ session.get('last_name', '') }}</h1>
+            <p class="mb-1">
+              <span class="chip">
+                <span class="status-dot status-green"></span>
+                Systems normal
+              </span>
+            </p>
+            <p class="small text-muted mb-0">
+              Shortcuts: <kbd>/</kbd> search
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left -->
+          <div class="col-lg-9">
+            <div class="tab-content">
+
+              <!-- OVERVIEW TAB -->
+              <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                <div class="section-card">
+                  <h2 class="mb-2">Today’s Overview</h2>
+                  <p class="text-muted mb-3">
+                    Quick snapshot of your residents and appointments.
+                  </p>
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <div class="section-card mb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span>Assigned residents</span>
+                          <span class="badge bg-primary">{{ patients|length }}</span>
+                        </div>
+                        <ul class="mt-2 mb-0 small">
+                          {% for p in patients[:5] %}
+                            <li>{{ p.first_name }} {{ p.last_name }}</li>
+                          {% endfor %}
+                          {% if patients|length == 0 %}
+                            <li class="text-muted">No residents yet.</li>
+                          {% elif patients|length > 5 %}
+                            <li class="text-muted">+ more…</li>
+                          {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="section-card mb-0">
+                        <h5 class="mb-2">Tips</h5>
+                        <ul class="small mb-0">
+                          <li>Use the <strong>Residents</strong> tab to manage your assigned seniors.</li>
+                          <li>Use the <strong>Appointments</strong> tab to review upcoming visits.</li>
+                          <li>Set up your <strong>Security Question</strong> in the Security tab.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RESIDENTS TAB -->
+              <div class="tab-pane fade" id="residents" role="tabpanel">
+                <div class="section-card">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="m-0">My Residents ({{ patients|length }})</h2>
+                    <a href="{{ url_for('create_patient') }}" class="btn btn-primary">
+                      ＋ Add New Resident
+                    </a>
+                  </div>
+
+                  {% if patients %}
+                  <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                      <thead>
+                        <tr>
+                          <th>Resident</th>
+                          <th>Email</th>
+                          <th>Phone</th>
+                          <th>PHN</th>
+                          <th>Emergency Contact</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for patient in patients %}
+                        <tr>
+                          <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+                          <td>{{ patient.email }}</td>
+                          <td>{{ patient.phone }}</td>
+                          <td>{{ patient.phn }}</td>
+                          <td>{{ patient.emergency_contact }}</td>
+                          <td class="text-nowrap" style="white-space: nowrap; width: 150px; text-align: left;">
+                            <button
+                              class="btn btn-outline-primary btn-sm me-2 open-booking"
+                              data-id="{{ patient.id }}"
+                              data-name="{{ patient.first_name|escape }} {{ patient.last_name|escape }}">
+                              Schedule
+                            </button>
+                          
+                            <button
+                              class="btn btn-outline-secondary btn-sm open-vitals"
+                              data-id="{{ patient.id }}"
+                              data-name="{{ patient.first_name|escape }} {{ patient.last_name|escape }}">
+                              Vitals
+                            </button>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  {% else %}
+                    <p class="text-muted mb-0">No residents assigned yet. Use “Add New Resident” above.</p>
+                  {% endif %}
+                </div>
+              </div>
+
+              <!-- APPOINTMENTS TAB -->
+              <div class="tab-pane fade" id="appointments" role="tabpanel">
+                <div class="section-card">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h2 class="m-0">Appointments</h2>
+                    <small class="text-muted">
+                      Appointments are booked from the Residents tab using “Schedule”.
+                    </small>
+                  </div>
+                  <div id="staffAppointments">
+                    <p class="text-muted mb-0">Loading appointments...</p>
+                  </div>
+                  <button class="btn btn-primary mt-3" type="button" onclick="loadStaffAppointments()">
+                    🔄 Refresh Appointments
+                  </button>
+                </div>
+              </div>
+
+              <!-- SECURITY TAB -->
+              <div class="tab-pane fade" id="security" role="tabpanel">
+                <div class="section-card">
+                  <h2>Security Settings</h2>
+                  <p class="text-muted">
+                    Set a security question
+                  </p>
+                  <form id="securityForm" class="mt-3">
+                    <div class="mb-3">
+                      <label class="form-label">Choose a security question</label>
+                      <select class="form-select" id="securityQuestion" required>
+                        <option value="">-- Select a question --</option>
+                      
+                        <option value="What is your mother's maiden name?">
+                          What is your mother's maiden name?
+                        </option>
+                      
+                        <option value="What street did you grow up on?">
+                          What street did you grow up on?
+                        </option>
+                      
+                        <option value="What was the make of your first car?">
+                          What was the make of your first car?
+                        </option>
+                      
+                        <option value="What city were you born in?">
+                          What city were you born in?
+                        </option>
+                      
+                        <option value="What is your first pet’s name?">
+                          What is your first pet’s name?
+                        </option>
+                      </select>
+                      
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Your Answer</label>
+                      <input type="text" id="securityAnswer" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Save Security Info</button>
+                  </form>
+                </div>
+
+                <div class="section-card mt-3">
+                  <h5>Change Password</h5>
+                  <p class="text-muted mb-2">
+                    Use the <strong>“Change Password”</strong> button in the top bar to update your password using your security question.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT SIDE QUICK ACTIONS -->
+          <div class="col-lg-3 mt-3 mt-lg-0">
+            <div class="sticky-tools">
+              <div class="section-card">
+                <h5 class="mb-2">Quick Actions</h5>
+                <div class="d-grid gap-2">
+                  <a href="{{ url_for('create_patient') }}" class="btn btn-primary">
+                    ＋ Add New Resident
+                  </a>
+                  <button class="btn btn-outline-primary" type="button" onclick="goToTab('appointments')">
+                    View Appointments
+                  </button>
+                  <button class="btn btn-outline-secondary" type="button" onclick="goToTab('security')">
+                    Security Settings
+                  </button>
+                </div>
+              </div>
+
+              <div class="section-card">
+                <h5 class="mb-2">Emergency</h5>
+                <p class="small mb-2">
+                  For real emergencies, call 911 and follow facility protocol.
+                </p>
+                <p class="small mb-0">
+                  SilverCare Helpline: <a href="tel:+16041234567">(604) 123-4567</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOOKING MODAL -->
+      <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Book Appointment</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form id="appointmentForm">
+                <input type="hidden" id="bookingPatientId" name="patient_id">
+                <div class="mb-3">
+                  <label class="form-label">Patient</label>
+                  <input type="text" id="bookingPatientName" class="form-control" readonly>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Appointment Date</label>
+                  <input type="date" id="appointmentDate" name="appointment_date" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Appointment Time</label>
+                  <select id="appointmentTime" name="appointment_time" class="form-select" required>
+                    <option value="">Select Time</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="09:30">9:30 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="10:30">10:30 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="11:30">11:30 AM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="14:30">2:30 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="15:30">3:30 PM</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Appointment Type</label>
+                  <select name="appointment_type" class="form-select" required>
+                    <option value="">Select Type</option>
+                    <option value="checkup">Regular Checkup</option>
+                    <option value="medication">Medication Review</option>
+                    <option value="therapy">Physical Therapy</option>
+                    <option value="consultation">Consultation</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Notes (Optional)</label>
+                  <textarea name="notes" class="form-control" rows="3"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" onclick="submitAppointment()">Book Appointment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VITALS MODAL -->
+      <div class="modal fade" id="vitalsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Vitals for <span id="vitalsPatientName"></span></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form id="vitalsForm">
+                <input type="hidden" id="vitalsPatientId" name="patient_id">
+                <div class="row g-2">
+                  <div class="col-md-4">
+                    <label class="form-label">Blood Pressure (mmHg)</label>
+                    <input type="text" class="form-control" name="blood_pressure">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">BMI</label>
+                    <input type="number" step="0.1" class="form-control" name="bmi">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Weight (kg)</label>
+                    <input type="number" step="0.1" class="form-control" name="weight">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Height (cm)</label>
+                    <input type="number" class="form-control" name="height">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Respiratory Rate (breaths/min)</label>
+                    <input type="number" class="form-control" name="respiratory_rate">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Temperature (°C)</label>
+                    <input type="number" step="0.1" class="form-control" name="temperature">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Heart Rate (bpm)</label>
+                    <input type="number" class="form-control" name="heart_rate">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" onclick="submitVitals()">💾 Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHANGE PASSWORD MODAL -->
+      <div class="modal fade" id="changePasswordModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content p-3">
+            <div class="modal-header">
+              <h5 class="modal-title">Change Password</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <p id="securityQuestionText" class="fw-bold text-primary"></p>
+              <input type="text" id="securityAnswer" class="form-control mb-3" placeholder="Your answer" required>
+              <input type="password" id="newPassword" class="form-control mb-3" placeholder="New password" required>
+              <input type="password" id="confirmPassword" class="form-control mb-3" placeholder="Confirm new password" required>
+              <button class="btn btn-primary w-100" onclick="submitChangePassword()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast-container" id="toastCtn"></div>
+    </main>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // sidebar collapse
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebar = document.getElementById('sidebar');
+      const toggle = document.getElementById('sidebarToggle');
+
+      if (toggle && sidebar) {
+        toggle.addEventListener('click', () => {
+          sidebar.classList.toggle('collapsed');
+        });
+      }
+
+      // hook up buttons for schedule & vitals
+      document.querySelectorAll('.book-appointment-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pid = btn.getAttribute('data-patient-id');
+          const name = btn.getAttribute('data-patient-name');
+          openBookingModal(pid, name);
+        });
+      });
+
+      document.querySelectorAll('.edit-vitals-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pid = btn.dataset.patientId;
+          const name = btn.dataset.patientName;
+          openVitalsModal(pid, name);
+        });
+      });
+
+      // security form save
+      const secForm = document.getElementById('securityForm');
+      if (secForm) {
+        secForm.addEventListener('submit', e => {
+          e.preventDefault();
+          const question = document.getElementById('securityQuestion').value;
+          const answer = document.getElementById('securityAnswer').value;
+
+          fetch('/set_security', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ question, answer })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) alert('✅ Security info saved successfully!');
+            else alert('❌ Failed to save security info.');
+          })
+          .catch(() => alert('❌ Network error while saving security info.'));
+        });
+      }
+
+      loadStaffAppointments();
+      setInterval(loadStaffAppointments, 10000);
+    });
+
+    // helper: switch tab from Quick Actions
+    function goToTab(id) {
+      const link = document.querySelector(`a[href="#${id}"]`);
+      if (link) link.click();
+    }
+
+    // appointments
+    function loadStaffAppointments() {
+      const container = document.getElementById('staffAppointments');
+      if (!container) return;
+
+      fetch('/get_staff_appointments')
+        .then(r => {
+          if (!r.ok) throw new Error(r.status);
+          return r.json();
+        })
+        .then(data => {
+          if (data.success && data.appointments && data.appointments.length > 0) {
+            let html = '';
+            data.appointments.forEach(appt => {
+              const date = new Date(appt.appointment_date);
+              const formattedDate = date.toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+              });
+
+              html += `
+              <div class="border-bottom pb-2 mb-2">
+                <strong>Patient:</strong> ${appt.first_name} ${appt.last_name}<br>
+                <strong>Type:</strong> ${appt.appointment_type}<br>
+                <strong>Date:</strong> ${formattedDate}<br>
+                <strong>Time:</strong> ${appt.appointment_time}<br>
+                ${appt.notes ? `<strong>Notes:</strong> ${appt.notes}<br>` : ''}
+                <small class="text-muted">Status: ${appt.status || 'scheduled'}</small><br>
+                <button class="btn btn-outline-secondary btn-sm mt-1"
+                        onclick="deleteAppointment(${appt.id})">
+                  🗑
+                </button>
+              </div>`;
+            });
+            container.innerHTML = html;
+          } else {
+            container.innerHTML = '<p class="text-muted mb-0">No appointments scheduled yet.</p>';
+          }
+        })
+        .catch(err => {
+          console.error('Error loading appointments:', err);
+          container.innerHTML = '<p class="text-danger">Error loading appointments.</p>';
+        });
+    }
+
+    function openBookingModal(patientId, patientName) {
+      document.getElementById('bookingPatientId').value = patientId;
+      document.getElementById('bookingPatientName').value = patientName;
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('appointmentDate').min = today;
+      new bootstrap.Modal(document.getElementById('bookingModal')).show();
+    }
+
+    function submitAppointment() {
+      const form = document.getElementById('appointmentForm');
+      const formData = new FormData(form);
+
+      fetch('{{ url_for("book_appointment") }}', {
+        method: 'POST',
+        body: formData
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          alert('Appointment booked successfully!');
+          bootstrap.Modal.getInstance(document.getElementById('bookingModal')).hide();
+          form.reset();
+          loadStaffAppointments();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      })
+      .catch(err => {
+        console.error('Error booking appointment:', err);
+        alert('Network error booking appointment.');
+      });
+    }
+
+    function deleteAppointment(id) {
+      if (!confirm("Are you sure you want to delete this appointment?")) return;
+
+      fetch(`/delete_appointment/${id}`, { method: 'DELETE' })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            alert("Appointment deleted successfully!");
+            loadStaffAppointments();
+          } else {
+            alert("Error deleting appointment: " + data.error);
+          }
+        })
+        .catch(err => {
+          console.error("Error deleting appointment:", err);
+          alert("Network error while deleting appointment.");
+        });
+    }
+
+    // vitals
+    function openVitalsModal(patientId, patientName) {
+      document.getElementById('vitalsPatientId').value = patientId;
+      document.getElementById('vitalsPatientName').textContent = patientName;
+
+      document.querySelectorAll('#vitalsForm input').forEach(input => {
+        if (input.type !== 'hidden') input.value = '';
+      });
+
+      fetch(`/get_vitals/${patientId}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.success && data.vitals) {
+            const v = data.vitals;
+            for (const [key, val] of Object.entries(v)) {
+              const field = document.querySelector(`#vitalsForm [name="${key}"]`);
+              if (field) field.value = val || '';
+            }
+          }
+        })
+        .catch(err => console.error('Error loading vitals:', err));
+
+      new bootstrap.Modal(document.getElementById('vitalsModal')).show();
+    }
+
+    function submitVitals() {
+      const form = document.getElementById('vitalsForm');
+      const formData = new FormData(form);
+
+      if (!formData.get('patient_id')) {
+        alert('❌ Error: No patient selected.');
+        return;
+      }
+
+      fetch('/update_vitals', {
+        method: 'POST',
+        body: formData
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          alert('Vitals updated successfully!');
+          bootstrap.Modal.getInstance(document.getElementById('vitalsModal')).hide();
+        } else {
+          alert('Error updating vitals: ' + data.error);
+        }
+      })
+      .catch(err => {
+        console.error('Error updating vitals:', err);
+        alert('Network error updating vitals.');
+      });
+    }
+
+    // change password
+    function openChangePasswordModal() {
+      fetch('/get_security_question')
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById('securityQuestionText').innerText =
+              "Security Question: " + data.question;
+            new bootstrap.Modal(document.getElementById('changePasswordModal')).show();
+          } else {
+            alert("Could not load your security question. Please try again.");
+          }
+        })
+        .catch(() => alert("Network error while loading security question."));
+    }
+
+    function submitChangePassword() {
+      const answer = document.getElementById('securityAnswer').value;
+      const newPw = document.getElementById('newPassword').value;
+      const confirmPw = document.getElementById('confirmPassword').value;
+
+      if (newPw !== confirmPw) {
+        alert('Passwords do not match.');
+        return;
+      }
+
+      fetch('/change_password', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ answer: answer, new_password: newPw })
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          alert('✅ Password changed successfully!');
+          bootstrap.Modal.getInstance(document.getElementById('changePasswordModal')).hide();
+        } else {
+          alert('❌ Incorrect answer or error changing password.');
+        }
+      })
+      .catch(err => {
+        console.error('Error changing password:', err);
+        alert('Something went wrong, please try again.');
+      });
+    }
+
+  
+  // Schedule modal buttons
+  document.querySelectorAll(".open-booking").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      const name = btn.dataset.name;
+      openBookingModal(id, name);
+    });
+  });
+
+  // Vitals modal buttons
+  document.querySelectorAll(".open-vitals").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      const name = btn.dataset.name;
+      openVitalsModal(id, name);
+    });
+  });
+
+
+  </script>
+</body>
+</html>
