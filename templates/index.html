@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SilverCare Portal — Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/index_style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/SilverCare_Logo.jpg') }}" alt="SilverCare Logo" style="height: 75px; margin-right: 10px;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="{{ url_for('index') }}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('hospitals') }}">Local Hospitals</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('community') }}">Community Hub</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('exercise') }}">Exercise Videos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Fixed Login Panel -->
+<aside class="login-fixed" aria-label="Login quick access">
+  <h6>Access Your Account</h6>
+  
+  <!-- fixed login -->
+  <a href="{{ url_for('SeniorLogin') }}" class="btn btn-primary">
+    Log In
+  </a>
+  
+  <!-- STAFF LOGIN-->
+  <a href="{{ url_for('login') }}" class="btn btn-outline-primary">
+    Log In as Staff
+  </a>
+
+  <hr class="my-4">
+  <div class="section-card bg-light border-warning mt-3 p-3 rounded-4">
+    <h6 class="fs-5 fw-bold text-danger">Emergency Contacts:</h6>
+    <div class="mt-2">
+      <p><strong>Emergency:</strong> 911</p>
+      <p><strong>Nurse:</strong> <a href="tel:+16041234567">(604) 123-4567</a></p>
+      <p><strong>Management:</strong> 1-800-765-4321</p>
+      <button class="btn btn-warning w-100 mt-2" onclick="readAloud('Emergency numbers: 9 1 1. SilverCare helpline: 6 0 4, 1 2 3, 4 5 6 7. Management: 1 8 0 0, 7 6 5, 4 3 2 1')">
+        🔊 Read Aloud
+      </button>
+    </div>
+  </div>
+</aside>
+
+  <!-- Main Content -->
+  <main class="container my-4">
+    <div class="row">
+      <!-- Content Column - Widened to use more space -->
+      <div class="col-lg-10 col-xl-9">
+        <!-- Welcome Banner with Background Image -->
+        <section class="welcome-banner-with-image text-center">
+          <div class="welcome-overlay">
+            <h1>Welcome to SilverCare Portal</h1>
+            <p class="lead">Dedicated to the comfort, compassion, and connection of every senior resident</p>
+            <button class="btn btn-outline-light btn-lg mt-3 read-btn" onclick="readAloud('Welcome to SilverCare Portal. Dedicated to the comfort, compassion, and connection of every senior resident')">
+              🔊 Read Aloud
+            </button>
+          </div>
+        </section>
+
+        <!-- SENIOR-FOCUSED Login Section -->
+<section class="login-section">
+  <div class="row align-items-center">
+    <div class="col-md-8">
+      <h3>🔐 Access Your SilverCare Account</h3>
+      <p class="mb-0">Log in to manage your health information, appointments, and connect with your care team.</p>
+    </div>
+    <div class="col-md-4 text-center text-md-end">
+      <a href="{{ url_for('SeniorLogin') }}" class="btn btn-success btn-lg px-4 py-3" style="font-size: 1.3rem; font-weight: 600;">
+        Log In
+      </a>
+    </div>
+  </div>
+</section>
+
+        <!-- Local Hospitals Directory -->
+        <section class="section-card">
+          <h2>🏥 Local Hospitals & Clinics</h2>
+          <!-- ... rest of your hospital cards ... -->
+        </section>
+
+        <!-- Exercise Videos -->
+        <section class="section-card">
+          <h2>💪 Exercise & Wellness Videos</h2>
+          <!-- ... rest of your exercise videos ... -->
+        </section>
+
+        <!-- Community Events -->
+        <section class="section-card">
+          <h2>📅 Upcoming Community Events</h2>
+          <!-- ... rest of your community events ... -->
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+      <p class="mb-1"><strong>SilverCare Initiative</strong></p>
+      <p class="mb-1">📍 123 Care Street, North Vancouver, BC V1A 2B3</p>
+      <p class="mb-1">📞 Helpline: <a href="tel:+16041234567" class="text-white">(604) 123-4567</a></p>
+      <p class="mb-0">✉ Email: <a href="mailto:care@silvercare.org" class="text-white">care@silvercare.org</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='javascript_files/ReadAloud.js') }}"></script>
+</body>
+</html>
