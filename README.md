@@ -38,7 +38,7 @@ No access to pages without authentication
 - **Database:** MySQL
 - **Hosting:** likely AWS
 
-# Members of this project:
+### Members of this project:
 Ebube Nwasike,
 Mona Bakhshoodeh,
 Su May Myo Paing,
