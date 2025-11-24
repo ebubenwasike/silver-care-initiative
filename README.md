@@ -1,25 +1,49 @@
 # SilverCare Initiative 
 
-SilverCare Initiative is a web application designed to make healthcare more accessible for older adults.  
-Through this platform, elders can easily sign in, book appointments with nurses, and securely access their health information.
+SilverCare Portal is a web-based healthcare management system designed for senior homes. It provides staff and seniors with an easy, secure way to manage daily care activities such as appointments, vital signs, and personal information and prioritizes accesibility for elderly, non-tech-savvy people.
+
+This project was built using Python (Flask) and MySQL, with a focus on clean UI, security, and real-world healthcare workflow features.
 
 ## Features
-
-- **User Accounts** – Simple and secure sign-in system for elders.
+- **User Accounts** – Simple and secure sign-in system.
 - **Appointment Booking** – Schedule and manage visits with healthcare providers.
 - **Health Records Access** – View and track personal health information online.
-- **Accessibility First** – Designed with ease-of-use in mind for seniors.
+- **Accessibility First** – Designed with ease-of-use in mind, specifically for seniors.
+
+## Security
+Hashed passwords
+Per-user TOTP secret for 2FA (staff only)
+Security questions stored & encrypted
+Session based login control
+CSRF-safe fetch APIs
+No access to pages without authentication
+
+## How to Run Locally
+1. Clone the repository: git clone https://github.com/ebubenwasike/silver-care-initiative.git
+2. Navigate into the project: cd silver-care-initiative
+3. Create a virtual environment: python3 -m venv venv
+4. Activate it (Mac/Linux): source venv/bin/activate   (Windows: venv\Scripts\activate)
+5. Install all dependencies: pip install -r requirements.txt
+6. Start MySQL and create the database using the provided SQL script in /database (this sets up all tables and inserts the existing staff login).
+7. Confirm the database silver_care_db exists and matches the configuration in app.py.
+8. Run the Flask application: python3 app.py
+9. Open the project in your browser at: http://127.0.0.1:5000
+10. Log in using the pre-configured staff account included in the database script.
+11. If any module errors appear, install missing packages using pip inside the virtual environment.
+12. When finished, deactivate the environment using: deactivate
 
 ## Tech Stack
-
-- **Frontend:** HTML, CSS, JavaScript (so far)
-- **Backend:** Python Flask / Node.js (so far)
-- **Database:** SQL
+- **Frontend:** HTML, CSS, JS, Bootstrap 5
+- **Backend:** Python Flask, MySQL Connector, pyotp (2FA), qrcode (QR generation)
+- **Database:** MySQL
 - **Hosting:** likely AWS
 
-Members of this project:
-Ebube Nwasike
-Mona Bakhshoodeh
-Su May Myo Paing
-Shubnoor Singh
-Priya
+# Members of this project:
+Ebube Nwasike,
+Mona Bakhshoodeh,
+Su May Myo Paing,
+Shubnoor Singh,
+Priya.
+
+
+Open-source — Free to modify and expand! <3
