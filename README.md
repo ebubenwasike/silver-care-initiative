@@ -11,12 +11,12 @@ This project was built using Python (Flask) and MySQL, with a focus on clean UI,
 - **Accessibility First** – Designed with ease-of-use in mind, specifically for seniors.
 
 ## Security
-Hashed passwords
-Per-user TOTP secret for 2FA (staff only)
-Security questions stored & encrypted
-Session based login control
-CSRF-safe fetch APIs
-No access to pages without authentication
+Hashed passwords,
+Per-user TOTP secret for 2FA (staff only),
+Security questions stored & encrypted,
+Session based login control,
+CSRF-safe fetch APIs,
+No access to pages without authentication.
 
 ## How to Run Locally
 1. Clone the repository: git clone https://github.com/ebubenwasike/silver-care-initiative.git
