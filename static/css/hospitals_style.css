@@ -1,0 +1,1072 @@
+<<<<<<< HEAD
+/* Hospitals Page Specific Styles - Enhanced for Seniors */
+
+/* Welcome Banner for Hospitals Page */
+.welcome-banner-with-image {
+    background: linear-gradient(rgba(8, 41, 90, 0.7), rgba(13, 80, 49, 0.7)), 
+                url('../Images/hospital.jpg') center/cover no-repeat;
+    color: white;
+    padding: 4rem 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    border: 5px solid #0a58ca;
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.welcome-overlay {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    max-width: 800px;
+}
+
+.welcome-banner-with-image h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.welcome-banner-with-image .lead {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+/* Quick Navigation Section */
+.quick-nav-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 5px solid #0a58ca;
+}
+
+.quick-nav-section h2 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+}
+
+.quick-nav-section .btn {
+    font-size: 1.3rem;
+    padding: 15px 10px;
+    border: 3px solid rgba(255,255,255,0.3);
+    color: white;
+    background: rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    margin: 0.25rem;
+}
+
+.quick-nav-section .btn:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: white;
+    transform: translateY(-3px);
+}
+
+/* Hospital Cards - Enhanced Styling */
+.hospital-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 4px solid #0a58ca;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.hospital-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(13, 110, 253, 0.2);
+    border-color: #0d6efd;
+}
+
+.hospital-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #0d6efd, #0dcaf0);
+    border-radius: 12px 12px 0 0;
+}
+
+.hospital-card h4 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.hospital-card p {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+.hospital-card strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Feature Icons for Hospitals */
+.feature-icon {
+    font-size: 3rem;
+    margin-right: 1.5rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Hospital Images */
+.hospital-image {
+    max-height: 180px;
+    width: auto;
+    border: 4px solid #0a58ca;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.hospital-card:hover .hospital-image {
+    border-color: #0d6efd;
+    transform: scale(1.02);
+}
+
+/* Section Headers with Icons */
+.section-card h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    font-weight: 700;
+    border-bottom: 4px solid #0d6efd;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+/* Emergency Information Section - COMPLETE FIX */
+.emergency-section {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border: 6px solid #e74c3c;
+    border-radius: 20px;
+    padding: 2.5rem 1.5rem;
+    margin: 3rem 0;
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.2);
+}
+
+.emergency-title {
+    color: #e74c3c;
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 4px solid #e74c3c;
+    padding-bottom: 1rem;
+}
+
+.emergency-content {
+    margin-bottom: 2rem;
+}
+
+.emergency-column {
+    padding: 1rem;
+}
+
+.emergency-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    height: 100%;
+    border: 3px solid #f39c12;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.emergency-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.emergency-card h3 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #e74c3c;
+    padding-left: 1rem;
+}
+
+.emergency-subtitle {
+    font-size: 1.3rem;
+    color: #34495e;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.emergency-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.emergency-card li {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    padding-left: 2.5rem;
+    position: relative;
+    color: #2c3e50;
+}
+
+.emergency-card li::before {
+    content: '⚠️';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.4rem;
+    width: 2rem;
+    text-align: center;
+}
+
+.emergency-alert {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 1.5rem 2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    border: 3px solid #fff;
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
+    margin-top: 1rem;
+}
+
+.emergency-alert strong {
+    color: #ffd700;
+    font-size: 1.5rem;
+}
+
+/* Make sure Bootstrap grid works properly */
+.emergency-section .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.emergency-section .col-md-6 {
+    display: flex;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .emergency-section {
+        padding: 1.5rem 1rem;
+        margin: 2rem 0;
+    }
+    
+    .emergency-title {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .emergency-card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .emergency-card h3 {
+        font-size: 1.6rem;
+    }
+    
+    .emergency-card li {
+        font-size: 1.2rem;
+    }
+    
+    .emergency-alert {
+        font-size: 1.2rem;
+        padding: 1.2rem 1.5rem;
+    }
+    
+    .emergency-column {
+        padding: 0.5rem;
+    }
+}
+
+/* Force override any conflicting Bootstrap styles */
+.section-card.bg-warning.bg-opacity-10 {
+    display: none !important;
+}
+
+/* If the original section is still there, hide it */
+.bg-warning.bg-opacity-10 {
+    display: none !important;
+}
+
+/* Ensure proper spacing between columns */
+.emergency-section .col-md-6:first-child {
+    border-right: 2px solid rgba(231, 76, 60, 0.2);
+}
+
+@media (max-width: 768px) {
+    .emergency-section .col-md-6:first-child {
+        border-right: none;
+        border-bottom: 2px solid rgba(231, 76, 60, 0.2);
+        padding-bottom: 2rem;
+    }
+}
+
+.alert-danger {
+    font-size: 1.3rem;
+    border: 3px solid #e74c3c;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+/* Contact Information Styling */
+.contact-info {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-left: 5px solid #0d6efd;
+}
+
+.contact-info p {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Map Links Styling */
+.btn-outline-primary {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: 3px solid #0d6efd;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Back to Top Section */
+.back-to-top-section {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 2rem;
+}
+
+.back-to-top-section .btn {
+    font-size: 1.3rem;
+    padding: 15px 30px;
+    margin: 0.5rem;
+    border: 3px solid;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.back-to-top-section .btn-primary {
+    background: #0d6efd;
+    border-color: #0a58ca;
+}
+
+.back-to-top-section .btn-primary:hover {
+    background: #0a58ca;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.4);
+}
+
+.back-to-top-section .btn-outline-primary:hover {
+    background: #0d6efd;
+    transform: translateY(-3px);
+}
+
+/* Read Aloud Button Enhancements */
+.read-btn {
+    border: 3px solid white;
+    color: white;
+    background: rgba(255,255,255,0.1);
+    font-size: 1.2rem;
+    padding: 12px 24px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.read-btn:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: white;
+    transform: translateY(-2px);
+}
+
+/* City Section Specific Colors */
+#vancouver .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #198754); }
+#north-shore .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #6f42c1); }
+#burnaby .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #fd7e14); }
+#richmond .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #20c997); }
+#surrey .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #e83e8c); }
+
+/* Responsive Design for Hospitals Page */
+@media (max-width: 991.98px) {
+    .hospital-card {
+        padding: 1.5rem;
+    }
+    
+    .hospital-card .row {
+        text-align: center;
+    }
+    
+    .feature-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .hospital-image {
+        max-height: 150px;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .welcome-banner-with-image h1 {
+        font-size: 2.2rem;
+    }
+    
+    .welcome-banner-with-image .lead {
+        font-size: 1.3rem;
+    }
+    
+    .section-card h2 {
+        font-size: 2rem;
+    }
+    
+    .hospital-card h4 {
+        font-size: 1.5rem;
+    }
+    
+    .quick-nav-section .btn {
+        font-size: 1.1rem;
+        padding: 12px 8px;
+        margin: 0.2rem;
+    }
+    
+    .emergency-section {
+        padding: 1.5rem;
+    }
+    
+    .emergency-section h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hospital-card {
+        padding: 1rem;
+    }
+    
+    .hospital-image {
+        max-height: 120px;
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+    
+    .welcome-banner-with-image {
+        padding: 2rem 1rem;
+        min-height: 200px;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .hospital-card {
+        border: 4px solid #000;
+    }
+    
+    .hospital-card::before {
+        background: #000;
+    }
+    
+    .emergency-section {
+        border: 5px solid #000;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .hospital-card,
+    .hospital-image,
+    .btn,
+    .read-btn {
+        transition: none;
+    }
+    
+    .hospital-card:hover,
+    .btn:hover,
+    .read-btn:hover {
+        transform: none;
+    }
+}
+
+/* Print Styles for Hospitals Page */
+@media print {
+    .login-fixed,
+    .read-btn,
+    .btn {
+        display: none !important;
+    }
+    
+    .hospital-card {
+        break-inside: avoid;
+        border: 2px solid #000;
+    }
+    
+    .emergency-section {
+        border: 3px solid #000;
+    }
+=======
+/* Hospitals Page Specific Styles - Enhanced for Seniors */
+
+/* Welcome Banner for Hospitals Page */
+.welcome-banner-with-image {
+    background: linear-gradient(rgba(8, 41, 90, 0.7), rgba(13, 80, 49, 0.7)), 
+                url('../Images/hospital.jpg') center/cover no-repeat;
+    color: white;
+    padding: 4rem 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    border: 5px solid #0a58ca;
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.welcome-overlay {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    max-width: 800px;
+}
+
+.welcome-banner-with-image h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.welcome-banner-with-image .lead {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+/* Quick Navigation Section */
+.quick-nav-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 5px solid #0a58ca;
+}
+
+.quick-nav-section h2 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+}
+
+.quick-nav-section .btn {
+    font-size: 1.3rem;
+    padding: 15px 10px;
+    border: 3px solid rgba(255,255,255,0.3);
+    color: white;
+    background: rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    margin: 0.25rem;
+}
+
+.quick-nav-section .btn:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: white;
+    transform: translateY(-3px);
+}
+
+/* Hospital Cards - Enhanced Styling */
+.hospital-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 4px solid #0a58ca;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.hospital-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(13, 110, 253, 0.2);
+    border-color: #0d6efd;
+}
+
+.hospital-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #0d6efd, #0dcaf0);
+    border-radius: 12px 12px 0 0;
+}
+
+.hospital-card h4 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.hospital-card p {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+.hospital-card strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Feature Icons for Hospitals */
+.feature-icon {
+    font-size: 3rem;
+    margin-right: 1.5rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Hospital Images */
+.hospital-image {
+    max-height: 180px;
+    width: auto;
+    border: 4px solid #0a58ca;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.hospital-card:hover .hospital-image {
+    border-color: #0d6efd;
+    transform: scale(1.02);
+}
+
+/* Section Headers with Icons */
+.section-card h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    font-weight: 700;
+    border-bottom: 4px solid #0d6efd;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+/* Emergency Information Section - COMPLETE FIX */
+.emergency-section {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border: 6px solid #e74c3c;
+    border-radius: 20px;
+    padding: 2.5rem 1.5rem;
+    margin: 3rem 0;
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.2);
+}
+
+.emergency-title {
+    color: #e74c3c;
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 4px solid #e74c3c;
+    padding-bottom: 1rem;
+}
+
+.emergency-content {
+    margin-bottom: 2rem;
+}
+
+.emergency-column {
+    padding: 1rem;
+}
+
+.emergency-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    height: 100%;
+    border: 3px solid #f39c12;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.emergency-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.emergency-card h3 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #e74c3c;
+    padding-left: 1rem;
+}
+
+.emergency-subtitle {
+    font-size: 1.3rem;
+    color: #34495e;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.emergency-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.emergency-card li {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    padding-left: 2.5rem;
+    position: relative;
+    color: #2c3e50;
+}
+
+.emergency-card li::before {
+    content: '⚠️';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.4rem;
+    width: 2rem;
+    text-align: center;
+}
+
+.emergency-alert {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 1.5rem 2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    border: 3px solid #fff;
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
+    margin-top: 1rem;
+}
+
+.emergency-alert strong {
+    color: #ffd700;
+    font-size: 1.5rem;
+}
+
+/* Make sure Bootstrap grid works properly */
+.emergency-section .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.emergency-section .col-md-6 {
+    display: flex;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .emergency-section {
+        padding: 1.5rem 1rem;
+        margin: 2rem 0;
+    }
+    
+    .emergency-title {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .emergency-card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .emergency-card h3 {
+        font-size: 1.6rem;
+    }
+    
+    .emergency-card li {
+        font-size: 1.2rem;
+    }
+    
+    .emergency-alert {
+        font-size: 1.2rem;
+        padding: 1.2rem 1.5rem;
+    }
+    
+    .emergency-column {
+        padding: 0.5rem;
+    }
+}
+
+/* Force override any conflicting Bootstrap styles */
+.section-card.bg-warning.bg-opacity-10 {
+    display: none !important;
+}
+
+/* If the original section is still there, hide it */
+.bg-warning.bg-opacity-10 {
+    display: none !important;
+}
+
+/* Ensure proper spacing between columns */
+.emergency-section .col-md-6:first-child {
+    border-right: 2px solid rgba(231, 76, 60, 0.2);
+}
+
+@media (max-width: 768px) {
+    .emergency-section .col-md-6:first-child {
+        border-right: none;
+        border-bottom: 2px solid rgba(231, 76, 60, 0.2);
+        padding-bottom: 2rem;
+    }
+}
+
+.alert-danger {
+    font-size: 1.3rem;
+    border: 3px solid #e74c3c;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+/* Contact Information Styling */
+.contact-info {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-left: 5px solid #0d6efd;
+}
+
+.contact-info p {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Map Links Styling */
+.btn-outline-primary {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: 3px solid #0d6efd;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Back to Top Section */
+.back-to-top-section {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 2rem;
+}
+
+.back-to-top-section .btn {
+    font-size: 1.3rem;
+    padding: 15px 30px;
+    margin: 0.5rem;
+    border: 3px solid;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.back-to-top-section .btn-primary {
+    background: #0d6efd;
+    border-color: #0a58ca;
+}
+
+.back-to-top-section .btn-primary:hover {
+    background: #0a58ca;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.4);
+}
+
+.back-to-top-section .btn-outline-primary:hover {
+    background: #0d6efd;
+    transform: translateY(-3px);
+}
+
+/* Read Aloud Button Enhancements */
+.read-btn {
+    border: 3px solid white;
+    color: white;
+    background: rgba(255,255,255,0.1);
+    font-size: 1.2rem;
+    padding: 12px 24px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.read-btn:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: white;
+    transform: translateY(-2px);
+}
+
+/* City Section Specific Colors */
+#vancouver .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #198754); }
+#north-shore .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #6f42c1); }
+#burnaby .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #fd7e14); }
+#richmond .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #20c997); }
+#surrey .hospital-card::before { background: linear-gradient(90deg, #0d6efd, #e83e8c); }
+
+/* Responsive Design for Hospitals Page */
+@media (max-width: 991.98px) {
+    .hospital-card {
+        padding: 1.5rem;
+    }
+    
+    .hospital-card .row {
+        text-align: center;
+    }
+    
+    .feature-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .hospital-image {
+        max-height: 150px;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .welcome-banner-with-image h1 {
+        font-size: 2.2rem;
+    }
+    
+    .welcome-banner-with-image .lead {
+        font-size: 1.3rem;
+    }
+    
+    .section-card h2 {
+        font-size: 2rem;
+    }
+    
+    .hospital-card h4 {
+        font-size: 1.5rem;
+    }
+    
+    .quick-nav-section .btn {
+        font-size: 1.1rem;
+        padding: 12px 8px;
+        margin: 0.2rem;
+    }
+    
+    .emergency-section {
+        padding: 1.5rem;
+    }
+    
+    .emergency-section h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hospital-card {
+        padding: 1rem;
+    }
+    
+    .hospital-image {
+        max-height: 120px;
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+    
+    .welcome-banner-with-image {
+        padding: 2rem 1rem;
+        min-height: 200px;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .hospital-card {
+        border: 4px solid #000;
+    }
+    
+    .hospital-card::before {
+        background: #000;
+    }
+    
+    .emergency-section {
+        border: 5px solid #000;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .hospital-card,
+    .hospital-image,
+    .btn,
+    .read-btn {
+        transition: none;
+    }
+    
+    .hospital-card:hover,
+    .btn:hover,
+    .read-btn:hover {
+        transform: none;
+    }
+}
+
+/* Print Styles for Hospitals Page */
+@media print {
+    .login-fixed,
+    .read-btn,
+    .btn {
+        display: none !important;
+    }
+    
+    .hospital-card {
+        break-inside: avoid;
+        border: 2px solid #000;
+    }
+    
+    .emergency-section {
+        border: 3px solid #000;
+    }
+>>>>>>> 79692b4 (Initial commit)
+}

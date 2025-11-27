@@ -1,0 +1,247 @@
+/* General body styles for login page */
+.login-body {
+  background: linear-gradient(120deg, #e3f2fd 60%, #f7fafc 100%);
+  min-height: 100vh;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Login container centers the card */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* Login card styling */
+.login-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(11,94,215,0.10);
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  border: 2px solid #e3f2fd;
+}
+
+
+/* Improved navbar styles */
+.navbar {
+  min-height: 80px;
+}
+
+.navbar-nav {
+  margin-left: auto !important;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.25rem;
+  margin: 0 0.3rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+  border: 3px solid transparent; /* Added thicker border for nav items too */
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  background: #0a58ca;
+  color: #ffffff !important;
+  text-decoration: underline;
+  border-color: #0a58ca;
+  transform: translate(-2px);
+} 
+
+.navbar-nav .nav-link.active {
+  background-color: #0d6efd;
+  color: white !important;
+  border-color: #0a58ca;
+}
+
+/* Navigation Hovering Effect */
+.navbar-nav .nav-link:hover {
+  background: #0a58ca;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 991.98px) {
+  .login-fixed {
+    display: none;
+  }
+  
+  .navbar-nav {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 767.98px) {  
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+.welcome-header h1 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #0b5ed7;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-header p {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Login form styles */
+.form-label {
+  font-weight: 500;
+  color: #0b5ed7;
+}
+
+.form-control {
+  border-radius: 0.8rem;
+  border: 1.5px solid #b6d4fe;
+  font-size: 1.1rem;
+  padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+  border-color: #0b5ed7;
+  box-shadow: 0 0 0 2px #b6d4fe55;
+}
+
+.btn-login {
+  background: #0b5ed7;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border-radius: 1.2rem;
+  padding: 0.75rem 0;
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(11,94,215,0.10);
+}
+
+.btn-login:hover,
+.btn-login:focus {
+  background: #1565c0;
+  color: #fff;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.login-options a {
+  color: #0b5ed7;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.login-options a:hover {
+  color: #1565c0;
+  text-decoration: underline;
+}
+
+/* Divider styling */
+.divider {
+  text-align: center;
+  margin: 1.5rem 0 1rem 0;
+  position: relative;
+}
+
+.divider-text {
+  background: #fff;
+  padding: 0 1rem;
+  color: #6c757d;
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.divider::before {
+  content: "";
+  display: block;
+  border-top: 1.5px solid #e3f2fd;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+/* Alternative login buttons */
+/* .alternative-login .btn {
+  border-radius: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.7rem 0;
+}
+
+.alternative-login .btn-outline-secondary {
+  border-color: #b6d4fe;
+  color: #0b5ed7;
+}
+
+.alternative-login .btn-outline-secondary:hover {
+  background: #e3f2fd;
+  color: #0b5ed7;
+}
+
+.alternative-login .btn-outline-primary {
+  border-color: #0b5ed7;
+  color: #0b5ed7;
+}
+
+.alternative-login .btn-outline-primary:hover {
+  background: #e3f2fd;
+  color: #0b5ed7;
+} */
+
+/* Emergency section */
+.emergency-section .card {
+  border-radius: 1rem;
+  border-width: 2px;
+  background: #fffbe7;
+  box-shadow: 0 2px 8px rgba(255,193,7,0.07);
+}
+
+.emergency-section .card-title {
+  color: #d97706;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.emergency-section .btn-warning {
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 0.9rem;
+  padding: 0.7rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 575.98px) {
+  .login-card {
+    padding: 1.2rem 0.5rem;
+  }
+  .welcome-header h1 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Accessibility improvements */
+.btn:focus, .form-control:focus {
+  outline: 2px solid #0b5ed7;
+  outline-offset: 2px;
+}

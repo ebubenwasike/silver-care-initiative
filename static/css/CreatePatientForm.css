@@ -1,0 +1,138 @@
+/* ------------------------------
+   Create Patient Form Styles
+   Clean, accessible, responsive
+------------------------------ */
+
+:root {
+  --bg: #f5f8fb;
+  --card-bg: #ffffff;
+  --border: #d8e2ec;
+  --border-focus: #3b82f6;
+  --text: #1f2937;
+  --text-light: #64748b;
+  --radius-sm: 6px;
+  --radius: 14px;
+  --shadow: 0 4px 18px rgba(0,0,0,0.08);
+  --accent: #2563eb;
+  --accent-grad: linear-gradient(135deg,#1d4ed8,#0ea5e9);
+  --danger: #dc2626;
+  --focus-ring: 0 0 0 3px rgba(37,99,235,0.35);
+  --font-stack: "Segoe UI", system-ui, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font-stack);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.4;
+  padding: clamp(1rem, 4vw, 2rem);
+  display: flex;
+  justify-content: center;
+}
+
+.form-container {
+  width: min(520px, 100%);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  box-shadow: var(--shadow);
+  position: relative;
+  animation: fadeIn .35s ease;
+}
+
+h2 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.45rem, 2.8vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: .5px;
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.form-group { margin-bottom: 1rem; }
+.form-group:last-of-type { margin-bottom: 1.25rem; }
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: .45rem;
+  font-size: .92rem;
+  color: var(--text);
+}
+.req { color: var(--danger); font-weight: 700; }
+
+input[type="text"], input[type="email"], input[type="date"] {
+  width: 100%;
+  padding: .7rem .85rem;
+  font-size: .95rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #f9fafb;
+  transition: border-color .18s ease, box-shadow .18s ease, background .25s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  background: #fff;
+  box-shadow: var(--focus-ring);
+}
+
+input:invalid[required] { border-color: var(--danger); }
+input:invalid[required]:focus { box-shadow: 0 0 0 3px rgba(220,38,38,.35); }
+
+.actions {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.submit-btn {
+  flex: 1 1 180px;
+  background: var(--accent-grad);
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: .85rem 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  letter-spacing: .3px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform .15s ease, box-shadow .2s ease, filter .25s;
+}
+.submit-btn:hover { transform: translateY(-2px); filter: brightness(1.07); }
+.submit-btn:active { transform: translateY(0); filter: brightness(.92); }
+.submit-btn:focus { outline: none; box-shadow: var(--focus-ring); }
+
+.back-link {
+  text-decoration: none;
+  font-size: .9rem;
+  color: var(--text-light);
+  padding: .7rem .95rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: background .2s, color .2s, border-color .2s;
+}
+.back-link:hover { background: #f1f5f9; color: var(--text); }
+.back-link:focus { outline: none; box-shadow: var(--focus-ring); }
+
+.note { margin-top: .75rem; font-size: .75rem; color: var(--text-light); }
+
+@media (max-width: 560px) {
+  .form-container { padding: 1.5rem 1.25rem; }
+  h2 { font-size: 1.5rem; }
+  .actions { flex-direction: column; }
+  .back-link { width: 100%; text-align: center; }
+}
+
+@keyframes fadeIn { from { opacity:0; transform: translateY(8px);} to {opacity:1; transform: translateY(0);} }
