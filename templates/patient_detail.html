@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Patient Detail</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="{{ url_for('static', filename='css/StaffPage_style2.css') }}" rel="stylesheet"/>
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('staff') }}">← Back to Dashboard</a>
+  </div>
+</nav>
+<div class="container mb-5">
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="section-card text-center">
+        <img src="{{ url_for('static', filename='images/SilverCare_Logo.jpg') }}" alt="Profile" class="profile-avatar mb-3" style="width:120px;height:120px;">
+        <h2 class="h4">{{ patient.last_name }}, {{ patient.first_name }}</h2>
+        <p class="mb-1"><strong>Age:</strong> {{ age if age is not none else 'N/A' }}</p>
+        <p class="mb-1"><strong>PHN:</strong> {{ patient.phn or 'N/A' }}</p>
+        <p class="mb-1"><strong>Email:</strong> {{ patient.email or 'N/A' }}</p>
+        <p class="mb-1"><strong>Phone:</strong> {{ patient.phone or 'N/A' }}</p>
+        <p class="mb-0"><strong>Emergency Contact:</strong> {{ patient.emergency_contact or 'N/A' }}</p>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="section-card mb-4">
+        <h3 class="h5 mb-3">Latest Health Data</h3>
+        {% if vitals %}
+        <div class="row g-2">
+          <div class="col-md-4"><strong>Blood Pressure:</strong> {{ vitals.blood_pressure or '—' }}</div>
+          <div class="col-md-4"><strong>BMI:</strong> {{ vitals.bmi or '—' }}</div>
+          <div class="col-md-4"><strong>Weight:</strong> {{ vitals.weight or '—' }} kg</div>
+          <div class="col-md-4"><strong>Height:</strong> {{ vitals.height or '—' }} cm</div>
+          <div class="col-md-4"><strong>Resp. Rate:</strong> {{ vitals.respiratory_rate or '—' }} /min</div>
+          <div class="col-md-4"><strong>Temperature:</strong> {{ vitals.temperature or '—' }} °C</div>
+          <div class="col-md-4"><strong>Heart Rate:</strong> {{ vitals.heart_rate or '—' }} bpm</div>
+        </div>
+        <p class="mt-3 small text-muted">Last updated: {{ vitals.updated_at or 'N/A' }}</p>
+        {% else %}
+        <p class="text-muted mb-0">No vitals recorded yet.</p>
+        {% endif %}
+      </div>
+      <div class="section-card mb-4">
+        <h3 class="h5 mb-3">Medications</h3>
+        {% if medications and medications|length > 0 %}
+          <ul class="mb-0 small">
+          {% for m in medications %}
+            <li><strong>{{ m.name }}</strong> – {{ m.dosage or 'Dose N/A' }} ({{ m.schedule or 'Schedule N/A' }})</li>
+          {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted mb-0">No medications recorded.</p>
+        {% endif %}
+      </div>
+      <div class="section-card">
+        <h3 class="h5 mb-3">Administrative</h3>
+        <p class="small mb-2"><strong>Created At:</strong> {{ patient.created_at }}</p>
+        <p class="small mb-0"><strong>Patient ID:</strong> {{ patient.id }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

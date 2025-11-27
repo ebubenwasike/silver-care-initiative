@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SilverCare Senior Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/SeniorPage_style.css') }}" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">SilverCare Portal</a>
+    <div class="ms-auto">
+      <a href="{{ url_for('logout') }}" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to log out?')">
+        Log Out
+      </a>
+      <a href="#" class="btn btn-outline-primary ms-2" onclick="openChangePasswordModal()">Change Password</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Welcome Banner -->
+<section class="container welcome-banner">
+  <h1>Welcome, {{ first_name }} {{ last_name }}!</h1>
+  <p>Track your health, appointments, and stay connected with community events.</p>
+</section>
+
+<!-- Main Dashboard -->
+<main class="container">
+  <div class="row">
+    <!-- Left Column -->
+    <div class="col-lg-8">
+
+      <!-- Reminders -->
+      <div class="section-card">
+        <h2>Reminders</h2>
+        <ul class="list-unstyled">
+          <li>Take morning medication</li>
+          <li>Daily walk at 4PM</li>
+          <li>Call family this evening</li>
+        </ul>
+      </div>
+
+      <!-- Primary Info -->
+      <div class="section-card">
+        <h2>Primary Information</h2>
+        <p><strong>Last Name:</strong> {{ last_name }}</p>
+        <p><strong>First Name:</strong> {{ first_name }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+      </div>
+
+      <!-- Vitals -->
+      <div class="section-card">
+        <h2>My Vital Signs</h2>
+        <div id="seniorVitals">Loading vitals...</div>
+      </div>
+      
+
+      <!-- Appointments Section - ONLY ONE SECTION NOW -->
+      <div class="section-card">
+        <h2>My Appointments</h2>
+        
+        <!-- Current Appointments Display -->
+        <div id="patientAppointments">
+          <p class="text-muted">Loading appointments...</p>
+        </div>
+
+        <button class="btn btn-primary btn-large mt-3" onclick="toggleAppointmentBooking()">
+          Book New Appointment
+        </button>
+
+        <!-- Hidden Appointment Booking Form -->
+        <div id="appointmentSection" class="mt-4" style="display: none;">
+          <h4>Book an Appointment</h4>
+          
+          <div class="mb-3">
+            <label class="form-label">Appointment Date</label>
+            <input type="date" id="appointmentDate" class="form-control calendar-input" required>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Appointment Time</label>
+            <select id="appointmentTime" class="form-select" required>
+              <option value="">-- Choose a Time --</option>
+              <option value="09:00">9:00 AM</option>
+              <option value="09:30">9:30 AM</option>
+              <option value="10:00">10:00 AM</option>
+              <option value="10:30">10:30 AM</option>
+              <option value="11:00">11:00 AM</option>
+              <option value="11:30">11:30 AM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="14:30">2:30 PM</option>
+              <option value="15:00">3:00 PM</option>
+              <option value="15:30">3:30 PM</option>
+            </select>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Appointment Type</label>
+            <select id="appointmentType" class="form-select" required>
+              <option value="">Select Type</option>
+              <option value="checkup">Regular Checkup</option>
+              <option value="medication">Medication Review</option>
+              <option value="therapy">Physical Therapy</option>
+              <option value="consultation">Consultation</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Notes (Optional)</label>
+            <textarea id="appointmentNotes" class="form-control" rows="3" placeholder="Any additional notes..."></textarea>
+          </div>
+
+          <button class="btn btn-success btn-large" onclick="submitAppointment()">Confirm Appointment</button>
+          <button class="btn btn-secondary btn-large" onclick="toggleAppointmentBooking()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Manage Emergency Contacts -->
+      <div class="section-card">
+        <h2>Manage Emergency Contacts</h2>
+        <form id="contactForm" class="mb-3 needs-validation" novalidate>
+          <div class="row g-2">
+            <div class="col-md-5">
+              <input type="text" id="contactName" class="form-control" placeholder="Contact Name" required>
+              <div class="invalid-feedback">Please enter a contact name.</div>
+            </div>
+            <div class="col-md-5">
+              <input type="tel" id="contactPhone" class="form-control" placeholder="Phone Number" pattern="[0-9]{10}" required>
+              <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
+            </div>
+            <div class="col-md-2 d-grid">
+              <button type="submit" class="btn btn-success">Add</button>
+            </div>
+          </div>
+        </form>
+        <ul id="contactList" class="list-group"></ul>
+      </div>
+    </div>
+
+
+    <!-- Right Column -->
+    <div class="col-lg-4">
+      <div class="section-card bg-light border border-warning">
+        <h2>Emergency</h2>
+        <p><strong>Call</strong> 911 in case of an emergency</p>
+        <p><strong>SilverCare Helpline:</strong> <a href="tel:+16041234567">(604) 123-4567</a></p>
+        <p><strong>Poison Control:</strong> 1-800-567-8910</p>
+        <button class="btn btn-warning w-100 btn-large"
+          onclick="readAloud('Emergency numbers: 9 1 1. SilverCare helpline: 6 0 4, 1 2 3, 4 5 6 7. Poison control: 1 8 0 0, 5 6 7, 8 9 1 0')">
+          🔊 Read Numbers Aloud
+        </button>
+      </div>
+
+      <!--SECURITY QUESTION!!!-->
+      <div class="card mt-4 p-3 shadow-sm">
+        <h5 class="text-primary mb-3">Security Question</h5>
+        <form id="securityForm">
+          <div class="mb-3">
+            <label class="form-label">Choose a security question</label>
+            <select class="form-select" id="securityQuestion" required>
+              <option value="">-- Select a question --</option>
+              <option value="What is your favorite color?">What is your favorite color?</option>
+              <option value="What city were you born in?">What city were you born in?</option>
+              <option value="What is your first pet’s name?">What is your first pet’s name?</option>
+              <option value="What is your favorite food?">What is your favorite food?</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Your Answer</label>
+            <input type="text" id="securityAnswer" class="form-control" placeholder="Type your answer" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Save Security Info</button>
+        </form>
+      </div>
+      
+      <script>
+        document.getElementById('securityForm').addEventListener('submit', e => {
+          e.preventDefault();
+          const question = document.getElementById('securityQuestion').value;
+          const answer = document.getElementById('securityAnswer').value;
+      
+          fetch('/set_security', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question, answer })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) alert('✅ Security info saved successfully!');
+            else alert('❌ Failed to save security info.');
+          });
+        });
+      </script>
+      
+    </div>
+    </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+  <div class="container">
+    <p class="mb-1"><strong>SilverCare Initiative</strong></p>
+    <p class="mb-1">📍 123 Care Street, North Vancouver, BC V1A 2B3</p>
+    <p class="mb-1">📞 Helpline: <a href="tel:+16041234567" class="text-white">(604) 123-4567</a></p>
+    <p class="mb-0">✉ Email: <a href="mailto:care@silvercare.org" class="text-white">care@silvercare.org</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Load appointments when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadPatientAppointments();
+    setInterval(loadPatientAppointments, 10000);
+
+});
+
+// Improved function to load patient appointments
+function loadPatientAppointments() {
+    console.log('🔄 Loading patient appointments...');
+    
+    fetch('/get_patient_appointments')
+    .then(response => {
+        console.log('📡 Response status:', response.status);
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('📊 Appointments data received:', data);
+        const container = document.getElementById('patientAppointments');
+        
+        if (data.success && data.appointments && data.appointments.length > 0) {
+            console.log(`✅ Found ${data.appointments.length} appointments`);
+            let html = '';
+            data.appointments.forEach((appt, index) => {
+                const date = new Date(appt.appointment_date);
+                const formattedDate = date.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                console.log(`📅 Appointment ${index + 1}:`, appt);
+                
+                html += `
+                    <div class="appointment-item border-bottom pb-2 mb-2">
+                        <strong>${appt.appointment_type}</strong><br>
+                        <strong>Date:</strong> ${formattedDate}<br>
+                        <strong>Time:</strong> ${appt.appointment_time}<br>
+                        ${appt.notes ? `<strong>Notes:</strong> ${appt.notes}<br>` : ''}
+                        <small class="text-muted">Status: ${appt.status || 'scheduled'}</small>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        } else {
+            console.log('❌ No appointments found or empty data');
+            container.innerHTML = '<p class="text-muted">No appointments scheduled yet. Book your first appointment above!</p>';
+        }
+    })
+    .catch(error => {
+        console.error('💥 Error loading appointments:', error);
+        const container = document.getElementById('patientAppointments');
+        container.innerHTML = '<p class="text-danger">Error loading appointments. Please try refreshing the page.</p>';
+    });
+}
+
+// Appointment System
+function toggleAppointmentBooking() {
+    const section = document.getElementById('appointmentSection');
+    const isVisible = section.style.display === 'block';
+    section.style.display = isVisible ? 'none' : 'block';
+    
+    // Set minimum date to today when showing the form
+    if (!isVisible) {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('appointmentDate').min = today;
+        document.getElementById('appointmentDate').value = today;
+    }
+}
+
+function submitAppointment() {
+    const date = document.getElementById('appointmentDate').value;
+    const time = document.getElementById('appointmentTime').value;
+    const type = document.getElementById('appointmentType').value;
+    const notes = document.getElementById('appointmentNotes').value;
+
+    if (!date || !time || !type) {
+        alert('Please fill in all required fields (Date, Time, and Type).');
+        return;
+    }
+
+    console.log('Submitting appointment:', { date, time, type, notes });
+
+    // Send appointment data to backend
+    fetch('/book_appointment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            appointment_date: date,
+            appointment_time: time,
+            appointment_type: type,
+            notes: notes
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Appointment response:', data);
+        if (data.success) {
+            alert('Appointment booked successfully!');
+            
+            // Hide and reset form
+            document.getElementById('appointmentSection').style.display = 'none';
+            document.getElementById('appointmentDate').value = '';
+            document.getElementById('appointmentTime').value = '';
+            document.getElementById('appointmentType').value = '';
+            document.getElementById('appointmentNotes').value = '';
+            
+            // Reload appointments
+            loadPatientAppointments();
+        } else {
+            alert('Error booking appointment: ' + data.error);
+        }
+    })
+    .catch(err => {
+        console.error('Error:', err);
+        alert('Error booking appointment. Please try again.');
+    });
+}
+
+// Read Aloud
+function readAloud(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.8;
+        window.speechSynthesis.speak(utterance);
+    } else {
+        alert('Read aloud not supported.');
+    }
+}
+
+// Bootstrap form validation
+(() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
+
+// Emergency Contacts Add/Delete
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('contactName').value.trim();
+    const phone = document.getElementById('contactPhone').value.trim();
+
+    // JS validation for phone
+    if (!/^\d{10}$/.test(phone)) {
+        alert("Please enter a valid 10-digit phone number.");
+        return;
+    }
+
+    // Add contact to list
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+    li.innerHTML = `<span><strong>${name}</strong> - ${phone}</span>
+                    <button class="btn btn-sm btn-danger">Delete</button>`;
+    li.querySelector('button').addEventListener('click', function() { li.remove(); });
+    document.getElementById('contactList').appendChild(li);
+
+    // Reset form
+    e.target.reset();
+    e.target.classList.remove('was-validated');
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadVitals();
+  setInterval(loadVitals, 10000); // auto refresh every 10 sec
+});
+
+function loadVitals() {
+  fetch('/get_vitals/{{ session["patient_id"] }}')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('seniorVitals');
+      if (data.success && data.vitals) {
+        const v = data.vitals;
+        container.innerHTML = `
+          <p><strong>Blood Pressure:</strong> ${v.blood_pressure || '-'} mmHg</p>
+          <p><strong>BMI:</strong> ${v.bmi || '-'} </p>
+          <p><strong>Weight:</strong> ${v.weight || '-'} kg</p>
+          <p><strong>Height:</strong> ${v.height || '-'} cm</p>
+          <p><strong>Respiratory Rate:</strong> ${v.respiratory_rate || '-'} breaths/min</p>
+          <p><strong>Temperature:</strong> ${v.temperature || '-'} °C</p>
+          <p><strong>Heart Rate:</strong> ${v.heart_rate || '-'} bpm</p>
+          <small class="text-muted">Last updated: ${v.updated_at}</small>
+        `;
+      } else {
+        container.innerHTML = '<p class="text-muted">No vitals recorded yet.</p>';
+      }
+    })
+    .catch(err => console.error("💥 Error fetching vitals:", err));
+}
+function openChangePasswordModal() {
+  fetch('/get_security_question')
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('securityQuestionText').innerText = "Security Question: " + data.question;
+        const modal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+        modal.show();
+      } else {
+        alert("Could not load your security question. Please try again.");
+      }
+    });
+}
+
+function submitChangePassword() {
+  const answer = document.getElementById('securityAnswer').value;
+  const newPw = document.getElementById('newPassword').value;
+  const confirmPw = document.getElementById('confirmPassword').value;
+
+  if (newPw !== confirmPw) {
+    alert('Passwords do not match.');
+    return;
+  }
+
+  fetch('/change_password', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ answer: answer, new_password: newPw })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert('✅ Password changed successfully!');
+      bootstrap.Modal.getInstance(document.getElementById('changePasswordModal')).hide();
+    } else {
+      alert('❌ Incorrect answer or error changing password.');
+    }
+  })
+  .catch(err => {
+    console.error('💥 Network error:', err);
+    alert('Something went wrong, please try again.');
+  });
+}
+</script>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content p-3">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p id="securityQuestionText" class="fw-bold text-primary"></p>
+        <input type="text" id="securityAnswer" class="form-control mb-3" placeholder="Your answer" required>
+        <input type="password" id="newPassword" class="form-control mb-3" placeholder="New password" required>
+        <input type="password" id="confirmPassword" class="form-control mb-3" placeholder="Confirm new password" required>
+        <button class="btn btn-primary w-100" onclick="submitChangePassword()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

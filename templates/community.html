@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SilverCare Portal — Community Events</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c5aa0;
+      --primary-dark: #1e3d72;
+      --accent: #ff6b35;
+      --light-bg: #f8f9fa;
+      --text-dark: #2d3748;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+    
+    .professional-nav {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 5rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 30px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .content-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .content-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .event-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid var(--primary);
+      transition: all 0.3s ease;
+    }
+    
+    .event-card:hover {
+      transform: translateX(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .event-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: white;
+      margin-right: 1.5rem;
+      flex-shrink: 0;
+    }
+    
+    .event-poster {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+    
+    .event-poster:hover {
+      transform: scale(1.05);
+    }
+    
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 50px;
+      padding: 12px 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(44, 90, 160, 0.3);
+    }
+    
+    .nav-link {
+      font-weight: 500;
+      color: var(--text-dark) !important;
+      margin: 0 0.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white !important;
+    }
+    
+    .calendar-badge {
+      background: linear-gradient(135deg, #ff6b35, #e85a2b);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light professional-nav sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/SilverCare_Logo.jpg') }}" alt="SilverCare Logo" style="height: 60px; margin-right: 15px; border-radius: 10px;">
+        <span class="fw-bold fs-4" style="color: var(--primary);">SilverCare</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('hospitals') }}">Hospitals</a></li>
+          <li class="nav-item"><a class="nav-link active" href="{{ url_for('community') }}">Community</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('exercise') }}">Exercise</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1 class="display-4 fw-bold mb-4">Community Events & Activities</h1>
+          <p class="lead mb-4" style="font-size: 1.25rem; opacity: 0.95;">
+            Stay active, stay social - join these exciting events to connect, learn, and have fun with fellow residents!
+          </p>
+          <button class="btn btn-light btn-lg px-4 py-2 rounded-pill fw-semibold" onclick="readAloud('Community Events and Activities. Stay active, stay social - join these exciting events to connect and have fun!')">
+            🔊 Read Aloud
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Events Section -->
+    <div class="content-card">
+      <h2 class="fw-bold mb-4 text-center" style="color: var(--primary);">📅 Upcoming Events</h2>
+      
+      <!-- Digital Literacy Workshop -->
+      <div class="event-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="event-icon">🎯</div>
+              <div>
+                <span class="calendar-badge">Every Tuesday • 2:00 PM</span>
+                <h4 class="fw-bold mb-2">Digital Literacy Workshop</h4>
+                <p class="text-muted mb-2">📍 Community Room • All residents welcome</p>
+                <p class="mb-0">Learn how to use smartphones, tablets, and computers. Prizes and fun for everyone! No experience needed.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <a href="{{ url_for('static', filename='images/CommunityEvents/Poster_DigitalLiteracyWorkshop.jpg') }}" target="_blank" class="text-decoration-none">
+              <img src="{{ url_for('static', filename='images/CommunityEvents/Poster_DigitalLiteracyWorkshop.jpg') }}" 
+                   alt="Digital Literacy Workshop Poster" class="event-poster">
+              <small class="text-muted d-block mt-2">Click to view full poster</small>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book Club Meeting -->
+      <div class="event-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="event-icon" style="background: linear-gradient(135deg, #00b894, #00a085);">📚</div>
+              <div>
+                <span class="calendar-badge" style="background: linear-gradient(135deg, #00b894, #00a085);">Every Friday • 10:00 AM</span>
+                <h4 class="fw-bold mb-2">Book Club Meeting</h4>
+                <p class="text-muted mb-2">📍 Library • Coffee and snacks provided</p>
+                <p class="mb-0">This month: "The Kite Runner" - all readers welcome! Come share your thoughts and enjoy good company.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <a href="{{ url_for('static', filename='images/CommunityEvents/Poster_BookClubMeeting.jpg') }}" target="_blank" class="text-decoration-none">
+              <img src="{{ url_for('static', filename='images/CommunityEvents/Poster_BookClubMeeting.jpg') }}" 
+                   alt="Book Club Meeting Poster" class="event-poster">
+              <small class="text-muted d-block mt-2">Click to view full poster</small>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Art Therapy Workshop -->
+      <div class="event-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="event-icon" style="background: linear-gradient(135deg, #e84393, #d63031);">🎨</div>
+              <div>
+                <span class="calendar-badge" style="background: linear-gradient(135deg, #e84393, #d63031);">October 20, 2025 • 2:00 PM</span>
+                <h4 class="fw-bold mb-2">Art Therapy Workshop</h4>
+                <p class="text-muted mb-2">📍 Wellness Room • All materials provided</p>
+                <p class="mb-0">Unleash your creativity and relax through painting and sketching. No artistic experience required!</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <a href="{{ url_for('static', filename='images/CommunityEvents/Poster - Unleash Your Creativity.png') }}" target="_blank" class="text-decoration-none">
+              <img src="{{ url_for('static', filename='images/CommunityEvents/Poster - Unleash Your Creativity.png') }}" alt="Art Therapy Poster" class="event-poster">
+              <small class="text-muted d-block mt-2">Click to view full poster</small>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Music & Memory Session -->
+      <div class="event-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="event-icon" style="background: linear-gradient(135deg, #fd79a8, #e84393);">🎶</div>
+              <div>
+                <span class="calendar-badge" style="background: linear-gradient(135deg, #fd79a8, #e84393);">October 25, 2025 • 11:00 AM</span>
+                <h4 class="fw-bold mb-2">Music & Memory Session</h4>
+                <p class="text-muted mb-2">📍 Activity Hall • Bring your favorite song!</p>
+                <p class="mb-0">Music heals — come sing, reminisce, and share tunes that shaped your life. Instruments welcome!</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <a href="{{ url_for('static', filename='images/CommunityEvents/Poster - Music & Memory Session.png') }}" target="_blank" class="text-decoration-none">
+              <img src="{{ url_for('static', filename='images/CommunityEvents/Poster - Music & Memory Session.png') }}" alt="Music & Memory Poster" class="event-poster">
+              <small class="text-muted d-block mt-2">Click to view full poster</small>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Community Garden Day -->
+      <div class="event-card">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-start mb-3">
+              <div class="event-icon" style="background: linear-gradient(135deg, #00b894, #00a085);">🌿</div>
+              <div>
+                <span class="calendar-badge" style="background: linear-gradient(135deg, #00b894, #00a085);">October 30, 2025 • 10:00 AM</span>
+                <h4 class="fw-bold mb-2">Community Garden Day</h4>
+                <p class="text-muted mb-2">📍 Garden Area • Refreshments served</p>
+                <p class="mb-0">Help us plant herbs and flowers for the upcoming season. All green thumbs welcome! Tools provided.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <a href="{{ url_for('static', filename='images/CommunityEvents/Poster - Community Garden Day.png') }}" target="_blank" class="text-decoration-none">
+              <img src="{{ url_for('static', filename='images/CommunityEvents/Poster - Community Garden Day.png') }}" alt="Community Garden Poster" class="event-poster">
+              <small class="text-muted d-block mt-2">Click to view full poster</small>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA Section -->
+    <div class="text-center mt-4">
+      <h3 class="fw-bold mb-3" style="color: var(--primary);">Join the Fun!</h3>
+      <p class="text-muted mb-4">Don't miss out on these amazing opportunities to connect with your community.</p>
+      <a href="{{ url_for('index') }}" class="btn btn-primary-custom text-white me-3">Back to Home</a>
+      <a href="#top" class="btn btn-outline-primary rounded-pill px-4">Back to Top</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <h5 class="fw-bold mb-3">SilverCare Initiative</h5>
+          <p class="text-light">Compassionate care for seniors, empowering independence and community connection.</p>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h6 class="fw-semibold mb-3">Quick Links</h6>
+          <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('index') }}" class="text-light text-decoration-none">Home</a>
+            <a href="{{ url_for('about') }}" class="text-light text-decoration-none">About</a>
+            <a href="{{ url_for('community') }}" class="text-light text-decoration-none">Community</a>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+          <h6 class="fw-semibold mb-3">Contact Info</h6>
+          <p class="mb-1">📍 123 Care Street, North Vancouver, BC</p>
+          <p class="mb-1">📞 <a href="tel:+16041234567" class="text-light">(604) 123-4567</a></p>
+          <p class="mb-0">✉ <a href="mailto:care@silvercare.org" class="text-light">care@silvercare.org</a></p>
+        </div>
+      </div>
+      <hr class="my-4" style="border-color: #555;">
+      <p class="mb-0">&copy; 2024 SilverCare Initiative. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function readAloud(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.8;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Text-to-speech not supported in your browser.');
+      }
+    }
+  </script>
+</body>
+</html>
