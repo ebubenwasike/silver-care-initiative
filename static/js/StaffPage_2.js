@@ -197,66 +197,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --------- Load staff patients (dynamic residents) ----------
+  // Final resident renderer (reverted): Last Name, First Name, PHN, Age, Actions
   let renderPatients = (patients) => {
     const table = document.getElementById('resTable');
     if (!table) return;
-
     let tbody = table.querySelector('tbody');
-    if (!tbody) {
-      tbody = document.createElement('tbody');
-      table.appendChild(tbody);
-    }
-
-    tbody.innerHTML = '';
-
-    if (!Array.isArray(patients) || patients.length === 0) {
-      const tr = document.createElement('tr');
-      const td = document.createElement('td');
-      td.colSpan = 6;
-      td.className = 'text-muted';
-      td.textContent = 'No residents found. Use “＋ Add New Resident” to create one.';
-      tr.appendChild(td);
-      tbody.appendChild(tr);
-    } else {
-      patients.forEach((p) => {
-        const tr = document.createElement('tr');
-        const name = `${p.first_name || ''} ${p.last_name || ''}`.trim();
-        const lastUpdated = p.created_at || '-';
-
-        tr.innerHTML = `
-          <td>${name || '-'}</td>
-          <td>-</td>
-          <td><span class="chip ${recentStatus(p.created_at)}">${recentStatus(p.created_at).replace('-', ' ')}</span></td>
-          <td>-</td>
-          <td>${lastUpdated}</td>
-          <td class="d-flex flex-column gap-1">
-            <button class="btn btn-sm btn-outline-primary" onclick="openBookingModal(${p.id}, '${name.replace(/'/g, "&#39;")}')">Schedule</button>
-            <button class="btn btn-sm btn-outline-secondary" onclick="openVitalsModal(${p.id}, '${name.replace(/'/g, "&#39;")}')">Vitals</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    const badge = document.getElementById('assignedCount');
-    if (badge) badge.textContent = String(patients?.length || 0);
-  };
-
-  // --- Overwrite renderPatients with new column layout (Last, First, PHN, Age, Actions) ---
-  renderPatients = (patients) => {
-    const table = document.getElementById('resTable');
-    if (!table) return;
-    const tbody = table.querySelector('tbody');
-    if (!tbody) return;
+    if (!tbody) { tbody = document.createElement('tbody'); table.appendChild(tbody); }
     tbody.innerHTML = '';
     if (!Array.isArray(patients) || patients.length === 0) {
       const tr = document.createElement('tr');
       const td = document.createElement('td');
-      td.colSpan = 5;
+      td.colSpan = 4;
       td.className = 'text-muted';
       td.textContent = 'No residents found. Use “＋ Add New Resident” to create one.';
       tr.appendChild(td);
       tbody.appendChild(tr);
+      const badge = document.getElementById('assignedCount');
+      if (badge) badge.textContent = '0';
       return;
     }
     patients.forEach(p => {
@@ -264,35 +221,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const first = p.first_name || '';
       const last = p.last_name || '';
       const phn = p.phn || '-';
-      const age = (() => {
-        if (!p.dob) return '-';
-        let dobStr = p.dob;
-        // Normalize possible date formats from MySQL (YYYY-MM-DD or YYYY-MM-DD HH:MM:SS)
-        if (typeof dobStr === 'string' && dobStr.length > 10) dobStr = dobStr.slice(0,10);
-        const parts = dobStr.split('-');
-        if (parts.length !== 3) return '-';
-        const year = parseInt(parts[0],10); const month = parseInt(parts[1],10)-1; const day = parseInt(parts[2],10);
-        if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) return '-';
-        const birth = new Date(year, month, day);
-        let a = new Date().getFullYear() - birth.getFullYear();
-        const m = new Date().getMonth() - birth.getMonth();
-        if (m < 0 || (m === 0 && new Date().getDate() < birth.getDate())) a--;
-        return a;
-      })();
       const safeFirst = first.replace(/'/g, "&#39;");
       const safeLast = last.replace(/'/g, "&#39;");
       tr.innerHTML = `
         <td><a href="/patient/${p.id}" class="text-decoration-none">${last}</a></td>
         <td><a href="/patient/${p.id}" class="text-decoration-none">${first}</a></td>
         <td>${phn}</td>
-        <td>${age}</td>
         <td class="d-flex flex-wrap gap-1">
           <button class="btn btn-sm btn-outline-secondary" onclick="openVitalsModal(${p.id}, '${safeFirst} ${safeLast}')">Vitals</button>
           <button class="btn btn-sm btn-outline-danger" onclick="deletePatient(${p.id})">Delete</button>
         </td>`;
       tbody.appendChild(tr);
     });
+    const badge = document.getElementById('assignedCount');
+    if (badge) badge.textContent = String(patients.length);
   };
+
+  // --- Overwrite renderPatients with new column layout (Last, First, PHN, Age, Actions) ---
+    // Final resident renderer: Last Name, First Name, PHN, Actions (Age removed)
 
   const loadStaffPatients = () => {
   fetch('/get_staff_patients')  // 🔁 use staff-specific endpoint
