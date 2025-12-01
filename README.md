@@ -36,7 +36,7 @@ No access to pages without authentication.
 - **Frontend:** HTML, CSS, JS, Bootstrap 5
 - **Backend:** Python Flask, MySQL Connector, pyotp (2FA), qrcode (QR generation)
 - **Database:** MySQL
-- **Hosting:** likely AWS
+- **Deployment:** temporarily deployed using AWS EC2 instance and AWS RDS
 
 ### Members of this project:
 Ebube Nwasike,
