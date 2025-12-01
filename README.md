@@ -1,6 +1,6 @@
 # SilverCare Initiative 
 
-<img width="1440" height="900" alt="Screenshot 2025-11-30 at 11 17 40 PM" src="https://github.com/user-attachments/assets/0a4e7402-6127-4b5e-abb3-9f3cdb71474d" />
+![Staff Dashboard](https://github.com/user-attachments/assets/0a4e7402-6127-4b5e-abb3-9f3cdb71474d)
 
 SilverCare Portal is a web-based healthcare management system designed for senior homes. It provides staff and seniors with an easy, secure way to manage daily care activities such as appointments, vital signs, and personal information and prioritizes accesibility for elderly, non-tech-savvy people.
 
