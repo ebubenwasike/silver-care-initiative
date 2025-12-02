@@ -1,28 +1,30 @@
-from flask import Flask, request, render_template, redirect, url_for, session, flash
-from flask import jsonify
-import datetime #for live updates with time on vitals i think
+from flask import Flask, request, render_template, redirect, url_for, session, flash, jsonify, send_file
+import datetime
 import mysql.connector
-from werkzeug.security import check_password_hash, generate_password_hash #for hashing
-import pyotp #these are for 2 factor auth w microsoft
+import os
+from werkzeug.security import check_password_hash, generate_password_hash
+import pyotp
 import qrcode
 import io
-from flask import send_file
+from dotenv import load_dotenv
 
 
 # ------------------------------
 # Initialize Flask app
 # ------------------------------
+load_dotenv()
 app = Flask(__name__, template_folder='templates', static_folder='static')
-app.secret_key = 'secretkey'  # Required for sessions
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
+
 
 # ------------------------------
 # Database connection
 # ------------------------------
 db_config = {
-    "host": "localhost",
-    "user": "root",              # MySQL username
-    "password": "EbubeNwasike",  # MySQL password
-    "database": "silver_care_db"
+    "host": os.getenv("DB_HOST"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("DB_NAME")
 }
 
 def get_db_connection():
@@ -150,7 +152,7 @@ def verify_2fa():
         session.pop('pending_email', None)
         session.pop('pending_first_name', None)
         session.pop('pending_last_name', None)
-
+        
         session['loggedin'] = True
         session['id'] = staff['id']
         session['email'] = staff['email']
@@ -703,6 +705,62 @@ def rehash_staff_passwords():
     conn.close()
     return f"✅ Rehashed {updated} plain-text staff passwords!"
 
+#for list of all patients in db
+@app.route('/get_all_patients')
+def get_all_patients():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT p.*, s.email AS staff_email, s.first_name AS staff_first, s.last_name AS staff_last
+        FROM patients p
+        LEFT JOIN staff s ON p.created_by = s.id
+        ORDER BY p.last_name, p.first_name;
+    """)
+    rows = cursor.fetchall()
+
+    return jsonify(success=True, patients=rows)
+
+#to open the patients profile
+@app.route('/get_patient_profile/<int:patient_id>')
+def get_patient_profile(patient_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT p.*, 
+               s.first_name AS staff_first, 
+               s.last_name AS staff_last,
+               s.email AS staff_email
+        FROM patients p
+        LEFT JOIN staff s ON p.created_by = s.id
+        WHERE p.id = %s
+    """, (patient_id,))
+    patient = cursor.fetchone()
+
+    if not patient:
+        return jsonify(success=False, error="Patient not found")
+
+    return jsonify(success=True, patient=patient)
+
+#DELETE PATIENT
+@app.route('/delete_patient/<int:patient_id>', methods=['DELETE'])
+def delete_patient(patient_id):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # delete patient (and optionally their vitals + appointments later)
+        cursor.execute("DELETE FROM patients WHERE id = %s", (patient_id,))
+        conn.commit()
+
+        return jsonify(success=True)
+
+    except Exception as e:
+        print("❌ Error deleting patient:", e)
+        return jsonify(success=False, error=str(e))
+
+
 
 # ABOUT PAGE
 @app.route('/about')
@@ -723,22 +781,6 @@ def community():
 @app.route('/exercise')
 def exercise():
     return render_template('exercise.html')
-
-@app.route('/debug_patients')
-def debug_patients():
-    if 'loggedin' not in session:
-        return "Not logged in"
-    
-    staff_id = session['id']
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM patients WHERE created_by = %s LIMIT 1", (staff_id,))
-    patient = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    
-    return f"Patient data: {patient}"
-
 
 # ------------------------------
 # Run the app
