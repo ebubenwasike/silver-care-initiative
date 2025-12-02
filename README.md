@@ -51,4 +51,5 @@ Shubnoor Singh,
 Priya.
 
 
-Open-source — Free to modify and expand! <3
+open-source, free to modify and expand <3 ❤️ 🏩 ❤️‍🔥!!
+
