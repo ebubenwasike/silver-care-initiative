@@ -7,6 +7,7 @@ This project was built using Python (Flask) and MySQL, with a focus on clean UI,
 <img width="1434" height="873" alt="Screenshot 2025-11-30 at 11 17 40 PM" src="https://github.com/user-attachments/assets/6a9a90ce-9fa5-4c15-ac0b-be230cd01d7f" />
   example staff dashboard
 
+ ![PHOTO-2025-11-27-11-30-50](https://github.com/user-attachments/assets/e0b28d38-f6f9-4c24-ac62-1ca053e010cf)
 
 
 ## Features
