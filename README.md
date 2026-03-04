@@ -4,8 +4,9 @@ SilverCare Portal is a web-based healthcare management system designed for senio
 
 This project was built using Python (Flask) and MySQL, with a focus on clean UI, security, and real-world healthcare workflow features.
 
-<img src="https://github.com/user-attachments/assets/0a4e7402-6127-4b5e-abb3-9f3cdb71474d" width="600" />
+<img width="1434" height="873" alt="Screenshot 2025-11-30 at 11 17 40 PM" src="https://github.com/user-attachments/assets/6a9a90ce-9fa5-4c15-ac0b-be230cd01d7f" />
   example staff dashboard
+
 
 
 ## Features
